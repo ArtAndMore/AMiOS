@@ -1,6 +1,0 @@
-framework module Pods_iVote {
-  umbrella header "Pods-iVote-umbrella.h"
-
-  export *
-  module * { export * }
-}
