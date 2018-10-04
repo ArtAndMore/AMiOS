@@ -61,8 +61,8 @@ class ElectionsService: WebService {
   ///   - completion: <#completion description#>
   func getCode(user: User, completion:((_ code: String?) -> Void)? = nil) {
     self.queue.async {
-      let userAuthenticationEndPoint = EndPoints.UserSendCode(user: user)
-      let resource = Resource(endPoint: userAuthenticationEndPoint)
+      let userSendCodeEndPoint = EndPoints.UserSendCode(user: user)
+      let resource = Resource(endPoint: userSendCodeEndPoint)
 
       self.loadXMLAccessor(resource: resource) { (xmlAccessor, error) in
         guard error == nil, let xml = xmlAccessor else {

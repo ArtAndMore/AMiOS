@@ -16,14 +16,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
-//    let user = User(name: "Hasan", password: "123456", phone: "0542545288")
-//    ElectionsService.shared.authenticate(user: user) { (phoneNumber) in
-//      if let phone = phoneNumber {
-//        print(phone)
-//      } else {
-//        print("authenticate failed")
-//      }
-//    }
+    let user = User(name: "Hasan", password: "123456", phone: "0542545288")
+    ElectionsService.shared.authenticate(user: user) { (phoneNumber) in
+      if let phone = phoneNumber {
+        print(phone)
+      } else {
+        print("authenticate failed")
+      }
+    }
 
     return true
   }
