@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="BallotStatusCollectionViewCell" customModule="iVote" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="93"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="93"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P2f-i6-BIn">
+                        <rect key="frame" x="0.0" y="0.0" width="124" height="93"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="אחוז הצבעה" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfX-U2-TnU">
+                                <rect key="frame" x="27" y="36" width="70" height="18.5"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yxS-gv-va4">
+                                <rect key="frame" x="46.5" y="15" width="31" height="21"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10:10" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0rT-hK-oJS">
+                                <rect key="frame" x="10" y="77.5" width="25.5" height="12"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="11"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="bfX-U2-TnU" firstAttribute="centerX" secondItem="P2f-i6-BIn" secondAttribute="centerX" id="0O9-Ss-3eA"/>
+                            <constraint firstItem="yxS-gv-va4" firstAttribute="centerX" secondItem="P2f-i6-BIn" secondAttribute="centerX" id="8jm-WL-zHn"/>
+                            <constraint firstItem="0rT-hK-oJS" firstAttribute="leading" secondItem="P2f-i6-BIn" secondAttribute="leading" constant="10" id="DXE-gf-p0a"/>
+                            <constraint firstItem="bfX-U2-TnU" firstAttribute="top" secondItem="yxS-gv-va4" secondAttribute="bottom" id="Uzp-Kk-DC1"/>
+                            <constraint firstAttribute="bottom" secondItem="0rT-hK-oJS" secondAttribute="bottom" constant="3.5" id="aWs-nl-zRe"/>
+                            <constraint firstItem="yxS-gv-va4" firstAttribute="top" secondItem="P2f-i6-BIn" secondAttribute="top" constant="15" id="qq2-T3-kUT"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hkf-1x-iiv">
+                        <rect key="frame" x="125" y="0.0" width="124" height="93"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="הצבעות בקלפי" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Uj-mW-IKb">
+                                <rect key="frame" x="20" y="36" width="83.5" height="18.5"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qc0-RL-ZWu">
+                                <rect key="frame" x="46" y="15" width="32" height="21"/>
+                                <string key="text">332
+
+</string>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Qc0-RL-ZWu" firstAttribute="top" secondItem="hkf-1x-iiv" secondAttribute="top" constant="15" id="4pp-Lt-lPt"/>
+                            <constraint firstItem="3Uj-mW-IKb" firstAttribute="top" secondItem="Qc0-RL-ZWu" secondAttribute="bottom" id="XNt-qc-dgT"/>
+                            <constraint firstItem="Qc0-RL-ZWu" firstAttribute="centerX" secondItem="hkf-1x-iiv" secondAttribute="centerX" id="bm6-OM-p3B"/>
+                            <constraint firstItem="3Uj-mW-IKb" firstAttribute="centerX" secondItem="hkf-1x-iiv" secondAttribute="centerX" id="f8Z-eN-5Ze"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sVy-9K-g69">
+                        <rect key="frame" x="251.5" y="0.0" width="123.5" height="93"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="בוחרים בקלפי" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wm9-ql-b5a">
+                                <rect key="frame" x="22" y="36" width="79" height="18.5"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dyX-CV-EzG">
+                                <rect key="frame" x="40.5" y="15" width="42" height="21"/>
+                                <string key="text">3320
+
+</string>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZyD-zp-cuS">
+                                <rect key="frame" x="65" y="77.5" width="48.5" height="12"/>
+                                <string key="text">עדכון אחרון
+
+</string>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="11"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="dyX-CV-EzG" firstAttribute="centerX" secondItem="sVy-9K-g69" secondAttribute="centerX" id="0im-1e-AQP"/>
+                            <constraint firstItem="dyX-CV-EzG" firstAttribute="top" secondItem="sVy-9K-g69" secondAttribute="top" constant="15" id="C6i-ek-i0z"/>
+                            <constraint firstItem="wm9-ql-b5a" firstAttribute="centerX" secondItem="sVy-9K-g69" secondAttribute="centerX" id="KaX-JR-R6y"/>
+                            <constraint firstItem="wm9-ql-b5a" firstAttribute="top" secondItem="dyX-CV-EzG" secondAttribute="bottom" id="dUG-r2-awR"/>
+                            <constraint firstAttribute="trailing" secondItem="ZyD-zp-cuS" secondAttribute="trailing" constant="10" id="fBZ-jj-e5b"/>
+                            <constraint firstAttribute="bottom" secondItem="ZyD-zp-cuS" secondAttribute="bottom" constant="3.5" id="mxB-Nq-Mhp"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <color key="backgroundColor" red="0.49803921568627452" green="0.42352941176470588" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="sVy-9K-g69" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" id="04m-Pj-g2Q"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="sVy-9K-g69" secondAttribute="trailing" id="5fj-FQ-aaW"/>
+                <constraint firstItem="P2f-i6-BIn" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" multiplier="0.33" id="7nT-cQ-vGS"/>
+                <constraint firstItem="P2f-i6-BIn" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="DfM-Lm-2vj"/>
+                <constraint firstItem="P2f-i6-BIn" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" id="Dt6-XH-pf5"/>
+                <constraint firstItem="sVy-9K-g69" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" multiplier="0.33" id="GxB-KN-8bx"/>
+                <constraint firstItem="hkf-1x-iiv" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="KzR-jE-toq"/>
+                <constraint firstItem="hkf-1x-iiv" firstAttribute="leading" secondItem="P2f-i6-BIn" secondAttribute="trailing" constant="1" id="TXi-dS-sZc"/>
+                <constraint firstItem="sVy-9K-g69" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="YTP-Q1-rQa"/>
+                <constraint firstItem="sVy-9K-g69" firstAttribute="leading" secondItem="hkf-1x-iiv" secondAttribute="trailing" constant="2.5" id="erw-Tr-YCC"/>
+                <constraint firstItem="P2f-i6-BIn" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" id="kNC-MB-bfM"/>
+                <constraint firstItem="hkf-1x-iiv" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" id="kOv-MQ-cUr"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <point key="canvasLocation" x="137.59999999999999" y="153.37331334332833"/>
+        </collectionViewCell>
+    </objects>
+</document>
