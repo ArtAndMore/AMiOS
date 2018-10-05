@@ -11,6 +11,18 @@ import Foundation
 /// <#Description#>
 class ElectionsService: WebService {
   static let shared = ElectionsService()
+
+  private var user: User!
+
+  private(set) var isAuthenticated: Bool {
+    get {
+      return UserDefaults.standard.bool(forKey: "isLoggedIn")
+    }
+    set {
+      UserDefaults.standard.set(newValue, forKey: "isLoggedIn")
+    }
+  }
+
   // MARK: - API
 
   /// <#Description#>
@@ -39,38 +51,46 @@ class ElectionsService: WebService {
   /// - Parameters:
   ///   - user: <#user description#>
   ///   - completion: <#completion description#>
-  func authenticate(user: User, completion:((_ phoneNumber: String?) -> Void)? = nil) {
+  func authenticate(user: User, completion:((_ success: Bool) -> Void)? = nil) {
     self.queue.async {
-      let userAuthenticationEndPoint = EndPoints.UserAuthentication(user: user)
+      self.user = user
+      let userAuthenticationEndPoint = EndPoints.UserAuthentication(user: self.user)
       let resource = Resource(endPoint: userAuthenticationEndPoint)
       self.loadXMLAccessor(resource: resource) { (xmlAccessor, error) in
         guard error == nil, let xml = xmlAccessor else {
-          completion?(nil)
+          completion?(false)
           return
         }
-        let phoneNumber = xml["User_AuthenticationResponse", "User_AuthenticationResult", "User", "User_phone"].text
-        completion?(phoneNumber)
+//        let errorMessage =
+        if xml["User_AuthenticationResponse",
+               "User_AuthenticationResult",
+               "User",
+               "User_phone"].text != nil {
+          completion?(true)
+        } else {
+          completion?(false)
+        }
       }
     }
   }
 
-  /// <#Description#>
-  ///
-  /// - Parameters:
-  ///   - user: <#user description#>
-  ///   - completion: <#completion description#>
-  func getCode(user: User, completion:((_ code: String?) -> Void)? = nil) {
+  func getCode(completion:@escaping ((_ code: String?) -> Void)) {
     self.queue.async {
-      let userSendCodeEndPoint = EndPoints.UserSendCode(user: user)
+      let userSendCodeEndPoint = EndPoints.UserSendCode(user: self.user)
       let resource = Resource(endPoint: userSendCodeEndPoint)
 
       self.loadXMLAccessor(resource: resource) { (xmlAccessor, error) in
         guard error == nil, let xml = xmlAccessor else {
-          completion?(nil)
+          completion(nil)
           return
         }
-        let code = xml["User_Send_codeResponse", "User_Send_codeResult", "User_code"].text
-        completion?(code)
+        if let code = xml["User_Send_codeResponse",
+                          "User_Send_codeResult",
+                          "User_code"].text {
+          completion(code)
+        } else {
+          completion(nil)
+        }
       }
     }
   }

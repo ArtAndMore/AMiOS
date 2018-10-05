@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol HomeViewControllerCoordinatorDelegate: Coordinator {
+
+}
+
 class HomeViewController: UIViewController {
+
+  weak var coordinatorDelegate: HomeViewControllerCoordinatorDelegate?
 
   struct ReusableCellIdentifiers {
     static let base         = "BallotCollectionViewCell"

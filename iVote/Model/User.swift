@@ -9,7 +9,7 @@
 import Foundation
 
 struct User {
-  let name: String
-  let password: String
-  let phone: String
+  var name: String
+  var password: String
+  var phone: String
 }

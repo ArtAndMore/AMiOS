@@ -6,8 +6,9 @@ target 'iVote' do
   use_frameworks!
 
   # Pods for iVote
- pod 'SwiftyXMLParser', :git => 'https://github.com/yahoojapan/SwiftyXMLParser.git'
- 
+  pod 'SwiftyXMLParser', :git => 'https://github.com/yahoojapan/SwiftyXMLParser.git'
+  pod 'SVPinView'
+
 target 'iVoteTests' do
     inherit! :search_paths
     # Pods for testing

@@ -145,22 +145,18 @@ struct EndPoints {
   }
 
   struct SearchContact: EndPoint {
-    let id: String
-    let firstName: String
-    let middleName: String
-    let lastName: String
-    let isVote: Bool
+    let voter: Voter
 
     var soapMessage: String? {
       return """
       <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
       <soap:Body>
       <Search_contact xmlns="http://tempuri.org/">
-      <contact_fname>\(firstName)</contact_fname>
-      <contact_lname>\(lastName)</contact_lname>
-      <contact_id>\(id)</contact_id>
-      <contact_father_name>\(middleName)</contact_father_name>
-      <isvote>\(isVote.hashValue)</isvote>
+      <contact_fname>\(String(describing: voter.firstName))</contact_fname>
+      <contact_lname>\(String(describing: voter.lastName))</contact_lname>
+      <contact_id>\(voter.id)</contact_id>
+      <contact_father_name>\(String(describing: voter.middleName))</contact_father_name>
+      <isvote>\(voter.hasVoted.hashValue)</isvote>
       </Search_contact>
       </soap:Body>
       </soap:Envelope>
@@ -183,19 +179,18 @@ struct EndPoints {
     }
   }
 
-  struct SendMsgToControl: EndPoint {
-    let user: String
-    let message: String
-    let subject: String
+  struct SendMessgeToControl: EndPoint {
+    let username: String
+    let report: Report
 
     var soapMessage: String? {
       return """
       <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
       <soap:Body>
       <Send_msg_to_control xmlns="http://tempuri.org/">
-      <sub>\(subject)</sub>
-      <msg>\(message)</msg>
-      <user>\(user)</user>
+      <sub>\(report.subject)</sub>
+      <msg>\(report.message)</msg>
+      <user>\(username)</user>
       </Send_msg_to_control>
       </soap:Body>
       </soap:Envelope>
