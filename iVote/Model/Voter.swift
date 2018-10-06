@@ -8,12 +8,18 @@
 
 import Foundation
 
-struct Voter: Codable {
+class Voter: Codable {
   let id: String
-  let lastName: String?
-  let firstName: String?
-  let middleName: String?
-  let ballotId: Int?
-  let ballotNumber: Int?
+  var lastName: String?
+  var firstName: String?
+  var fatherName: String?
+  var motherName: String?
+  var phoneNumber: String?
+  var ballotId: Int?
+  var ballotNumber: Int?
   var hasVoted: Bool = false
+
+  init(id: String) {
+    self.id = id
+  }
 }

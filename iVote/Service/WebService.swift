@@ -73,7 +73,8 @@ class WebService {
           }
           let xml = try XML.parse(responseString)
           // access xml element
-          let result = xml["soap:Envelope", "soap:Body"]
+          let result = xml["soap:Envelope",
+                           "soap:Body"]
           
           callback(result, nil)
         } catch {

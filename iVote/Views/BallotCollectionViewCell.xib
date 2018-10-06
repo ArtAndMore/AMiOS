@@ -19,14 +19,14 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vote" translatesAutoresizingMaskIntoConstraints="NO" id="b1y-JL-vzy">
-                        <rect key="frame" x="20" y="20" width="75" height="75"/>
+                        <rect key="frame" x="159.5" y="32" width="56" height="56"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="b1y-JL-vzy" secondAttribute="height" multiplier="1:1" id="EEf-mJ-FHu"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="כותרת" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OIx-JP-iPI">
-                        <rect key="frame" x="314.5" y="118" width="50.5" height="22"/>
-                        <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
+                        <rect key="frame" x="170" y="100" width="35.5" height="15.5"/>
+                        <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="14"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -34,13 +34,24 @@
             </view>
             <color key="backgroundColor" red="0.20000000000000001" green="0.81568627450980391" blue="0.61568627450980395" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="b1y-JL-vzy" firstAttribute="leading" secondItem="uRF-xb-KEl" secondAttribute="leading" constant="20" id="618-ND-HQk"/>
-                <constraint firstItem="uRF-xb-KEl" firstAttribute="bottom" secondItem="OIx-JP-iPI" secondAttribute="bottom" constant="10" id="QsN-ai-Gt6"/>
-                <constraint firstItem="b1y-JL-vzy" firstAttribute="top" secondItem="uRF-xb-KEl" secondAttribute="top" constant="20" id="bmk-m7-sLU"/>
-                <constraint firstItem="uRF-xb-KEl" firstAttribute="trailing" secondItem="OIx-JP-iPI" secondAttribute="trailing" constant="10" id="ege-vh-85r"/>
-                <constraint firstItem="b1y-JL-vzy" firstAttribute="height" secondItem="FAp-na-YOE" secondAttribute="height" multiplier="0.5" id="nfA-wG-rkB"/>
+                <constraint firstItem="OIx-JP-iPI" firstAttribute="centerX" secondItem="uRF-xb-KEl" secondAttribute="centerX" id="4L6-DW-7VA"/>
+                <constraint firstItem="b1y-JL-vzy" firstAttribute="centerY" secondItem="uRF-xb-KEl" secondAttribute="centerY" multiplier="0.8" id="JRn-bN-hzd"/>
+                <constraint firstItem="OIx-JP-iPI" firstAttribute="top" secondItem="b1y-JL-vzy" secondAttribute="bottom" constant="12" id="fh0-fd-weL"/>
+                <constraint firstItem="b1y-JL-vzy" firstAttribute="height" secondItem="FAp-na-YOE" secondAttribute="height" multiplier="0.375" id="nfA-wG-rkB"/>
+                <constraint firstItem="b1y-JL-vzy" firstAttribute="centerX" secondItem="uRF-xb-KEl" secondAttribute="centerX" id="waS-sz-cy8"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="uRF-xb-KEl"/>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                    <integer key="value" value="15"/>
+                </userDefinedRuntimeAttribute>
+                <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                    <real key="value" value="0.5"/>
+                </userDefinedRuntimeAttribute>
+                <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
+                    <color key="value" white="0.33333333329999998" alpha="0.25" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </userDefinedRuntimeAttribute>
+            </userDefinedRuntimeAttributes>
             <connections>
                 <outlet property="imageView" destination="b1y-JL-vzy" id="N6P-zR-IAN"/>
                 <outlet property="titleLabel" destination="OIx-JP-iPI" id="5c5-jy-ALZ"/>

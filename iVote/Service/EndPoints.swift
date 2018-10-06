@@ -155,7 +155,7 @@ struct EndPoints {
       <contact_fname>\(String(describing: voter.firstName))</contact_fname>
       <contact_lname>\(String(describing: voter.lastName))</contact_lname>
       <contact_id>\(voter.id)</contact_id>
-      <contact_father_name>\(String(describing: voter.middleName))</contact_father_name>
+      <contact_father_name>\(String(describing: voter.fatherName))</contact_father_name>
       <isvote>\(voter.hasVoted.hashValue)</isvote>
       </Search_contact>
       </soap:Body>

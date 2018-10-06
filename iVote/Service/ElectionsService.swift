@@ -12,9 +12,9 @@ import Foundation
 class ElectionsService: WebService {
   static let shared = ElectionsService()
 
-  private var user: User!
+  private var user: User?
 
-  private(set) var isAuthenticated: Bool {
+  var isAuthenticated: Bool {
     get {
       return UserDefaults.standard.bool(forKey: "isLoggedIn")
     }
@@ -54,14 +54,14 @@ class ElectionsService: WebService {
   func authenticate(user: User, completion:((_ success: Bool) -> Void)? = nil) {
     self.queue.async {
       self.user = user
-      let userAuthenticationEndPoint = EndPoints.UserAuthentication(user: self.user)
+      let userAuthenticationEndPoint = EndPoints.UserAuthentication(user: self.user!)
       let resource = Resource(endPoint: userAuthenticationEndPoint)
       self.loadXMLAccessor(resource: resource) { (xmlAccessor, error) in
         guard error == nil, let xml = xmlAccessor else {
           completion?(false)
           return
         }
-//        let errorMessage =
+        //        let errorMessage =
         if xml["User_AuthenticationResponse",
                "User_AuthenticationResult",
                "User",
@@ -74,9 +74,17 @@ class ElectionsService: WebService {
     }
   }
 
+
+  /// <#Description#>
+  ///
+  /// - Parameter completion: <#completion description#>
   func getCode(completion:@escaping ((_ code: String?) -> Void)) {
     self.queue.async {
-      let userSendCodeEndPoint = EndPoints.UserSendCode(user: self.user)
+      guard let user = self.user else {
+        completion(nil)
+        return
+      }
+      let userSendCodeEndPoint = EndPoints.UserSendCode(user: user)
       let resource = Resource(endPoint: userSendCodeEndPoint)
 
       self.loadXMLAccessor(resource: resource) { (xmlAccessor, error) in

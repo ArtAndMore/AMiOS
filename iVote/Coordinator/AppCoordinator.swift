@@ -12,15 +12,18 @@ import UIKit
 
 protocol Coordinator: class {
   func start()
+  var mainStoryBoard: UIStoryboard? { get }
+}
+
+extension Coordinator {
+  var mainStoryBoard: UIStoryboard? {
+    return UIStoryboard(name: "Main", bundle: nil)
+  }
 }
 
 class AppCoordinator: Coordinator {
 
   var window: UIWindow
-
-  fileprivate var mainStoryBoard: UIStoryboard? {
-    return UIStoryboard(name: "Main", bundle: nil)
-  }
 
   init(window: UIWindow) {
     self.window = window
@@ -37,46 +40,41 @@ class AppCoordinator: Coordinator {
 
 fileprivate extension AppCoordinator {
   func showLoginViewController() {
-    if let navigationController = mainStoryBoard?.instantiateInitialViewController() as? UINavigationController,
-      let loginViewCintroller = navigationController.topViewController as? LoginViewController {
-      loginViewCintroller.coordinatorDelegate = self
-      window.rootViewController = navigationController
-    }
+    let authenticationCoordinator = AuthenticationCoordinator(window: window)
+    authenticationCoordinator.delegate = self
+    authenticationCoordinator.start()
   }
 
   func showCodeValidationViewController() {
-    if let vc = mainStoryBoard?.instantiateViewController(withIdentifier: "CodeValidationViewController") as? CodeValidationViewController,
-      let navigationController = window.rootViewController as? UINavigationController {
-      vc.coordinatorDelegate = self
-      navigationController.pushViewController(vc, animated: true)
-    }
+    let codeValidationCoordinator = CodeValidationCoordinator(window: window)
+    codeValidationCoordinator.delegate = self
+    codeValidationCoordinator.start()
   }
 
   func showHomeViewController() {
-    if let navigationController = mainStoryBoard?.instantiateViewController(withIdentifier: "HomeViewController") as? UINavigationController,
-      let homeViewCintroller = navigationController.topViewController as? HomeViewController {
-      homeViewCintroller.coordinatorDelegate = self
-      window.rootViewController = navigationController
-    }
+    let codeValidationCoordinator = HomeCoordinator(window: window)
+    codeValidationCoordinator.delegate = self
+    codeValidationCoordinator.start()
   }
 }
 
 
-// MARK: - LoginNavigationControllerDelegate
-extension AppCoordinator: NavigationViewControllerCoordinatorDelegate {
-  func showCode() {
+extension AppCoordinator: AuthenticationCoordinatorDelegate {
+  func authenticationCoordinatorDidFinish(authenticationCoordinator: AuthenticationCoordinator) {
     self.showCodeValidationViewController()
   }
 }
 
-// MARK: - CodeValidationViewControllerCoordinatorDelegate
-extension AppCoordinator: CodeValidationViewControllerCoordinatorDelegate {
-  func showHome() {
+extension AppCoordinator: CodeValidationCoordinatorDelegate {
+  func codeValidationCoordinatorDidFinish(codeValidationCoordinator: CodeValidationCoordinator) {
     self.showHomeViewController()
   }
 }
 
-// MARK: - HomeViewControllerCoordinatorDelegate
-extension AppCoordinator: HomeViewControllerCoordinatorDelegate {
+extension AppCoordinator: HomeCoordinatorDelegate {
+  func logout(coordinator: HomeCoordinator) {
+    self.showLoginViewController()
+  }
+
 
 }

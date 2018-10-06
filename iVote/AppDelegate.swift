@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //        print("authenticate failed")
     //      }
     //    }
-
+    Theme.configure()
     window = UIWindow()
     appCoordinator = AppCoordinator(window: window!)
     appCoordinator?.start()

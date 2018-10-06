@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct User {
-  var name: String
-  var password: String
-  var phone: String
+class User {
+  var name: String = ""
+  var password: String = ""
+  var phone: String = ""
 }

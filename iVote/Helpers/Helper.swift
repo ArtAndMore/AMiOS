@@ -43,6 +43,28 @@ extension UIView {
   static func nib() -> UINib {
     return UINib(nibName: String(describing: self), bundle: Bundle(for: self))
   }
+
+  enum ViewSide {
+    case left, right, top, bottom
+  }
+
+  func addBorder(toSide side: ViewSide, withColor color: CGColor, andThickness thickness: CGFloat, margin: CGFloat = 0.0) {
+    let border = CALayer()
+    border.backgroundColor = color
+
+    switch side {
+    case .left:
+      border.frame = CGRect(x: bounds.minX - margin, y: bounds.minY, width: thickness, height: bounds.height)
+    case .right:
+      border.frame = CGRect(x: bounds.maxX + margin, y: bounds.minY, width: thickness, height: bounds.height)
+    case .top:
+      border.frame = CGRect(x: bounds.minX, y: bounds.minY - margin, width: bounds.width, height: thickness)
+    case .bottom:
+      border.frame = CGRect(x: bounds.minX, y: bounds.maxY + margin, width: bounds.width, height: thickness)
+    }
+
+    layer.addSublayer(border)
+  }
 }
 
 extension UIColor {

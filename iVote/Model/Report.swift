@@ -11,4 +11,5 @@ import Foundation
 struct Report {
   let message: String
   let subject: String
+  let isEnabled: Bool
 }

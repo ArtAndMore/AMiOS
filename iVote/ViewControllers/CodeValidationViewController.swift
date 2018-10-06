@@ -9,14 +9,15 @@
 import UIKit
 import SVPinView
 
-protocol CodeValidationViewControllerCoordinatorDelegate: Coordinator {
-  func showHome()
-}
-
 class CodeValidationViewController: UIViewController {
 
-  weak var coordinatorDelegate: CodeValidationViewControllerCoordinatorDelegate?
   private var requestCode: String?
+
+  var viewModel: CodeValidationViewModel! {
+    didSet {
+      viewModel.viewDelegate = self
+    }
+  }
 
   @IBOutlet private weak var pinView: SVPinView! {
     didSet {
@@ -32,17 +33,18 @@ class CodeValidationViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    ElectionsService.shared.getCode() { self.requestCode = $0 }
   }
 
   @IBAction func submitCodeAction() {
-    guard let requestCode = self.requestCode else {
-      print("request code failed")
-      return
-    }
-    if requestCode == self.pinView.getPin() {
-      self.coordinatorDelegate?.showHome()
-    }
+    self.viewModel.submit()
+    
   }
 }
 
+extension CodeValidationViewController: CodeValidationViewModelViewDelegate {
+  func pinCode() -> String {
+    return self.pinView.getPin()
+  }
+
+
+}

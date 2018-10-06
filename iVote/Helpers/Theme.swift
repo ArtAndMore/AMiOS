@@ -18,10 +18,10 @@ struct Theme {
   }
   
   static func configure() {
-    UIBarButtonItem.appearance().tintColor = secondColor
-    UITabBar.appearance().unselectedItemTintColor = secondColor
-    UISegmentedControl.appearance().tintColor = secondColor
-    UIToolbar.appearance().tintColor = mainColor
-    UIPickerView.appearance().tintColor = mainColor
+    UIBarButtonItem.appearance().tintColor = .black
+//    UITabBar.appearance().unselectedItemTintColor = secondColor
+//    UISegmentedControl.appearance().tintColor = secondColor
+//    UIToolbar.appearance().tintColor = mainColor
+//    UIPickerView.appearance().tintColor = mainColor
   }
 }
