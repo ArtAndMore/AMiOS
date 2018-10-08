@@ -14,26 +14,32 @@ extension UIView {
     return UINib(nibName: String(describing: self), bundle: Bundle(for: self))
   }
 
-  enum ViewSide {
-    case left, right, top, bottom
+  func addBlurBackground(style: UIBlurEffect.Style = .regular) -> UIVisualEffectView {
+    let blurEffect = UIBlurEffect(style: style)
+    let blurBackground = UIVisualEffectView(effect: blurEffect)
+
+    addSubview(blurBackground)
+
+    blurBackground.translatesAutoresizingMaskIntoConstraints = false
+    blurBackground.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+    blurBackground.topAnchor.constraint(equalTo: topAnchor).isActive = true
+    blurBackground.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+    blurBackground.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+
+    return blurBackground
   }
+}
 
-  func addBorder(toSide side: ViewSide, withColor color: CGColor, andThickness thickness: CGFloat, margin: CGFloat = 0.0) {
-    let border = CALayer()
-    border.backgroundColor = color
+extension Bool {
+  init(_ string: String?) {
+    guard let string = string else { self = false; return }
 
-    switch side {
-    case .left:
-      border.frame = CGRect(x: bounds.minX - margin, y: bounds.minY, width: thickness, height: bounds.height)
-    case .right:
-      border.frame = CGRect(x: bounds.maxX + margin, y: bounds.minY, width: thickness, height: bounds.height)
-    case .top:
-      border.frame = CGRect(x: bounds.minX, y: bounds.minY - margin, width: bounds.width, height: thickness)
-    case .bottom:
-      border.frame = CGRect(x: bounds.minX, y: bounds.maxY + margin, width: bounds.width, height: thickness)
+    switch string.lowercased() {
+    case "true", "yes", "1":
+      self = true
+    default:
+      self = false
     }
-
-    layer.addSublayer(border)
   }
 }
 
@@ -60,3 +66,4 @@ extension UIColor {
     )
   }
 }
+

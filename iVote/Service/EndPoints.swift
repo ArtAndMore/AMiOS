@@ -113,15 +113,15 @@ struct EndPoints {
 
   struct SendMessgeToControl: EndPoint {
     let username: String
-    let report: Report
+    let message: String
 
     var soapMessage: String? {
       return """
       <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
       <soap:Body>
       <Send_msg_to_control xmlns="http://tempuri.org/">
-      <sub>\(report.subject)</sub>
-      <msg>\(report.message)</msg>
+      <sub></sub>
+      <msg>\(message)</msg>
       <user>\(username)</user>
       </Send_msg_to_control>
       </soap:Body>

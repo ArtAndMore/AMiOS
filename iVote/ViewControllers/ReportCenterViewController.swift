@@ -16,23 +16,24 @@ class ReportCenterViewController: UIViewController {
   @IBOutlet private weak var notesSwitch: UISwitch!
   @IBOutlet private weak var disturbanceSwitch: UISwitch!
   @IBOutlet private weak var messageTitleLabel: UILabel!
-  @IBOutlet private weak var messageTextView: UITextView!
+  
+  @IBOutlet private weak var messageTextView: UITextView! {
+    didSet {
+      messageTextView.layer.borderColor = UIColor.color(withHexString: "#808080").cgColor
+      messageTextView.layer.borderWidth = 0.2
+      messageTextView.layer.cornerRadius = 4.0
+    }
+  }
 
-  var viewModel: ReportCenterViewModel!
-
-  override func viewDidLayoutSubviews() {
-    super.viewDidLayoutSubviews()
-    stabilizationSwitch.superview?.addBorder(toSide: .bottom, withColor: UIColor.color(withHexString: "#808080").cgColor, andThickness: 0.2)
-    spectatorSwitch.superview?.addBorder(toSide: .bottom, withColor: UIColor.color(withHexString: "#808080").cgColor, andThickness: 0.2)
-    notesSwitch.superview?.addBorder(toSide: .bottom, withColor: UIColor.color(withHexString: "#808080").cgColor, andThickness: 0.2)
-    disturbanceSwitch.superview?.addBorder(toSide: .bottom, withColor: UIColor.color(withHexString: "#808080").cgColor, andThickness: 0.2)
-    messageTextView.layer.borderColor = UIColor.color(withHexString: "#808080").cgColor
-    messageTextView.layer.borderWidth = 0.2
-    messageTextView.layer.cornerRadius = 4.0
+  var viewModel: ReportCenterViewModel! {
+    didSet {
+      viewModel.viewDelegate = self
+    }
   }
 
   override func viewDidLoad() {
         super.viewDidLoad()
+    
     _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardDidShowNotification, object: nil, queue: nil, using: { (notification) in
       if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
         let keyboardRectangle = keyboardFrame.cgRectValue
@@ -44,11 +45,26 @@ class ReportCenterViewController: UIViewController {
     _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: nil, using: { (notification) in
       self.scrollView.frame.size.height = self.view.bounds.height
     })
-        // Do any additional setup after loading the view.
     }
+
+  @IBAction func switchValueChangeAction(_ sender: UISwitch) {
+    if let type = ReportType(rawValue: sender.tag) {
+      self.viewModel.sendReport(byType: type, status: Int(truncating: NSNumber(value: sender.isOn)))
+    }
+  }
+  
   @IBAction private func sendMessage(_ sender: Any) {
     messageTextView.resignFirstResponder()
-    self.viewModel.sendReportMessage()
+    if !messageTextView.text.isEmpty {
+      self.viewModel.sendReport(message: messageTextView.text)
+    }
   }
+}
+
+extension ReportCenterViewController: ReportCenterViewModelDlelegate {
+  func reportCenterViewModel(didSentMessage success: Bool) {
+    self.messageTextView.text = ""
+  }
+
 
 }

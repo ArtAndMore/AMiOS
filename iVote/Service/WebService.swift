@@ -13,10 +13,10 @@ import SwiftyXMLParser
 class WebService {
   let queue = DispatchQueue(label: "com.iVote.service_queue", attributes: .concurrent)
   
-  private lazy var session: URLSession = {
+  private var session: URLSession {
     let config = URLSessionConfiguration.default
     return URLSession(configuration: config)
-  }()
+  }
   
   /// <#Description#>
   ///

@@ -8,19 +8,20 @@
 
 import UIKit
 
-class BallotCollectionViewCell: UICollectionViewCell {
+class BallotCollectionViewCell: BaseCollectionViewCell {
 
   @IBOutlet private weak var imageView: UIImageView!
   @IBOutlet private weak var titleLabel: UILabel!
   
   override func awakeFromNib() {
     super.awakeFromNib()
-    // Initialization code
   }
 
-  func set(item: Item) {
+  func setItem(_ item: Item) {
     self.titleLabel.text = item.title
-    self.imageView.image = UIImage(named: item.image)
+    if let image = item.image, let uiImage = UIImage(named: image) {
+      self.imageView.image = uiImage
+    }
     self.backgroundColor = item.backgroundColor
   }
 

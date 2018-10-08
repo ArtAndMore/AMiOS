@@ -15,6 +15,8 @@ protocol HomeCoordinatorDelegate: AnyObject {
 class HomeCoordinator: Coordinator {
   weak var delegate: HomeCoordinatorDelegate?
 
+  var username: String?
+
   let window: UIWindow
 
   init(window: UIWindow) {
@@ -24,7 +26,7 @@ class HomeCoordinator: Coordinator {
   func start() {
     if let navigationController = mainStoryBoard?.instantiateViewController(withIdentifier: "HomeNavigationViewController") as? UINavigationController,
       let homeViewCintroller = navigationController.topViewController as? HomeViewController {
-      let viewModel = HomeViewModel()
+      let viewModel = HomeViewModel(username: username)
       viewModel.coordinatorDelegate = self
       homeViewCintroller.viewModel = viewModel
       window.rootViewController = navigationController

@@ -10,7 +10,7 @@ import Foundation
 
 class Observable<T> {
   typealias Listener =  (T) -> Void
-  var listener: Listener?
+  private var listener: Listener?
   private var queue: DispatchQueue
 
   var value: T? = nil {

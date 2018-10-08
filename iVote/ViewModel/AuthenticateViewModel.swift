@@ -23,7 +23,14 @@ class AuthenticateViewModel {
   var coordinatorDelegate: AuthenticateViewModelCoordinatorDelegate?
 
   // Name and Password and Phone
-  var user: User = User()
+  var user: User {
+    get {
+      return ElectionsService.shared.user
+    }
+    set {
+      ElectionsService.shared.user = user
+    }
+  }
 
   // Errors
   var errorMessage: String?
@@ -33,8 +40,9 @@ class AuthenticateViewModel {
     guard self.viewDelegate?.canSubmit() ?? false else {
       return
     }
-    ElectionsService.shared.authenticate(user: user) { (success) in
+    ElectionsService.shared.authenticate() { (success) in
       if success {
+        self.saveUser()
         DispatchQueue.main.async {
           self.coordinatorDelegate?.authenticateViewModelDidLogin(viewModel:self)
         }
@@ -42,6 +50,11 @@ class AuthenticateViewModel {
         self.errorMessage = "authenticate failed"
       }
     }
+  }
+
+  private func saveUser() {
+    let context = DataController.shared.backgroundContext
+    CoreDataUser.addUser(name: user.name, phone: user.phone, intoContext: context)
   }
 }
 

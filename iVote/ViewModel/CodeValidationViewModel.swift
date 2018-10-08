@@ -40,7 +40,6 @@ class CodeValidationViewModel {
       return
     }
     if requestCode == self.viewDelegate?.pinCode() {
-      ElectionsService.shared.isAuthenticated = true
       DispatchQueue.main.async {
         self.coordinatorDelegate?.codeValidationViewModelDidEnterCode(viewModel: self)
       }

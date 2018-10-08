@@ -7,9 +7,10 @@ target 'iVote' do
 
   # Pods for iVote
   pod 'SwiftyXMLParser', :git => 'https://github.com/yahoojapan/SwiftyXMLParser.git'
+  pod 'ReachabilitySwift'
   pod 'SVPinView'
   pod 'GMStepper'
-
+  pod 'SwiftyPickerPopover'
 target 'iVoteTests' do
     inherit! :search_paths
     # Pods for testing

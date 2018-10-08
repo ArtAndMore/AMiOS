@@ -54,7 +54,7 @@
                                     <constraint firstAttribute="height" constant="16" id="VU5-2p-264"/>
                                 </constraints>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bnI-H6-Vlz">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bnI-H6-Vlz" customClass="CountingLabel" customModule="iVote" customModuleProvider="target">
                                 <rect key="frame" x="299" y="32" width="68" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="scK-pH-0fE"/>

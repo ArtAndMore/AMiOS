@@ -8,63 +8,37 @@
 
 import Foundation
 
-/// <#Description#>
 class ElectionsService: WebService {
   static let shared = ElectionsService()
 
-  private var user: User?
+  var user: User = User()
 
-  var isAuthenticated: Bool {
-    get {
-      return UserDefaults.standard.bool(forKey: "isLoggedIn")
-    }
-    set {
-      UserDefaults.standard.set(newValue, forKey: "isLoggedIn")
-    }
-  }
-  // MARK: - API
+  // MARK: - USER
 
-  // USER
-
-  /// <#Description#>
-  ///
-  /// - Parameters:
-  ///   - user: <#user description#>
-  ///   - completion: <#completion description#>
-  func authenticate(user: User, completion:((_ success: Bool) -> Void)? = nil) {
+  func authenticate(completion: @escaping ((_ success: Bool) -> Void)) {
     self.queue.async {
-      self.user = user
-      let endPoint = EndPoints.UserAuthentication(user: self.user!)
+      let endPoint = EndPoints.UserAuthentication(user: self.user)
 
       self.loadXMLAccessor(resource: endPoint.resource) { (xmlAccessor, error) in
         guard error == nil, let xml = xmlAccessor else {
-          completion?(false)
+          completion(false)
           return
         }
-        //        let errorMessage =
         if xml["User_AuthenticationResponse",
                "User_AuthenticationResult",
                "User",
                "User_phone"].text != nil {
-          completion?(true)
+          completion(true)
         } else {
-          completion?(false)
+          completion(false)
         }
       }
     }
   }
 
-
-  /// <#Description#>
-  ///
-  /// - Parameter completion: <#completion description#>
   func getCode(completion:@escaping ((_ code: String?) -> Void)) {
     self.queue.async {
-      guard let user = self.user else {
-        completion(nil)
-        return
-      }
-      let endPoint = EndPoints.UserSendCode(user: user)
+      let endPoint = EndPoints.UserSendCode(user: self.user)
 
       self.loadXMLAccessor(resource: endPoint.resource) { (xmlAccessor, error) in
         guard error == nil, let xml = xmlAccessor else {
@@ -82,7 +56,50 @@ class ElectionsService: WebService {
     }
   }
 
-  // STATUS
+  func permission(completion:@escaping ((_ permission: Permission?) -> Void)) {
+    self.queue.async {
+      let endPoint = EndPoints.UserPermission(user: self.user)
+
+      self.loadXMLAccessor(resource: endPoint.resource) { (xmlAccessor, error) in
+
+        guard error == nil, let xml = xmlAccessor else {
+          completion(nil)
+          return
+        }
+        let elements = xml["User_PermissionResponse",
+                           "User_PermissionResult",
+                           "User_Permission",
+                           "kalpi"]
+        var ballots: [Ballot] = []
+        let iterator = elements.makeIterator()
+        while let next = iterator.next() {
+          guard let id = next["Kalpi_id"].text, let name = next["Kalpi_name"].text else {
+              continue
+          }
+
+          let ballot = Ballot(id: id, number: id, name: name, total: "", isVoted: "", notVoted: "")
+          ballot.address = next["Kalpi_address"].text
+          if let stabilization = next["New_kalpi_st_hafraot"].text {
+            ballot.reports[.stabilization] = Bool(stabilization)
+          }
+          if let spectator = next["New_mashkif"].text {
+            ballot.reports[.stabilization] = Bool(spectator)
+          }
+          if let notes = next["New_ptakim_status"].text {
+            ballot.reports[.stabilization] = Bool(notes)
+          }
+          if let disturbance = next["New_kalpi_st_htyasvot"].text {
+            ballot.reports[.stabilization] = Bool(disturbance)
+          }
+          ballots.append(ballot)
+        }
+        self.user.permission.ballots = ballots
+        completion(self.user.permission)
+      }
+    }
+  }
+
+  // MARK: - STATUS
 
   func status(ballotNumber: Int, completion:@escaping ((_ status: Status?) -> Void)) {
     self.queue.async {
@@ -114,7 +131,7 @@ class ElectionsService: WebService {
     }
   }
 
-  // VOTER
+  // MARK: - VOTER
 
   func searchVoter(byId voterId: String, completion:@escaping ((_ voter: Voter?) -> Void)) {
     self.queue.async {
@@ -174,7 +191,7 @@ class ElectionsService: WebService {
     }
   }
 
-  // NOMINEE
+  // MARK: - NOMINEE
 
   func getAllNominee(completion:@escaping (([Nominee]) -> Void)) {
     self.queue.async {
@@ -226,7 +243,8 @@ class ElectionsService: WebService {
     }
   }
 
-  // BALLOTS
+  // MARK: - BALLOTS
+
   func getAllBallots(completion:@escaping ((_ success: [Ballot]) -> Void)) {
     self.queue.async {
       let endPoint = EndPoints.GetAllBallotBox()
@@ -260,6 +278,60 @@ class ElectionsService: WebService {
     }
   }
 
+  // MARK: - REPORT
 
+  func updateReport(byType type: ReportType, status: Int, inBallotId ballotId: String, completion:@escaping ((_ success: Bool) -> Void)) {
+    self.queue.async {
+      var endPoint: EndPoint
+      var responseKey: String
+      switch type {
+      case .stabilization:
+        responseKey = "Update_Ballot_box_st_htyasvotResult"
+        endPoint = EndPoints.UpdateBallotBoxStHtyasvot(ballotId: ballotId, status: "\(status)")
+      case .spectator:
+        responseKey = "Update_Ballot_box_st_mashkif"
+        endPoint = EndPoints.UpdateBallotBoxStMashkif(ballotId: ballotId, status: "\(status)")
+      case .notes:
+        responseKey = "Update_Ballot_box_ptakim"
+        endPoint = EndPoints.UpdateBallotBoxPtakim(ballotId: ballotId, status: "\(status)")
+      case .disturbance:
+        responseKey = "Update_Ballot_box_st_hafraot"
+        endPoint = EndPoints.UpdateBallotBoxStHafraot(ballotId: ballotId, status: "\(status)")
+      }
+
+      self.loadXMLAccessor(resource: endPoint.resource) { (xmlAccessor, error) in
+        guard error == nil, let xml = xmlAccessor else {
+          completion(false)
+          return
+        }
+        var success = false
+        if let _ = xml["Update_Ballot_box_ptakimResponse",
+                       "Update_Ballot_box_ptakimResult",
+                       responseKey].text {
+          success = true
+        }
+        completion(success)
+      }
+    }
+  }
+
+  func sendReportMessage(_ message: String, inBallotId ballotId: String, completion:@escaping ((_ success: Bool) -> Void)) {
+    self.queue.async {
+      let endPoint = EndPoints.SendMessgeToControl(username: self.user.name, message: message)
+      self.loadXMLAccessor(resource: endPoint.resource) { (xmlAccessor, error) in
+        guard error == nil, let xml = xmlAccessor else {
+          completion(false)
+          return
+        }
+        var success = false
+        if let _ = xml["Send_msg_to_controlResponse",
+                       "Send_msg_to_controlResult",
+                       "Send_msg_to_control"].text {
+          success = true
+        }
+        completion(success)
+      }
+    }
+  }
   
 }

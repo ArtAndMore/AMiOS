@@ -18,6 +18,11 @@
 		BB59A6E12166CB62003A8CFB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB59A6E02166CB62003A8CFB /* LoginViewController.swift */; };
 		BB73F59D216AE89100F19C85 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F59C216AE89100F19C85 /* Observable.swift */; };
 		BB73F59F216AED9100F19C85 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F59E216AED9100F19C85 /* Item.swift */; };
+		BB73F5A1216B166F00F19C85 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5A0216B166F00F19C85 /* BaseCollectionViewCell.swift */; };
+		BB73F5A5216B92AE00F19C85 /* CountingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5A4216B92AE00F19C85 /* CountingLabel.swift */; };
+		BB73F5AC216BA72200F19C85 /* iVoteModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5AA216BA72200F19C85 /* iVoteModel.xcdatamodeld */; };
+		BB73F5AE216BA73C00F19C85 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5AD216BA73C00F19C85 /* DataController.swift */; };
+		BB73F5B0216BB1C100F19C85 /* CoreData+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5AF216BB1C100F19C85 /* CoreData+User.swift */; };
 		BB9895972168CE1400DD6B85 /* AuthenticationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9895962168CE1400DD6B85 /* AuthenticationCoordinator.swift */; };
 		BB98959A2168D01A00DD6B85 /* AuthenticateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9895992168D01A00DD6B85 /* AuthenticateViewModel.swift */; };
 		BB98959C2168E0AF00DD6B85 /* CodeValidationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB98959B2168E0AF00DD6B85 /* CodeValidationCoordinator.swift */; };
@@ -87,6 +92,11 @@
 		BB59A6E02166CB62003A8CFB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BB73F59C216AE89100F19C85 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		BB73F59E216AED9100F19C85 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		BB73F5A0216B166F00F19C85 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
+		BB73F5A4216B92AE00F19C85 /* CountingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountingLabel.swift; sourceTree = "<group>"; };
+		BB73F5AB216BA72200F19C85 /* iVoteModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iVoteModel.xcdatamodel; sourceTree = "<group>"; };
+		BB73F5AD216BA73C00F19C85 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		BB73F5AF216BB1C100F19C85 /* CoreData+User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreData+User.swift"; sourceTree = "<group>"; };
 		BB9895962168CE1400DD6B85 /* AuthenticationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCoordinator.swift; sourceTree = "<group>"; };
 		BB9895992168D01A00DD6B85 /* AuthenticateViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticateViewModel.swift; sourceTree = "<group>"; };
 		BB98959B2168E0AF00DD6B85 /* CodeValidationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeValidationCoordinator.swift; sourceTree = "<group>"; };
@@ -154,6 +164,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BB73F5A9216BA6E400F19C85 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				BB73F5AD216BA73C00F19C85 /* DataController.swift */,
+				BB73F5AF216BB1C100F19C85 /* CoreData+User.swift */,
+				BB73F5AA216BA72200F19C85 /* iVoteModel.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		BB9895982168CE7900DD6B85 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				BBF580DF2163E021002B05B4 /* AppDelegate.swift */,
+				BB73F5A9216BA6E400F19C85 /* CoreData */,
 				BBC464B521675F4B007455AF /* Coordinator */,
 				BBF5811F21640EA8002B05B4 /* Model */,
 				BB9895982168CE7900DD6B85 /* ViewModel */,
@@ -232,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				BB9CD845216832F600B3F784 /* NALLabelsMatrixView.swift */,
+				BB73F5A0216B166F00F19C85 /* BaseCollectionViewCell.swift */,
 				BBF5810F2163FBDA002B05B4 /* BallotCollectionViewCell.swift */,
 				BBF581102163FBDA002B05B4 /* BallotCollectionViewCell.xib */,
 				BBF581082163EE82002B05B4 /* BallotSearchCollectionViewCell.swift */,
@@ -240,6 +262,7 @@
 				BBF581052163E6CB002B05B4 /* BallotStatisticsCollectionViewCell.xib */,
 				BB9CD85121689EF000B3F784 /* NomineeCountingTableViewCell.swift */,
 				BB9CD8572168B9C700B3F784 /* BallotTableViewCell.swift */,
+				BB73F5A4216B92AE00F19C85 /* CountingLabel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -445,13 +468,17 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-iVote/Pods-iVote-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GMStepper/GMStepper.framework",
+				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/SVPinView/SVPinView.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyPickerPopover/SwiftyPickerPopover.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyXMLParser/SwiftyXMLParser.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GMStepper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVPinView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyPickerPopover.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyXMLParser.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -493,6 +520,8 @@
 				BB73F59F216AED9100F19C85 /* Item.swift in Sources */,
 				BB9895A821691B0800DD6B85 /* NomineeCountingViewModel.swift in Sources */,
 				BBF581182164030A002B05B4 /* Theme.swift in Sources */,
+				BB73F5AC216BA72200F19C85 /* iVoteModel.xcdatamodeld in Sources */,
+				BB73F5AE216BA73C00F19C85 /* DataController.swift in Sources */,
 				BBC464B22166E38C007455AF /* CodeValidationViewController.swift in Sources */,
 				BB56E17521658AE100D740F5 /* WebService.swift in Sources */,
 				BB73F59D216AE89100F19C85 /* Observable.swift in Sources */,
@@ -509,6 +538,7 @@
 				BBF581192164030A002B05B4 /* Titles.swift in Sources */,
 				BB9CD84821683E7200B3F784 /* SearchViewController.swift in Sources */,
 				BB9895A22168E6FC00DD6B85 /* HomeCoordinator.swift in Sources */,
+				BB73F5B0216BB1C100F19C85 /* CoreData+User.swift in Sources */,
 				BB9895A02168E53C00DD6B85 /* HomeViewModel.swift in Sources */,
 				BB9CD85321689EF000B3F784 /* NomineeCountingTableViewCell.swift in Sources */,
 				BB9895AC2169256F00DD6B85 /* BallotViewModel.swift in Sources */,
@@ -521,8 +551,10 @@
 				BBF5812121640EA8002B05B4 /* Voter.swift in Sources */,
 				BB9CD85C2168C2F200B3F784 /* ReportCenterViewController.swift in Sources */,
 				BBF5811D21640E8D002B05B4 /* ElectionsService.swift in Sources */,
+				BB73F5A1216B166F00F19C85 /* BaseCollectionViewCell.swift in Sources */,
 				BB98959A2168D01A00DD6B85 /* AuthenticateViewModel.swift in Sources */,
 				BB56E17321657D6700D740F5 /* EndPoints.swift in Sources */,
+				BB73F5A5216B92AE00F19C85 /* CountingLabel.swift in Sources */,
 				BBF5810A2163EE82002B05B4 /* BallotSearchCollectionViewCell.swift in Sources */,
 				BB98959E2168E12D00DD6B85 /* CodeValidationViewModel.swift in Sources */,
 				BB9895972168CE1400DD6B85 /* AuthenticationCoordinator.swift in Sources */,
@@ -693,10 +725,7 @@
 				DEVELOPMENT_TEAM = A3JC2SBNCR;
 				INFOPLIST_FILE = iVote/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hasansa.iVote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -713,10 +742,7 @@
 				DEVELOPMENT_TEAM = A3JC2SBNCR;
 				INFOPLIST_FILE = iVote/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hasansa.iVote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -733,11 +759,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A3JC2SBNCR;
 				INFOPLIST_FILE = iVoteTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hasansa.iVoteTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -755,11 +777,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A3JC2SBNCR;
 				INFOPLIST_FILE = iVoteTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hasansa.iVoteTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -799,6 +817,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BB73F5AA216BA72200F19C85 /* iVoteModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BB73F5AB216BA72200F19C85 /* iVoteModel.xcdatamodel */,
+			);
+			currentVersion = BB73F5AB216BA72200F19C85 /* iVoteModel.xcdatamodel */;
+			path = iVoteModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = BBF580D42163E021002B05B4 /* Project object */;
 }

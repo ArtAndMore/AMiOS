@@ -9,10 +9,6 @@
 import Foundation
 import UIKit
 
-protocol HomeViewModelViewDelegate: AnyObject {
-  func homeViewModel(didLoadStatus success: Bool)
-}
-
 protocol HomeViewModelCoordinatorDelegate: AnyObject {
   func showNomineeCounting(viewModel: HomeViewModel)
   func showSearch(viewModel: HomeViewModel)
@@ -24,52 +20,94 @@ protocol HomeViewModelCoordinatorDelegate: AnyObject {
 }
 
 class HomeViewModel {
-  weak var viewDelegate: HomeViewModelViewDelegate?
   var coordinatorDelegate: HomeViewModelCoordinatorDelegate?
 
-  var status: Status?
+  var status: Observable<Status?> = Observable(nil)
+  var permission: Observable<Permission?> = Observable(nil)
   var ballots: Observable<[Ballot]> = Observable([])
   var nominees: Observable<[Nominee]> = Observable([])
+
+  var items: [Int: [Item]] = [:]
 
   // Errors
   var errorMessage: String?
 
-  let numberOfSections = 4
+  init(username: String?) {
+    if let username = username {
+      ElectionsService.shared.user.name = username
+    }
+    // load user permistions
+    ElectionsService.shared.permission { permission in
+      guard let permission = permission else { return }
+      self.items = self.generateItems(byUserPermission: permission)
+      self.permission.value = permission
 
-  let items = [Item(title: "סיפרה",
-                      image: "ranking",
-                      backgroundColor: UIColor.color(withHexString: "#6CBBFF")),
-                 Item(title: "עדכון הצבעה",
-                      image: "voteBox",
-                      backgroundColor: UIColor.color(withHexString: "#FF6CF4")),
-                 Item(title: "סטטוס קלפיות",
-                      image: "vote",
-                      backgroundColor: UIColor.color(withHexString: "#11D625")),
-                 Item(title: "דיווחים",
-                      image: "coordination",
-                      backgroundColor: UIColor.color(withHexString: "#FF6CAA"))]
 
-  init() {
-    // TODO: fetch current ballot from local DB
-    let currentBallotId = 1
-    // getStatus
-    ElectionsService.shared.status(ballotNumber: currentBallotId) { (status) in
-      self.status = status
-      let success = (status != nil)
-      DispatchQueue.main.async {
-        self.viewDelegate?.homeViewModel(didLoadStatus: success)
+      // getStatus
+      if permission.canReadStatistics
+//        let ballot = permission.ballots.first, let number = Int(ballot.name)
+      {
+        ElectionsService.shared.status(ballotNumber: 1) { (status) in
+          self.status.value = status
+          let success = (status != nil)
+          self.errorMessage = !success ? "could not load status data" : nil
+        }
       }
-      self.errorMessage = !success ? "could not load status data" : nil
-    }
-    // getAllBallots
-    ElectionsService.shared.getAllBallots { ballots in
-      self.ballots.value = ballots.sorted(by: { Int($0.number)! < Int($1.number)! })
-    }
-    // getAllNominee
-    ElectionsService.shared.getAllNominee {
-      self.nominees.value = $0
+      // getAllBallots
+      if permission.canReadBallots {
+        ElectionsService.shared.getAllBallots { ballots in
+          self.ballots.value = ballots.sorted(by: { Int($0.number)! < Int($1.number)! })
+        }
+      }
+      // getAllNominee
+      if permission.canUpdateNomineeCount {
+        ElectionsService.shared.getAllNominee {
+          self.nominees.value = $0
+        }
+      }
+
     }
   }
+
+  private func generateItems(byUserPermission permission: Permission) -> [Int: [Item]] {
+    var result: [Int: [Item]] = [:]
+    var key = -1
+    if permission.canReadStatistics {
+      key += 1
+      result[key] = [Item(type: .statistics)]
+    }
+    if permission.canQuery {
+      key += 1
+      result[key] = [Item(type: .query)]
+    }
+    var extraItems: [Item] = []
+    if permission.canUpdateNomineeCount {
+      let item = Item.init(type: .ranking, title: "סיפרה", image: "ranking", backgroundColor: UIColor.color(withHexString: "#6CBBFF"))
+      extraItems.append(item)
+    }
+    if permission.canUpdateVotes {
+      let item = Item.init(type: .voting, title: "עדכון הצבעה", image: "voteBox", backgroundColor: UIColor.color(withHexString: "#FF6CF4"))
+      extraItems.append(item)
+    }
+    if permission.canReadBallots {
+      let item = Item.init(type: .status, title: "סטטוס קלפיות", image: "vote", backgroundColor: UIColor.color(withHexString: "#11D625"))
+      extraItems.append(item)
+    }
+    if permission.canReportIssue {
+      let item = Item.init(type: .report, title: "דיווחים", image: "coordination", backgroundColor: UIColor.color(withHexString: "#FF6CAA"))
+      extraItems.append(item)
+    }
+    if !extraItems.isEmpty {
+      key += 1
+      result[key] = extraItems
+    }
+
+    return result
+  }
+
+}
+
+extension HomeViewModel {
 
   func showNomineeCounting() {
     self.coordinatorDelegate?.showNomineeCounting(viewModel: self)
@@ -98,4 +136,5 @@ class HomeViewModel {
   func changeBallot() {
     self.coordinatorDelegate?.ballotChangeRequest(viewModel: self)
   }
+
 }

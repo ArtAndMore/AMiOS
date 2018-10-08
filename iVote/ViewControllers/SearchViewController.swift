@@ -24,13 +24,9 @@ class SearchViewController: UIViewController {
     super.viewDidLoad()
   }
 
-  override func viewDidLayoutSubviews() {
-    super.viewDidLayoutSubviews()
-    textField.superview?.addBorder(toSide: .bottom, withColor: UIColor.color(withHexString: "#808080").cgColor, andThickness: 0.2)
-  }
-
   @IBAction private func searchAction() {
     self.textField.resignFirstResponder()
+    self.labelsMatrixView?.removeFromSuperview()
     self.viewModel.searchVoter(withId: self.textField.text)
   }
 }

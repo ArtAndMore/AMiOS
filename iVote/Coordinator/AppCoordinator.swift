@@ -30,8 +30,8 @@ class AppCoordinator: Coordinator {
   }
 
   func start() {
-    if ElectionsService.shared.isAuthenticated {
-      showHomeViewController()
+    if let username = DataController.shared.authenticatedUserName {
+      showHomeViewController(forUserName: username)
     } else {
       showLoginViewController()
     }
@@ -51,10 +51,11 @@ fileprivate extension AppCoordinator {
     codeValidationCoordinator.start()
   }
 
-  func showHomeViewController() {
-    let codeValidationCoordinator = HomeCoordinator(window: window)
-    codeValidationCoordinator.delegate = self
-    codeValidationCoordinator.start()
+  func showHomeViewController(forUserName username: String? = nil) {
+    let homeCoordinator = HomeCoordinator(window: window)
+    homeCoordinator.delegate = self
+    homeCoordinator.username = username
+    homeCoordinator.start()
   }
 }
 
@@ -74,6 +75,7 @@ extension AppCoordinator: CodeValidationCoordinatorDelegate {
 extension AppCoordinator: HomeCoordinatorDelegate {
   func logout(coordinator: HomeCoordinator) {
     self.showLoginViewController()
+    DataController.shared.deleteAllUsers()
   }
 
 

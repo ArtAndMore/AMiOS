@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import SwiftyPickerPopover
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
+
+//  private let dropDown = DropDown()
 
   struct ReusableCellIdentifiers {
     static let base         = "BallotCollectionViewCell"
@@ -16,11 +19,7 @@ class HomeViewController: UIViewController {
     static let statistics   = "BallotStatisticsCollectionViewCell"
   }
   
-  var viewModel: HomeViewModel! {
-    didSet {
-      viewModel.viewDelegate = self
-    }
-  }
+  var viewModel: HomeViewModel!
   
   @IBOutlet fileprivate weak var collectionView: UICollectionView!
   
@@ -29,10 +28,65 @@ class HomeViewController: UIViewController {
     self.collectionView.register(BallotCollectionViewCell.nib(), forCellWithReuseIdentifier: ReusableCellIdentifiers.base)
     self.collectionView.register(BallotStatisticsCollectionViewCell.nib(), forCellWithReuseIdentifier: ReusableCellIdentifiers.statistics)
     self.collectionView.register(BallotSearchCollectionViewCell.nib(), forCellWithReuseIdentifier: ReusableCellIdentifiers.search)
-    }
+
+    observeViewModelChanges()
+  }
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+  }
 }
 
 private extension HomeViewController {
+  func observeViewModelChanges() {
+    self.viewModel.permission.observe { permission in
+      if let permission = permission {
+        self.navigationItem.leftBarButtonItem?.isEnabled = permission.ballots.count > 0
+        self.collectionView.reloadData()
+      }
+    }
+    //
+    self.viewModel.status.observe { data in
+      self.collectionView.reloadData()
+    }
+    //
+    self.viewModel.ballots.observe { ballots in
+     self.collectionView.reloadData()
+    }
+    //
+    self.viewModel.nominees.observe { _ in
+      self.collectionView.reloadData()
+    }
+  }
+
+  @IBAction func showDropDown(_ sender: UIBarButtonItem) {
+    guard let permission = self.viewModel.permission.value,
+      let titles = permission?.ballots.map({ "\($0.name) - \($0.number)" }) else {
+      return
+    }
+
+    let originView = sender.value(forKey: "view") as! UIView
+    StringPickerPopover(title: "מס קלפי", choices: titles)
+      .setSelectedRow(0)
+      .setValueChange(action: { (_, index, _) in
+
+      })
+      .setDoneButton(action: { (_, index, _) in
+        sender.title = "קלפי מס: \(index + 1)"
+      })
+      .setCancelButton(action: { (_, _, _) in print("cancel")}
+      )
+      .appear(originView: originView, baseViewController: self)
+  }
+
+  func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+    return UIModalPresentationStyle.none
+  }
+
+  func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+    return UIModalPresentationStyle.none
+  }
+
   @IBAction func logoutAction(_ sender: Any) {
     self.viewModel.logout()
   }
@@ -43,33 +97,32 @@ private extension HomeViewController {
 extension HomeViewController: UICollectionViewDataSource {
   
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return viewModel.numberOfSections
+    return viewModel.items.keys.count
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    switch section {
-    case 0, 1:
-      return 1
-    case 2:
-      return viewModel.items.count
-    default:
-      return 0
-    }
+    return viewModel.items[section]?.count ?? 0
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     var cell: UICollectionViewCell!
-    switch indexPath.section {
-    case 0:
+    let item = viewModel.items[indexPath.section]![indexPath.row]
+    switch item.type {
+    case .statistics:
       let statusCell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableCellIdentifiers.statistics, for: indexPath) as! BallotStatisticsCollectionViewCell
-      statusCell.setStatus(self.viewModel.status)
+      if let status = self.viewModel.status.value {
+        statusCell.hideLoading()
+        statusCell.setStatus(status)
+      } else {
+        statusCell.showLoading()
+      }
       cell = statusCell
-    case 1:
+    case .query:
       cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableCellIdentifiers.search, for: indexPath)
     default:
       if let itemCell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableCellIdentifiers.base, for: indexPath) as? BallotCollectionViewCell {
-        let item = viewModel.items[indexPath.row]
-        itemCell.set(item: item)
+        let item = viewModel.items[indexPath.section]![indexPath.row]
+        itemCell.setItem(item)
         cell = itemCell
       }
     }
@@ -79,23 +132,20 @@ extension HomeViewController: UICollectionViewDataSource {
 
 extension HomeViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    switch indexPath.section {
-    case 0: break
-    case 1:
+    let item = viewModel.items[indexPath.section]![indexPath.row]
+    switch item.type {
+    case .statistics:
+      break
+    case .query:
       self.viewModel.showSearch()
-    case 2:
-      switch indexPath.row {
-      case 0:
-        self.viewModel.showNomineeCounting()
-      case 1:
-        self.viewModel.showVote()
-      case 2:
-        self.viewModel.showBallotsStatus()
-      case 3:
-        self.viewModel.showReportCenter()
-      default: break
-      }
-    default: break
+    case .ranking:
+      self.viewModel.showNomineeCounting()
+    case .voting:
+      self.viewModel.showVote()
+    case .status:
+      self.viewModel.showBallotsStatus()
+    case .report:
+      self.viewModel.showReportCenter()
     }
   }
 }
@@ -103,10 +153,11 @@ extension HomeViewController: UICollectionViewDelegate {
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     var size: CGSize = CGSize(width: collectionView.bounds.width, height: 0)
-    switch indexPath.section {
-    case 0:
+    let item = viewModel.items[indexPath.section]![indexPath.row]
+    switch item.type {
+    case .statistics:
       size.height = collectionView.bounds.height * 0.3
-    case 1:
+    case .query:
       size.height = collectionView.bounds.height * 0.195
     default:
       size.width = (size.width - (collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing) * 0.5
@@ -114,15 +165,4 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     }
     return size
   }
-}
-
-extension HomeViewController: HomeViewModelViewDelegate {
-  func homeViewModel(didLoadStatus success: Bool) {
-    if success {
-      let indexPath = IndexPath(item: 0, section: 0)
-      self.collectionView.reloadItems(at: [indexPath])
-    }
-  }
-
-
 }

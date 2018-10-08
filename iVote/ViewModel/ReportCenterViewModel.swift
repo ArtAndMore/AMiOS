@@ -8,11 +8,27 @@
 
 import Foundation
 
+protocol ReportCenterViewModelDlelegate: AnyObject {
+  func reportCenterViewModel(didSentMessage success:Bool)
+}
+
 class ReportCenterViewModel {
+  weak var viewDelegate: ReportCenterViewModelDlelegate?
 
-  var report: Report?
+  func sendReport(byType type: ReportType, status: Int) {
+    // TODO: fetch current ballot from local DB
+    let currentBallotId = "1"
+    ElectionsService.shared.updateReport(byType: type, status: status, inBallotId: currentBallotId) { (_) in
 
-  func sendReportMessage() {
-    // TODO: execute send report message via Elections Service
+    }
+  }
+
+  func sendReport(message: String) {
+    let currentBallotId = "1"
+    ElectionsService.shared.sendReportMessage(message, inBallotId: currentBallotId) { success in
+      DispatchQueue.main.async {
+        self.viewDelegate?.reportCenterViewModel(didSentMessage: success)
+      }
+    }
   }
 }
