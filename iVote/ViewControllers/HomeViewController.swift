@@ -16,7 +16,11 @@ class HomeViewController: UIViewController {
     static let statistics   = "BallotStatisticsCollectionViewCell"
   }
   
-  var viewModel: HomeViewModel!
+  var viewModel: HomeViewModel! {
+    didSet {
+      viewModel.viewDelegate = self
+    }
+  }
   
   @IBOutlet fileprivate weak var collectionView: UICollectionView!
   
@@ -39,27 +43,34 @@ private extension HomeViewController {
 extension HomeViewController: UICollectionViewDataSource {
   
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return viewModel.page.count
+    return viewModel.numberOfSections
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return viewModel.page[section]?.count ?? 0
+    switch section {
+    case 0, 1:
+      return 1
+    case 2:
+      return viewModel.items.count
+    default:
+      return 0
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     var cell: UICollectionViewCell!
     switch indexPath.section {
     case 0:
-      cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableCellIdentifiers.statistics, for: indexPath)
+      let statusCell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableCellIdentifiers.statistics, for: indexPath) as! BallotStatisticsCollectionViewCell
+      statusCell.setStatus(self.viewModel.status)
+      cell = statusCell
     case 1:
       cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableCellIdentifiers.search, for: indexPath)
     default:
-      if let cellItem = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableCellIdentifiers.base, for: indexPath) as? BallotCollectionViewCell ,
-        let item = viewModel.item(atIndexPath: indexPath) {
-        cellItem.titleLabel.text = item.title
-        cellItem.imageView.image = UIImage(named: item.image)
-        cellItem.backgroundColor = item.backgroundColor
-        cell = cellItem
+      if let itemCell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableCellIdentifiers.base, for: indexPath) as? BallotCollectionViewCell {
+        let item = viewModel.items[indexPath.row]
+        itemCell.set(item: item)
+        cell = itemCell
       }
     }
     return cell
@@ -103,4 +114,15 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     }
     return size
   }
+}
+
+extension HomeViewController: HomeViewModelViewDelegate {
+  func homeViewModel(didLoadStatus success: Bool) {
+    if success {
+      let indexPath = IndexPath(item: 0, section: 0)
+      self.collectionView.reloadItems(at: [indexPath])
+    }
+  }
+
+
 }

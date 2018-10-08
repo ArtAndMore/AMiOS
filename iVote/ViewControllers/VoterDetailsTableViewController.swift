@@ -10,7 +10,16 @@ import UIKit
 
 class VoterDetailsTableViewController: UITableViewController {
 
-  var voter: Voter?
+  var viewModel: VoteUpdaterViewModel? {
+    didSet {
+      viewModel?.viewDelegate = self
+    }
+  }
+
+  private var voter: Voter? {
+    return viewModel?.voter
+  }
+  
   @IBOutlet private var idLable: UILabel!
   @IBOutlet private var firstNameLable: UILabel!
   @IBOutlet private var lastNameLable: UILabel!
@@ -45,9 +54,26 @@ class VoterDetailsTableViewController: UITableViewController {
       self.isActiveLable.text = "\(hasVoted)"
     }
   }
+
+  @IBAction func updateVoter() {
+    self.viewModel?.submit()
+  }
+
   // MARK: - Table view data source
 
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return 6
   }
+}
+
+extension VoterDetailsTableViewController: VoteUpdaterViewModelDelegate {
+  func canSubmit() -> Bool {
+    return true
+  }
+
+  func voteUpdaterViewModel(didUpdateVoter success: Bool) {
+    print("didUpdateVoter", success)
+  }
+
+
 }

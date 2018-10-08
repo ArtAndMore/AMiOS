@@ -9,6 +9,10 @@
 import Foundation
 
 struct Ballot {
-  let ballotId: String
-  let ballotNumber: Int
+  let id: String
+  let number: String
+  let name: String
+  let total: String
+  let isVoted: String
+  let notVoted: String
 }

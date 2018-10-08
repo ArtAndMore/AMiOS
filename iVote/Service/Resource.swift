@@ -24,6 +24,7 @@ protocol EndPoint {
   var httpMethod: HTTPMethod {get}
   var parameters: [String: String] {get set}
   var headers: [String: String] {get set}
+  var resource: Resource {get}
 }
 
 extension EndPoint {
@@ -57,6 +58,10 @@ extension EndPoint {
     }
     set {}
   }
+
+  var resource: Resource {
+    return Resource(endPoint: self)
+  }
 }
 
 // MARK:- Resource
@@ -66,12 +71,7 @@ class Resource {
   init(endPoint: EndPoint) {
     self.endPoint = endPoint
   }
-}
 
-class CodableResource<A: Codable>: Resource {}
-
-// MARK:- Resource URLRequest
-extension Resource {
   var request: URLRequest? {
     var components = URLComponents(string: endPoint.base)!
     components.path = endPoint.path
@@ -85,19 +85,21 @@ extension Resource {
     guard let url = components.url else {
       return nil
     }
-    
+
     var request = URLRequest(url: url)
-    
+
     endPoint.headers.forEach {
       request.setValue($1, forHTTPHeaderField: $0)
       request.setValue($1, forHTTPHeaderField: $0)
     }
-    
+
     request.httpMethod = endPoint.httpMethod.rawValue
-    
+
     if let soapMessage = endPoint.soapMessage, endPoint.httpMethod == .post {
       request.httpBody = soapMessage.data(using: String.Encoding.utf8, allowLossyConversion: false)
     }
     return request
   }
 }
+
+class CodableResource<A: Codable>: Resource {}

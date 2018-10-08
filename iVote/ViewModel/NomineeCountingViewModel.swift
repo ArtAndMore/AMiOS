@@ -9,21 +9,25 @@
 import Foundation
 
 protocol NomineeCountingViewModelDelegate: AnyObject {
-  func nomineesCountingDidLoaded()
-  func nommineeCountingDidUpdateStatus()
+  func nomineesCountingViewModelDidLoaded()
+  func nommineeCountingViewModel(didUpdateStatus success: Bool)
 }
 
 class NomineeCountingViewModel {
-  var viewDelegate: NomineeCountingViewModelDelegate?
+  weak var viewDelegate: NomineeCountingViewModelDelegate?
 
-  var nominees: [Nominee] = []
+  var nominees: [Nominee] = [] {
+    didSet {
+      DispatchQueue.main.async {
+        self.viewDelegate?.nomineesCountingViewModelDidLoaded()
+      }
+    }
+  }
 
   init() {
-    // TODO: execute get all nominee
-    let nominee = Nominee()
-    nominee.name = "Yasir Tabash"
-    nominees = [nominee]
-    self.viewDelegate?.nomineesCountingDidLoaded()
+    guard self.nominees.isEmpty else {
+      return
+    }
   }
 
   func update(nomineeAtIndex index: Int, status: Int) {
@@ -32,7 +36,13 @@ class NomineeCountingViewModel {
     }
     let nominee = nominees[index]
     nominee.status = status
-    // excute increment request via Elections service
-    self.viewDelegate?.nommineeCountingDidUpdateStatus()
+    // TODO: Fetch Ballot from local DB
+    let currentBallot = "1"
+    ElectionsService.shared.updateNominee(nominee, inBallotId: currentBallot) { (success) in
+      DispatchQueue.main.async {
+        self.viewDelegate?.nommineeCountingViewModel(didUpdateStatus: success)
+      }
+      // TODO: save status for nominee to local DB
+    }
   }
 }

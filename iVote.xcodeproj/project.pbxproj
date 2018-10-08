@@ -16,6 +16,8 @@
 		BB56E17D2165D74B00D740F5 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56E17C2165D74B00D740F5 /* Status.swift */; };
 		BB59A6DD2166C0C9003A8CFB /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB59A6DC2166C0C9003A8CFB /* Report.swift */; };
 		BB59A6E12166CB62003A8CFB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB59A6E02166CB62003A8CFB /* LoginViewController.swift */; };
+		BB73F59D216AE89100F19C85 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F59C216AE89100F19C85 /* Observable.swift */; };
+		BB73F59F216AED9100F19C85 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F59E216AED9100F19C85 /* Item.swift */; };
 		BB9895972168CE1400DD6B85 /* AuthenticationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9895962168CE1400DD6B85 /* AuthenticationCoordinator.swift */; };
 		BB98959A2168D01A00DD6B85 /* AuthenticateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9895992168D01A00DD6B85 /* AuthenticateViewModel.swift */; };
 		BB98959C2168E0AF00DD6B85 /* CodeValidationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB98959B2168E0AF00DD6B85 /* CodeValidationCoordinator.swift */; };
@@ -26,7 +28,7 @@
 		BB9895A621690DB100DD6B85 /* VoteUpdaterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9895A521690DB100DD6B85 /* VoteUpdaterViewModel.swift */; };
 		BB9895A821691B0800DD6B85 /* NomineeCountingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9895A721691B0800DD6B85 /* NomineeCountingViewModel.swift */; };
 		BB9895AA21691B4900DD6B85 /* Nominee.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9895A921691B4900DD6B85 /* Nominee.swift */; };
-		BB9895AC2169256F00DD6B85 /* BallotsStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9895AB2169256F00DD6B85 /* BallotsStatusViewModel.swift */; };
+		BB9895AC2169256F00DD6B85 /* BallotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9895AB2169256F00DD6B85 /* BallotViewModel.swift */; };
 		BB9895AE216928F300DD6B85 /* ReportCenterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9895AD216928F300DD6B85 /* ReportCenterViewModel.swift */; };
 		BB9CD846216832F600B3F784 /* NALLabelsMatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9CD845216832F600B3F784 /* NALLabelsMatrixView.swift */; };
 		BB9CD84821683E7200B3F784 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9CD84721683E7200B3F784 /* SearchViewController.swift */; };
@@ -34,7 +36,7 @@
 		BB9CD84C21685F3400B3F784 /* VoteUpdaterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9CD84B21685F3400B3F784 /* VoteUpdaterViewController.swift */; };
 		BB9CD84E21689E4500B3F784 /* NomineeCountingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9CD84D21689E4500B3F784 /* NomineeCountingTableViewController.swift */; };
 		BB9CD85321689EF000B3F784 /* NomineeCountingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9CD85121689EF000B3F784 /* NomineeCountingTableViewCell.swift */; };
-		BB9CD8582168B9C700B3F784 /* BallotStatusTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9CD8572168B9C700B3F784 /* BallotStatusTableViewCell.swift */; };
+		BB9CD8582168B9C700B3F784 /* BallotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9CD8572168B9C700B3F784 /* BallotTableViewCell.swift */; };
 		BB9CD85A2168BA0500B3F784 /* BallotsStatusTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9CD8592168BA0500B3F784 /* BallotsStatusTableViewController.swift */; };
 		BB9CD85C2168C2F200B3F784 /* ReportCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9CD85B2168C2F200B3F784 /* ReportCenterViewController.swift */; };
 		BBC464B22166E38C007455AF /* CodeValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC464B12166E38C007455AF /* CodeValidationViewController.swift */; };
@@ -83,6 +85,8 @@
 		BB56E17C2165D74B00D740F5 /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		BB59A6DC2166C0C9003A8CFB /* Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		BB59A6E02166CB62003A8CFB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		BB73F59C216AE89100F19C85 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		BB73F59E216AED9100F19C85 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		BB9895962168CE1400DD6B85 /* AuthenticationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCoordinator.swift; sourceTree = "<group>"; };
 		BB9895992168D01A00DD6B85 /* AuthenticateViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticateViewModel.swift; sourceTree = "<group>"; };
 		BB98959B2168E0AF00DD6B85 /* CodeValidationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeValidationCoordinator.swift; sourceTree = "<group>"; };
@@ -93,7 +97,7 @@
 		BB9895A521690DB100DD6B85 /* VoteUpdaterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteUpdaterViewModel.swift; sourceTree = "<group>"; };
 		BB9895A721691B0800DD6B85 /* NomineeCountingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NomineeCountingViewModel.swift; sourceTree = "<group>"; };
 		BB9895A921691B4900DD6B85 /* Nominee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nominee.swift; sourceTree = "<group>"; };
-		BB9895AB2169256F00DD6B85 /* BallotsStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallotsStatusViewModel.swift; sourceTree = "<group>"; };
+		BB9895AB2169256F00DD6B85 /* BallotViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallotViewModel.swift; sourceTree = "<group>"; };
 		BB9895AD216928F300DD6B85 /* ReportCenterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCenterViewModel.swift; sourceTree = "<group>"; };
 		BB9CD845216832F600B3F784 /* NALLabelsMatrixView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NALLabelsMatrixView.swift; sourceTree = "<group>"; };
 		BB9CD84721683E7200B3F784 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -101,7 +105,7 @@
 		BB9CD84B21685F3400B3F784 /* VoteUpdaterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteUpdaterViewController.swift; sourceTree = "<group>"; };
 		BB9CD84D21689E4500B3F784 /* NomineeCountingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NomineeCountingTableViewController.swift; sourceTree = "<group>"; };
 		BB9CD85121689EF000B3F784 /* NomineeCountingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NomineeCountingTableViewCell.swift; sourceTree = "<group>"; };
-		BB9CD8572168B9C700B3F784 /* BallotStatusTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallotStatusTableViewCell.swift; sourceTree = "<group>"; };
+		BB9CD8572168B9C700B3F784 /* BallotTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallotTableViewCell.swift; sourceTree = "<group>"; };
 		BB9CD8592168BA0500B3F784 /* BallotsStatusTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallotsStatusTableViewController.swift; sourceTree = "<group>"; };
 		BB9CD85B2168C2F200B3F784 /* ReportCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCenterViewController.swift; sourceTree = "<group>"; };
 		BBC464B12166E38C007455AF /* CodeValidationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeValidationViewController.swift; sourceTree = "<group>"; };
@@ -159,7 +163,7 @@
 				BB9895A3216905C400DD6B85 /* SearchViewModel.swift */,
 				BB9895A521690DB100DD6B85 /* VoteUpdaterViewModel.swift */,
 				BB9895A721691B0800DD6B85 /* NomineeCountingViewModel.swift */,
-				BB9895AB2169256F00DD6B85 /* BallotsStatusViewModel.swift */,
+				BB9895AB2169256F00DD6B85 /* BallotViewModel.swift */,
 				BB9895AD216928F300DD6B85 /* ReportCenterViewModel.swift */,
 			);
 			path = ViewModel;
@@ -204,8 +208,8 @@
 				BBF5811F21640EA8002B05B4 /* Model */,
 				BB9895982168CE7900DD6B85 /* ViewModel */,
 				BBF5810C2163F1E3002B05B4 /* ViewControllers */,
-				BBF5811A21640E8D002B05B4 /* Service */,
 				BBF580FF2163E178002B05B4 /* Views */,
+				BBF5811A21640E8D002B05B4 /* Service */,
 				BBF581132164030A002B05B4 /* Helpers */,
 				BBF580E32163E021002B05B4 /* Main.storyboard */,
 				BBF580E62163E022002B05B4 /* Assets.xcassets */,
@@ -235,7 +239,7 @@
 				BBF581042163E6CB002B05B4 /* BallotStatisticsCollectionViewCell.swift */,
 				BBF581052163E6CB002B05B4 /* BallotStatisticsCollectionViewCell.xib */,
 				BB9CD85121689EF000B3F784 /* NomineeCountingTableViewCell.swift */,
-				BB9CD8572168B9C700B3F784 /* BallotStatusTableViewCell.swift */,
+				BB9CD8572168B9C700B3F784 /* BallotTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -259,6 +263,7 @@
 		BBF581132164030A002B05B4 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BB73F59C216AE89100F19C85 /* Observable.swift */,
 				BBF581142164030A002B05B4 /* Helper.swift */,
 				BBF581152164030A002B05B4 /* Theme.swift */,
 				BBF581162164030A002B05B4 /* Titles.swift */,
@@ -286,6 +291,7 @@
 				BB56E17C2165D74B00D740F5 /* Status.swift */,
 				BB59A6DC2166C0C9003A8CFB /* Report.swift */,
 				BB9895A921691B4900DD6B85 /* Nominee.swift */,
+				BB73F59E216AED9100F19C85 /* Item.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -438,11 +444,13 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-iVote/Pods-iVote-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GMStepper/GMStepper.framework",
 				"${BUILT_PRODUCTS_DIR}/SVPinView/SVPinView.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyXMLParser/SwiftyXMLParser.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GMStepper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVPinView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyXMLParser.framework",
 			);
@@ -482,10 +490,12 @@
 				BBF5810E2163F206002B05B4 /* HomeViewController.swift in Sources */,
 				BB59A6DD2166C0C9003A8CFB /* Report.swift in Sources */,
 				BB9895AE216928F300DD6B85 /* ReportCenterViewModel.swift in Sources */,
+				BB73F59F216AED9100F19C85 /* Item.swift in Sources */,
 				BB9895A821691B0800DD6B85 /* NomineeCountingViewModel.swift in Sources */,
 				BBF581182164030A002B05B4 /* Theme.swift in Sources */,
 				BBC464B22166E38C007455AF /* CodeValidationViewController.swift in Sources */,
 				BB56E17521658AE100D740F5 /* WebService.swift in Sources */,
+				BB73F59D216AE89100F19C85 /* Observable.swift in Sources */,
 				BB9CD85A2168BA0500B3F784 /* BallotsStatusTableViewController.swift in Sources */,
 				BB9CD84E21689E4500B3F784 /* NomineeCountingTableViewController.swift in Sources */,
 				BB9CD84A2168527000B3F784 /* VoterDetailsTableViewController.swift in Sources */,
@@ -501,8 +511,8 @@
 				BB9895A22168E6FC00DD6B85 /* HomeCoordinator.swift in Sources */,
 				BB9895A02168E53C00DD6B85 /* HomeViewModel.swift in Sources */,
 				BB9CD85321689EF000B3F784 /* NomineeCountingTableViewCell.swift in Sources */,
-				BB9895AC2169256F00DD6B85 /* BallotsStatusViewModel.swift in Sources */,
-				BB9CD8582168B9C700B3F784 /* BallotStatusTableViewCell.swift in Sources */,
+				BB9895AC2169256F00DD6B85 /* BallotViewModel.swift in Sources */,
+				BB9CD8582168B9C700B3F784 /* BallotTableViewCell.swift in Sources */,
 				BBF581062163E6CB002B05B4 /* BallotStatisticsCollectionViewCell.swift in Sources */,
 				BBF581112163FBDA002B05B4 /* BallotCollectionViewCell.swift in Sources */,
 				BB9CD84C21685F3400B3F784 /* VoteUpdaterViewController.swift in Sources */,

@@ -56,12 +56,10 @@ extension SearchViewController: UITextFieldDelegate {
 }
 
 extension SearchViewController: SearchViewModelDelegate {
-  func searchViewModel(didFindVoters voters: [Voter]) {
-    if let voter = voters.first {
+  func searchViewModel(didFindVoter voter: Voter) {
       setupMatrixView()
       labelsMatrixView.addRecord(record: ["הצביע", "מס בקלפי", "קלפי", "שם", "תעודת זהות"])
-      labelsMatrixView.addRecord(record: [voter.id, voter.firstName!, String(voter.ballotId!), String(voter.ballotNumber!), String(voter.hasVoted)].reversed())
-    }
+      labelsMatrixView.addRecord(record: [voter.id, voter.firstName!, voter.ballotId!, voter.ballotNumber!, voter.hasVoted!].reversed())
   }
 
 
@@ -69,9 +67,6 @@ extension SearchViewController: SearchViewModelDelegate {
 
 extension SearchViewController: NALLabelsMatrixViewDelegate {
   func labelsMatrixView(_ labelsMatrixView: NALLabelsMatrixView, didSelectRowAt row: Int) {
-    if let voterVC = self.storyboard?.instantiateViewController(withIdentifier: "VoterDetailsTableViewController") as? VoterDetailsTableViewController {
-      voterVC.voter = self.viewModel.voters.first
-      self.navigationController?.pushViewController(voterVC, animated: true)
-    }
+    self.viewModel.showVoterDetails()
   }
 }

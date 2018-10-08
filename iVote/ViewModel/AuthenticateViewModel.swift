@@ -19,17 +19,18 @@ protocol AuthenticateViewModelCoordinatorDelegate: AnyObject {
 }
 
 class AuthenticateViewModel {
-  var viewDelegate: AuthenticateViewModelViewDelegate?
+  weak var viewDelegate: AuthenticateViewModelViewDelegate?
   var coordinatorDelegate: AuthenticateViewModelCoordinatorDelegate?
 
   // Name and Password and Phone
   var user: User = User()
 
+  // Errors
+  var errorMessage: String?
+
   // Submit
   func submit() {
-    // TODO: execute login request
-    #if false
-    guard self.viewModel.viewDelegate?.canSubmit() else {
+    guard self.viewDelegate?.canSubmit() ?? false else {
       return
     }
     ElectionsService.shared.authenticate(user: user) { (success) in
@@ -38,14 +39,9 @@ class AuthenticateViewModel {
           self.coordinatorDelegate?.authenticateViewModelDidLogin(viewModel:self)
         }
       } else {
-        print("authenticate failed")
+        self.errorMessage = "authenticate failed"
       }
     }
-    #else
-    self.coordinatorDelegate?.authenticateViewModelDidLogin(viewModel: self)
-    #endif
   }
-  // Errors
-  var errorMessage: String?
 }
 

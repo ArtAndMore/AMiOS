@@ -8,27 +8,40 @@
 
 import Foundation
 
+protocol SearchViewModelCoordinatorDelegate: AnyObject {
+  func showVoterDetails(viewModel: SearchViewModel)
+}
+
 protocol SearchViewModelDelegate: AnyObject {
-  func searchViewModel(didFindVoters voters: [Voter])
+  func searchViewModel(didFindVoter voter: Voter)
 }
 
 class SearchViewModel {
-  var viewDelegate: SearchViewModelDelegate?
+  var coordinatorDelegate: SearchViewModelCoordinatorDelegate?
+  weak var viewDelegate: SearchViewModelDelegate?
 
-  var voters: [Voter] = []
+  private(set) var voter: Voter?
+
+  // Errors
+  var errorMessage: String?
 
   func searchVoter(withId id: String?) {
-    guard let _ = id else {
+    guard let id = id else {
       return
     }
-    // TODO: execute search request via Elections service
-    let voter = Voter(id: "301876298")
-    voter.ballotId = 9000
-    voter.ballotNumber = 200
-    voter.firstName = "hasan"
-    voter.lastName = "sawaed"
-    voter.hasVoted = false
-    voters.append(voter)
-    self.viewDelegate?.searchViewModel(didFindVoters: voters)
+    ElectionsService.shared.searchVoter(byId: id) { voter in
+      if let voter = voter {
+        self.voter = voter
+        DispatchQueue.main.async {
+          self.viewDelegate?.searchViewModel(didFindVoter: voter)
+        }
+      } else {
+        self.errorMessage = "Voter Not Exist"
+      }
+    }
+  }
+
+  func showVoterDetails() {
+    self.coordinatorDelegate?.showVoterDetails(viewModel: self)
   }
 }

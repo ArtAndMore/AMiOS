@@ -18,11 +18,15 @@ protocol CodeValidationViewModelCoordinatorDelegate: AnyObject {
 
 
 class CodeValidationViewModel {
-  var viewDelegate: CodeValidationViewModelViewDelegate?
+  weak var viewDelegate: CodeValidationViewModelViewDelegate?
   var coordinatorDelegate: CodeValidationViewModelCoordinatorDelegate?
 
   // Name and Password and Phone
-  var code: String?
+  var code: String? {
+    didSet {
+      print(code ?? "")
+    }
+  }
 
   init() {
     ElectionsService.shared.getCode() { self.code = $0 }
@@ -30,18 +34,16 @@ class CodeValidationViewModel {
 
   // Submit
   func submit() {
-    // TODO: execute submit code
-    #if false
+
     guard let requestCode = self.code else {
       print("request code failed")
       return
     }
-    if requestCode == self.viewDelegate.pinCode() {
+    if requestCode == self.viewDelegate?.pinCode() {
       ElectionsService.shared.isAuthenticated = true
-      self.coordinatorDelegate?.showHome()
+      DispatchQueue.main.async {
+        self.coordinatorDelegate?.codeValidationViewModelDidEnterCode(viewModel: self)
+      }
     }
-    #else
-    self.coordinatorDelegate?.codeValidationViewModelDidEnterCode(viewModel: self)
-    #endif
   }
 }

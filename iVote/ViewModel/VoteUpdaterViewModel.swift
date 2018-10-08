@@ -14,15 +14,31 @@ protocol VoteUpdaterViewModelDelegate: AnyObject {
 }
 
 class VoteUpdaterViewModel {
-  var viewDelegate: VoteUpdaterViewModelDelegate?
+  weak var viewDelegate: VoteUpdaterViewModelDelegate?
 
   var voter: Voter?
+  var ballotId: String?
+  var ballotNumber: String?
+
+  // Errors
+  var errorMessage: String?
 
   func submit() {
-    // excute update request via Elections service
-    guard (self.viewDelegate?.canSubmit() ?? false) else {
-      return
+    guard let ballotId = self.ballotId ?? self.voter?.ballotId,
+      let ballotNumber = self.ballotNumber ?? self.voter?.ballotNumber,
+      (self.viewDelegate?.canSubmit() ?? false) else {
+        self.errorMessage = "invalid voter data"
+        return
     }
-    self.viewDelegate?.voteUpdaterViewModel(didUpdateVoter: true)
+    ElectionsService.shared.updateVoter(withBallotId: ballotId, ballotNumber: ballotNumber) { (success) in
+      if success {
+        DispatchQueue.main.async {
+          self.viewDelegate?.voteUpdaterViewModel(didUpdateVoter: true)
+        }
+      } else {
+        self.errorMessage = "could not update voter"
+        self.viewDelegate?.voteUpdaterViewModel(didUpdateVoter: false)
+      }
+    }
   }
 }

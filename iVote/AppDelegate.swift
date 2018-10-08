@@ -15,15 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var appCoordinator: AppCoordinator?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    // Override point for customization after application launch.
-    //    let user = User(name: "user", password: "123456", phone: "0542545288")
-    //    ElectionsService.shared.authenticate(user: user) { (phoneNumber) in
-    //      if let phone = phoneNumber {
-    //        print(phone)
-    //      } else {
-    //        print("authenticate failed")
-    //      }
-    //    }
     Theme.configure()
     window = UIWindow()
     appCoordinator = AppCoordinator(window: window!)

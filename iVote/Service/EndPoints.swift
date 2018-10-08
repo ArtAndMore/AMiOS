@@ -46,81 +46,13 @@ struct EndPoints {
     }
   }
 
-  struct GetAllMainPageData: EndPoint {
-    let invoke: String
-    var soapMessage: String? {
-      return """
-      <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-      <soap:Body>
-      <Get_MainPage_data_all xmlns="http://tempuri.org/">
-      <invok>\(invoke)</invok>
-      </Get_MainPage_data_all>
-      </soap:Body>
-      </soap:Envelope>
-      """
-    }
-  }
-
-  struct GetVotedContact: EndPoint {
-    let code: String
-
-    var soapMessage: String? {
-      return """
-      <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-      <soap:Body>
-      <Get_Voted_Contact xmlns="http://tempuri.org/">
-      <code>\(code)</code>
-      </Get_Voted_Contact>
-      </soap:Body>
-      </soap:Envelope>
-      """
-    }
-
-  }
-
-  struct GetVotedContactByStatus: EndPoint {
-    let status: Int
-
-    var soapMessage: String? {
-      return """
-      <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-      <soap:Body>
-      <Get_Voted_Contact_by_Status xmlns="http://tempuri.org/">
-      <StatusVote>\(status)</StatusVote>
-      </Get_Voted_Contact_by_Status>
-      </soap:Body>
-      </soap:Envelope>
-      """
-    }
-  }
-
-  struct GetVotedContactByBallot: EndPoint {
-    let status: Int
-    let ballotNumber: Int
-
-    var soapMessage: String? {
-      return """
-      <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-      <soap:Body>
-      <Get_Voted_Contact_by_kalpi xmlns="http://tempuri.org/">
-      <StatusVote>\(status)</StatusVote>
-      <kalpinum>\(ballotNumber)</kalpinum>
-      </Get_Voted_Contact_by_kalpi>
-      </soap:Body>
-      </soap:Envelope>
-      """
-    }
-  }
-
   struct GetAllBallotBox: EndPoint {
-    let code: String
-
     var soapMessage: String? {
       return """
       <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
       <soap:Body>
       <Get_all_ballot_box xmlns="http://tempuri.org/">
-      <code>\(code)</code>
+      <code></code>
       </Get_all_ballot_box>
       </soap:Body>
       </soap:Envelope>
@@ -339,14 +271,12 @@ struct EndPoints {
   }
 
   struct GetAllNominee: EndPoint {
-    let code: String
-
     var soapMessage: String? {
       return """
       <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
       <soap:Body>
       <get_all_Nominee xmlns="http://tempuri.org/">
-      <code>\(code)</code>
+      <code></code>
       </get_all_Nominee>
       </soap:Body>
       </soap:Envelope>

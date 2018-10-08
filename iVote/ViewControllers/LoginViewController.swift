@@ -94,9 +94,11 @@ extension LoginViewController: AuthenticateViewModelViewDelegate {
     usernameTextField.resignFirstResponder()
     passwordTextField.resignFirstResponder()
     phoneNumberTextField.resignFirstResponder()
-
-    return usernameTextField.text?.isEmpty ?? true ||
-      passwordTextField.text?.isEmpty ?? true ||
-      phoneNumberTextField.text?.isEmpty ?? true
+    guard let usernameText = usernameTextField.text,
+     let passwordText = passwordTextField.text,
+     let phoneNumberText = phoneNumberTextField.text else {
+      return false
+    }
+    return !usernameText.isEmpty && !passwordText.isEmpty && !phoneNumberText.isEmpty
   }
 }

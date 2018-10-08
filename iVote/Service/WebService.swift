@@ -11,7 +11,7 @@ import SwiftyXMLParser
 
 /// <#Description#>
 class WebService {
-  let queue = DispatchQueue(label: "com.iVote.service_queue")
+  let queue = DispatchQueue(label: "com.iVote.service_queue", attributes: .concurrent)
   
   private lazy var session: URLSession = {
     let config = URLSessionConfiguration.default
@@ -60,26 +60,29 @@ class WebService {
     guard let request = resource.request else {
       return
     }
-    self.session.dataTask(with: request) { (data, response, error) in
-      self.queue.async {
-        guard error == nil, let responseData = data else {
-          callback(nil, error)
-          return
-        }
-        do {
-          guard let responseString = String(data: responseData, encoding: String.Encoding.utf8) else {
-            callback(nil, WebServiceError.invalidResponseData)
+    self.queue.async {
+      self.session.dataTask(with: request) { (data, response, error) in
+        self.queue.async {
+          guard error == nil, let responseData = data else {
+            callback(nil, error)
             return
           }
-          let xml = try XML.parse(responseString)
-          // access xml element
-          let result = xml["soap:Envelope",
-                           "soap:Body"]
-          
-          callback(result, nil)
-        } catch {
-          callback(nil, error)
-        }}
-      }.resume()
+          do {
+            guard let responseString = String(data: responseData, encoding: String.Encoding.utf8) else {
+              callback(nil, WebServiceError.invalidResponseData)
+              return
+            }
+            let xml = try XML.parse(responseString)
+            // access xml element
+            let result = xml["soap:Envelope",
+                             "soap:Body"]
+
+            callback(result, nil)
+          } catch {
+            callback(nil, error)
+          }}
+        }.resume()
+
+    }
   }
 }

@@ -10,6 +10,6 @@ import Foundation
 
 class Nominee {
   var name: String = ""
-  var nomineeId: String = ""
+  var id: String = ""
   var status: Int = 0
 }

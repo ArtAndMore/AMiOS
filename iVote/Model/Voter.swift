@@ -14,10 +14,12 @@ class Voter: Codable {
   var firstName: String?
   var fatherName: String?
   var motherName: String?
+  var grandFatherName: String?
+  var address: String?
   var phoneNumber: String?
-  var ballotId: Int?
-  var ballotNumber: Int?
-  var hasVoted: Bool = false
+  var ballotId: String?
+  var ballotNumber: String?
+  var hasVoted: String?
 
   init(id: String) {
     self.id = id

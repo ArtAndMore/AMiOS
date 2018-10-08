@@ -8,6 +8,18 @@
 
 import Foundation
 
-class Status {
+class StatusBase {
+  var total: String?
+  var isVoted: String?
+  var notVoted: String?
+  var votingPercentage: String?
+}
 
+class BallotStatus: StatusBase {}
+
+class VotersStatus: StatusBase {}
+
+struct Status {
+  var ballot: BallotStatus
+  var voters: VotersStatus
 }

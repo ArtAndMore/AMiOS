@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 protocol HomeViewModelViewDelegate: AnyObject {
+  func homeViewModel(didLoadStatus success: Bool)
 }
 
 protocol HomeViewModelCoordinatorDelegate: AnyObject {
@@ -23,18 +24,19 @@ protocol HomeViewModelCoordinatorDelegate: AnyObject {
 }
 
 class HomeViewModel {
-  var viewDelegate: HomeViewModelViewDelegate?
+  weak var viewDelegate: HomeViewModelViewDelegate?
   var coordinatorDelegate: HomeViewModelCoordinatorDelegate?
 
-  struct Item {
-    let title: String
-    let image: String
-    let backgroundColor: UIColor
-  }
+  var status: Status?
+  var ballots: Observable<[Ballot]> = Observable([])
+  var nominees: Observable<[Nominee]> = Observable([])
 
-  let page = [0:[""],
-              1:[""],
-              2:[Item(title: "סיפרה",
+  // Errors
+  var errorMessage: String?
+
+  let numberOfSections = 4
+
+  let items = [Item(title: "סיפרה",
                       image: "ranking",
                       backgroundColor: UIColor.color(withHexString: "#6CBBFF")),
                  Item(title: "עדכון הצבעה",
@@ -45,14 +47,28 @@ class HomeViewModel {
                       backgroundColor: UIColor.color(withHexString: "#11D625")),
                  Item(title: "דיווחים",
                       image: "coordination",
-                      backgroundColor: UIColor.color(withHexString: "#FF6CAA"))]]
+                      backgroundColor: UIColor.color(withHexString: "#FF6CAA"))]
 
   init() {
-    // TODO: execute get status request via Elections Service
-  }
-
-  func item(atIndexPath indexPath: IndexPath) -> Item? {
-    return page[indexPath.section]?[indexPath.row] as? Item
+    // TODO: fetch current ballot from local DB
+    let currentBallotId = 1
+    // getStatus
+    ElectionsService.shared.status(ballotNumber: currentBallotId) { (status) in
+      self.status = status
+      let success = (status != nil)
+      DispatchQueue.main.async {
+        self.viewDelegate?.homeViewModel(didLoadStatus: success)
+      }
+      self.errorMessage = !success ? "could not load status data" : nil
+    }
+    // getAllBallots
+    ElectionsService.shared.getAllBallots { ballots in
+      self.ballots.value = ballots.sorted(by: { Int($0.number)! < Int($1.number)! })
+    }
+    // getAllNominee
+    ElectionsService.shared.getAllNominee {
+      self.nominees.value = $0
+    }
   }
 
   func showNomineeCounting() {

@@ -9,36 +9,6 @@
 import Foundation
 import UIKit
 
-class Box<T> {
-  typealias Listener =  (T) -> Void
-  var listener: Listener?
-  private var queue: DispatchQueue
-  
-  var value: T? = nil {
-    didSet {
-      if let val = value {
-        queue.async {
-          self.listener?(val)
-        }
-      }
-    }
-  }
-  
-  init(_ value: T?, queue: DispatchQueue = DispatchQueue.main) {
-    self.value = value
-    self.queue = queue
-  }
-  
-  func bind(listener: Listener?) {
-    self.listener = listener
-    if let value = self.value {
-      queue.async {
-        listener?(value)
-      }
-    }
-  }
-}
-
 extension UIView {
   static func nib() -> UINib {
     return UINib(nibName: String(describing: self), bundle: Bundle(for: self))

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GMStepper
 
 protocol NomineeCountingTableViewCellDlegate: AnyObject {
   func countingTableViewCell(_ cell: NomineeCountingTableViewCell, stepperValueDidChange value: Int)
@@ -15,8 +16,11 @@ protocol NomineeCountingTableViewCellDlegate: AnyObject {
 class NomineeCountingTableViewCell: UITableViewCell {
 
   @IBOutlet weak var nomineeLabel: UILabel!
-  @IBOutlet weak var votesCountLabel: UILabel!
-  @IBOutlet weak var stepper: UIStepper!
+  @IBOutlet weak var stepper: GMStepper! {
+    didSet {
+      stepper.addTarget(self, action: #selector(stepperValueChanged), for: .valueChanged)
+    }
+  }
 
   weak var delegate: NomineeCountingTableViewCellDlegate?
 
@@ -30,10 +34,8 @@ class NomineeCountingTableViewCell: UITableViewCell {
     // Configure the view for the selected state
   }
 
-  @IBAction func stepperValueChangeAction(_ sender: UIStepper) {
-    let value = Int(sender.value)
-    votesCountLabel.text = "\(value)"
-    self.delegate?.countingTableViewCell(self, stepperValueDidChange: value)
+  @objc func stepperValueChanged(stepper: GMStepper) {
+    self.delegate?.countingTableViewCell(self, stepperValueDidChange: Int(stepper.value))
   }
 
 }

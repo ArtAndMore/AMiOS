@@ -46,11 +46,11 @@ private extension VoteUpdaterViewController {
     switch textField.tag {
     case 0:
       if let ballotId = textField.text {
-        self.viewModel.voter?.ballotId = Int(ballotId)
+        self.viewModel.ballotId = ballotId
       }
     case 1:
       if let ballotNumber = textField.text {
-        self.viewModel.voter?.ballotNumber = Int(ballotNumber)
+        self.viewModel.ballotNumber = ballotNumber
       }
     default:
       break;
@@ -81,8 +81,10 @@ extension VoteUpdaterViewController: VoteUpdaterViewModelDelegate {
   func canSubmit() -> Bool {
     ballotIdTextField.resignFirstResponder()
     ballotNumberTextField.resignFirstResponder()
-
-    return ballotIdTextField.text?.isEmpty ?? true || ballotNumberTextField.text?.isEmpty ?? true
+    guard let ballotIdText = ballotIdTextField.text, let ballotNumberText = ballotNumberTextField.text else {
+        return false
+    }
+    return !ballotIdText.isEmpty && !ballotNumberText.isEmpty
   }
 
   func voteUpdaterViewModel(didUpdateVoter success: Bool) {

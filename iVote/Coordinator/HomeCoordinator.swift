@@ -22,7 +22,7 @@ class HomeCoordinator: Coordinator {
   }
 
   func start() {
-    if let navigationController = mainStoryBoard?.instantiateViewController(withIdentifier: "HomeViewController") as? UINavigationController,
+    if let navigationController = mainStoryBoard?.instantiateViewController(withIdentifier: "HomeNavigationViewController") as? UINavigationController,
       let homeViewCintroller = navigationController.topViewController as? HomeViewController {
       let viewModel = HomeViewModel()
       viewModel.coordinatorDelegate = self
@@ -37,7 +37,15 @@ extension HomeCoordinator: HomeViewModelCoordinatorDelegate {
   func showNomineeCounting(viewModel: HomeViewModel) {
     if let nomineeVC = mainStoryBoard?.instantiateViewController(withIdentifier: "NomineeCountingTableViewController") as? NomineeCountingTableViewController,
       let navigationController = window.rootViewController as? UINavigationController {
-      nomineeVC.viewModel = NomineeCountingViewModel()
+      let nomineeViewModel = NomineeCountingViewModel()
+      if let nominees = viewModel.nominees.value {
+        if nominees.isEmpty {
+          viewModel.nominees.observe(listener: { nomineeViewModel.nominees = $0 })
+        } else {
+          nomineeViewModel.nominees = nominees
+        }
+      }
+      nomineeVC.viewModel = nomineeViewModel
       navigationController.pushViewController(nomineeVC, animated: true)
     }
   }
@@ -46,6 +54,7 @@ extension HomeCoordinator: HomeViewModelCoordinatorDelegate {
     if let searchVC = mainStoryBoard?.instantiateViewController(withIdentifier: "SearchViewController") as? SearchViewController,
       let navigationController = window.rootViewController as? UINavigationController {
       let viewModel = SearchViewModel()
+      viewModel.coordinatorDelegate = self
       searchVC.viewModel = viewModel
       navigationController.pushViewController(searchVC, animated: true)
     }
@@ -62,7 +71,16 @@ extension HomeCoordinator: HomeViewModelCoordinatorDelegate {
   func showBallotsStatus(viewModel: HomeViewModel) {
     if let ballotsStatusVC = mainStoryBoard?.instantiateViewController(withIdentifier: "BallotsStatusTableViewController") as? BallotsStatusTableViewController,
       let navigationController = window.rootViewController as? UINavigationController {
-      ballotsStatusVC.viewModel = BallotsStatusViewModel()
+      let ballotViewModel = BallotViewModel()
+      if let ballots = viewModel.ballots.value {
+        if ballots.isEmpty {
+          viewModel.ballots.observe(listener: { ballotViewModel.ballots = $0 })
+        } else {
+          ballotViewModel.ballots = ballots
+        }
+      }
+
+      ballotsStatusVC.viewModel = ballotViewModel
       navigationController.pushViewController(ballotsStatusVC, animated: true)
     }
   }
@@ -82,4 +100,18 @@ extension HomeCoordinator: HomeViewModelCoordinatorDelegate {
   func ballotChangeRequest(viewModel: HomeViewModel) {
 
   }
+}
+
+extension HomeCoordinator: SearchViewModelCoordinatorDelegate {
+  func showVoterDetails(viewModel: SearchViewModel) {
+    if let voterVC = mainStoryBoard?.instantiateViewController(withIdentifier: "VoterDetailsTableViewController") as? VoterDetailsTableViewController,
+      let navigationController = window.rootViewController as? UINavigationController {
+      let voteUpdateViewModel = VoteUpdaterViewModel()
+      voteUpdateViewModel.voter = viewModel.voter
+      voterVC.viewModel = voteUpdateViewModel
+      navigationController.pushViewController(voterVC, animated: true)
+    }
+  }
+
+
 }

@@ -36,18 +36,17 @@ class NomineeCountingTableViewController: UITableViewController {
   }
 
   override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return 64.0
+    return 120
   }
 
 }
 
 extension NomineeCountingTableViewController: NomineeCountingViewModelDelegate {
-  func nomineesCountingDidLoaded() {
+  func nomineesCountingViewModelDidLoaded() {
     self.tableView?.reloadData()
   }
 
-  func nommineeCountingDidUpdateStatus() {
-  }
+  func nommineeCountingViewModel(didUpdateStatus success: Bool) {}
 }
 
 extension NomineeCountingTableViewController: NomineeCountingTableViewCellDlegate {
