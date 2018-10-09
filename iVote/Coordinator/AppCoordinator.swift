@@ -30,15 +30,21 @@ class AppCoordinator: Coordinator {
   }
 
   func start() {
-    if let username = DataController.shared.authenticatedUserName {
-      showHomeViewController(forUserName: username)
+    if let user = DataController.shared.authenticatedUser {
+      showHomeViewController(forUser: user)
     } else {
-      showLoginViewController()
+      showRegionViewController()
     }
   }
 }
 
 fileprivate extension AppCoordinator {
+  func showRegionViewController() {
+    let regionCoordinator = RegionCoordinator(window: window)
+    regionCoordinator.delegate = self
+    regionCoordinator.start()
+  }
+
   func showLoginViewController() {
     let authenticationCoordinator = AuthenticationCoordinator(window: window)
     authenticationCoordinator.delegate = self
@@ -51,14 +57,18 @@ fileprivate extension AppCoordinator {
     codeValidationCoordinator.start()
   }
 
-  func showHomeViewController(forUserName username: String? = nil) {
-    let homeCoordinator = HomeCoordinator(window: window)
+  func showHomeViewController(forUser user: User) {
+    let homeCoordinator = HomeCoordinator(window: window, user: user)
     homeCoordinator.delegate = self
-    homeCoordinator.username = username
     homeCoordinator.start()
   }
 }
 
+extension AppCoordinator: RegionCoordinatorDelegate {
+  func regionCoordinatorDidFinish(regionCoordinator: RegionCoordinator) {
+    self.showLoginViewController()
+  }
+}
 
 extension AppCoordinator: AuthenticationCoordinatorDelegate {
   func authenticationCoordinatorDidFinish(authenticationCoordinator: AuthenticationCoordinator) {
@@ -68,14 +78,16 @@ extension AppCoordinator: AuthenticationCoordinatorDelegate {
 
 extension AppCoordinator: CodeValidationCoordinatorDelegate {
   func codeValidationCoordinatorDidFinish(codeValidationCoordinator: CodeValidationCoordinator) {
-    self.showHomeViewController()
+    if let user = DataController.shared.authenticatedUser {
+      self.showHomeViewController(forUser: user)
+    }
   }
 }
 
 extension AppCoordinator: HomeCoordinatorDelegate {
   func logout(coordinator: HomeCoordinator) {
-    self.showLoginViewController()
     DataController.shared.deleteAllUsers()
+    self.showRegionViewController()
   }
 
 

@@ -22,5 +22,7 @@ class User {
   var name: String = ""
   var password: String = ""
   var phone: String = ""
+  var path: String = ""
   var permission = Permission()
 }
+

@@ -31,6 +31,4 @@ class BallotViewModel {
       self.ballots = ballots.sorted(by: { Int($0.number)! < Int($1.number)! })
     }
   }
-
-
 }

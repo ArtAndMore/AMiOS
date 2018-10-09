@@ -22,6 +22,8 @@ class NomineeCountingTableViewCell: UITableViewCell {
     }
   }
 
+  var currentValue: Double = 0
+
   weak var delegate: NomineeCountingTableViewCellDlegate?
 
   override func awakeFromNib() {
@@ -35,7 +37,9 @@ class NomineeCountingTableViewCell: UITableViewCell {
   }
 
   @objc func stepperValueChanged(stepper: GMStepper) {
-    self.delegate?.countingTableViewCell(self, stepperValueDidChange: Int(stepper.value))
+    let countValue = (stepper.value > currentValue) ? 1 : -1
+    self.currentValue = stepper.value
+    self.delegate?.countingTableViewCell(self, stepperValueDidChange: Int(countValue))
   }
 
 }

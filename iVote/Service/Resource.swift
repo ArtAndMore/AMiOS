@@ -33,7 +33,7 @@ extension EndPoint {
   }
   
   var path: String {
-    return "/CRM/WebService.ASMX"
+    return "/CRM-tabash/GlobalService.ASMX"
   }
   
   var httpMethod: HTTPMethod {

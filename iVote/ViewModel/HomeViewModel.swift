@@ -32,27 +32,48 @@ class HomeViewModel {
   // Errors
   var errorMessage: String?
 
-  init(username: String?) {
-    if let username = username {
-      ElectionsService.shared.user.name = username
+  var user: User {
+    get {
+      return ElectionsService.shared.user
     }
+    set {
+      ElectionsService.shared.user = newValue
+    }
+  }
+
+  var currentBallot: String {
+    get {
+      return ElectionsService.shared.currentBallot
+    }
+    set {
+      ElectionsService.shared.currentBallot = newValue
+      self.getBallotStatus(withPermission: self.permission.value!)
+    }
+  }
+
+
+
+  fileprivate func getBallotStatus(withPermission permission: Permission?) {
+    guard let permission = permission, permission.canReadStatistics else {
+      return
+    }
+    // getStatus
+    ElectionsService.shared.statusForCurrentBallot() { (status) in
+      self.status.value = status
+      let success = (status != nil)
+      self.errorMessage = !success ? "could not load status data" : nil
+    }
+  }
+
+  init(user: User) {
+    self.user = user
     // load user permistions
-    ElectionsService.shared.permission { permission in
+    ElectionsService.shared.authenticate { permission in
       guard let permission = permission else { return }
       self.items = self.generateItems(byUserPermission: permission)
       self.permission.value = permission
 
-
-      // getStatus
-      if permission.canReadStatistics
-//        let ballot = permission.ballots.first, let number = Int(ballot.name)
-      {
-        ElectionsService.shared.status(ballotNumber: 1) { (status) in
-          self.status.value = status
-          let success = (status != nil)
-          self.errorMessage = !success ? "could not load status data" : nil
-        }
-      }
+      self.getBallotStatus(withPermission: permission)
       // getAllBallots
       if permission.canReadBallots {
         ElectionsService.shared.getAllBallots { ballots in

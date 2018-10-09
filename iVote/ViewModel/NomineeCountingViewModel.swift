@@ -16,6 +16,8 @@ protocol NomineeCountingViewModelDelegate: AnyObject {
 class NomineeCountingViewModel {
   weak var viewDelegate: NomineeCountingViewModelDelegate?
 
+  var currentBallot: String!
+
   var nominees: [Nominee] = [] {
     didSet {
       DispatchQueue.main.async {
@@ -36,9 +38,7 @@ class NomineeCountingViewModel {
     }
     let nominee = nominees[index]
     nominee.status = status
-    // TODO: Fetch Ballot from local DB
-    let currentBallot = "1"
-    ElectionsService.shared.updateNominee(nominee, inBallotId: currentBallot) { (success) in
+    ElectionsService.shared.updateNominee(nominee) { (success) in
       DispatchQueue.main.async {
         self.viewDelegate?.nommineeCountingViewModel(didUpdateStatus: success)
       }

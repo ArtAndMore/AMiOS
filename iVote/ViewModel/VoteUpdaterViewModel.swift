@@ -20,6 +20,7 @@ class VoteUpdaterViewModel {
   var ballotId: String?
   var ballotNumber: String?
 
+  var canUpdateVote = false
   // Errors
   var errorMessage: String?
 

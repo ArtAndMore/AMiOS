@@ -17,15 +17,13 @@ class ReportCenterViewModel {
 
   func sendReport(byType type: ReportType, status: Int) {
     // TODO: fetch current ballot from local DB
-    let currentBallotId = "1"
-    ElectionsService.shared.updateReport(byType: type, status: status, inBallotId: currentBallotId) { (_) in
+    ElectionsService.shared.updateReport(byType: type, status: status) { (_) in
 
     }
   }
 
   func sendReport(message: String) {
-    let currentBallotId = "1"
-    ElectionsService.shared.sendReportMessage(message, inBallotId: currentBallotId) { success in
+    ElectionsService.shared.sendReportMessage(message) { success in
       DispatchQueue.main.async {
         self.viewDelegate?.reportCenterViewModel(didSentMessage: success)
       }

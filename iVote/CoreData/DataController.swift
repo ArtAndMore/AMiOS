@@ -12,7 +12,7 @@ import CoreData
 class DataController {
   static let shared = DataController()
 
-  var authenticatedUserName: String? {
+  var authenticatedUser: User? {
     return self.fetchUsers(intoContext: viewContext)
   }
 
@@ -64,18 +64,19 @@ class DataController {
   }
 
 
-   func fetchUsers(intoContext context: NSManagedObjectContext?) -> String? {
+  func fetchUsers(intoContext context: NSManagedObjectContext?) -> User? {
     let request = NSFetchRequest<NSFetchRequestResult>(entityName: "CoreDataUser")
     //request.predicate = NSPredicate(format: "age = %@", "12")
     request.returnsObjectsAsFaults = false
-
-    do {
-      let result = try context?.fetch(request) as? [CoreDataUser]
-        return result?.first?.name
-
-    } catch {
-
-      print("Failed")
+    if let result = try? context?.fetch(request) as? [CoreDataUser] {
+      if let first = result?.last, let name = first.name, let password = first.password, let phone = first.phone, let path = first.path {
+        let user = User()
+        user.name = name
+        user.password = password
+        user.phone = phone
+        user.path = path
+        return user
+      }
     }
     return nil
   }

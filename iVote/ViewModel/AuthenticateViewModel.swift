@@ -32,6 +32,15 @@ class AuthenticateViewModel {
     }
   }
 
+  var currentBallot: String {
+    get {
+      return ElectionsService.shared.currentBallot
+    }
+    set {
+      ElectionsService.shared.currentBallot = newValue
+    }
+  }
+
   // Errors
   var errorMessage: String?
 
@@ -40,8 +49,8 @@ class AuthenticateViewModel {
     guard self.viewDelegate?.canSubmit() ?? false else {
       return
     }
-    ElectionsService.shared.authenticate() { (success) in
-      if success {
+    ElectionsService.shared.authenticate() { (permission) in
+      if permission != nil {
         self.saveUser()
         DispatchQueue.main.async {
           self.coordinatorDelegate?.authenticateViewModelDidLogin(viewModel:self)
@@ -54,7 +63,7 @@ class AuthenticateViewModel {
 
   private func saveUser() {
     let context = DataController.shared.backgroundContext
-    CoreDataUser.addUser(name: user.name, phone: user.phone, intoContext: context)
+    CoreDataUser.addUser(name: user.name, password: user.password, phone: user.phone, path: user.path, intoContext: context)
   }
 }
 

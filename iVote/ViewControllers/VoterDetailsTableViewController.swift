@@ -62,7 +62,10 @@ class VoterDetailsTableViewController: UITableViewController {
   // MARK: - Table view data source
 
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 7
+    if self.viewModel?.canUpdateVote == true {
+      return 7
+    }
+    return 6
   }
 }
 

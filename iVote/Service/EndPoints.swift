@@ -10,7 +10,20 @@ import Foundation
 
 struct EndPoints {
 
+  struct Global: EndPoint {
+    var soapMessage: String? {
+      return """
+      <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+      <soap:Body>
+      <get_web_add xmlns="http://tempuri.org/" />
+      </soap:Body>
+      </soap:Envelope>
+      """
+    }
+  }
+
   struct CountVote: EndPoint {
+    let path: String
     let ballotId: String
     let electedId: String
     let value: String
@@ -20,7 +33,7 @@ struct EndPoints {
       <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
       <soap:Body>
       <Count_vote xmlns="http://tempuri.org/">
-      <kalpi_id>\(ballotId)/</kalpi_id>
+      <kalpi_id>\(ballotId)</kalpi_id>
       <nevhar_id>\(electedId)</nevhar_id>
       <val>\(value)</val>
       </Count_vote>
@@ -31,7 +44,8 @@ struct EndPoints {
   }
 
   struct GetMainPageData: EndPoint {
-    let ballotNumber: Int
+    let path: String
+    let ballotNumber: String
 
     var soapMessage: String? {
       return """
@@ -47,6 +61,7 @@ struct EndPoints {
   }
 
   struct GetAllBallotBox: EndPoint {
+    let path: String
     var soapMessage: String? {
       return """
       <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
@@ -61,6 +76,7 @@ struct EndPoints {
   }
 
   struct GetAllBallotBoxById: EndPoint {
+    let path: String
     let ballotNumber: Int
 
     var soapMessage: String? {
@@ -77,6 +93,7 @@ struct EndPoints {
   }
 
   struct SearchContact: EndPoint {
+    let path: String
     let voter: Voter
 
     var soapMessage: String? {
@@ -97,6 +114,7 @@ struct EndPoints {
   }
 
   struct SearchContactById: EndPoint {
+    let path: String
     let id: String
     var soapMessage: String? {
       return """
@@ -112,6 +130,7 @@ struct EndPoints {
   }
 
   struct SendMessgeToControl: EndPoint {
+    let path: String
     let username: String
     let message: String
 
@@ -131,6 +150,7 @@ struct EndPoints {
   }
 
   struct UpdateBallotBoxPtakim: EndPoint {
+    let path: String
     let ballotId: String
     let status: String
     
@@ -149,6 +169,7 @@ struct EndPoints {
   }
 
   struct UpdateBallotBoxStHafraot: EndPoint {
+    let path: String
     let ballotId: String
     let status: String
     
@@ -167,6 +188,7 @@ struct EndPoints {
   }
 
   struct UpdateBallotBoxStHtyasvot: EndPoint {
+    let path: String
     let ballotId: String
     let status: String
     
@@ -185,6 +207,7 @@ struct EndPoints {
   }
 
   struct UpdateBallotBoxStMashkif: EndPoint {
+    let path: String
     let ballotId: String
     let status: String
     
@@ -203,6 +226,7 @@ struct EndPoints {
   }
 
   struct UpdateVote: EndPoint {
+    let path: String
     let ballotId: String
     let ballotNumber: String
 
@@ -221,6 +245,7 @@ struct EndPoints {
   }
 
   struct UserAuthentication: EndPoint {
+    let path: String
     let user: User
 
     var soapMessage: String? {
@@ -239,6 +264,7 @@ struct EndPoints {
   }
 
   struct UserPermission: EndPoint {
+    let path: String
     let user: User
 
     var soapMessage: String? {
@@ -255,6 +281,7 @@ struct EndPoints {
   }
 
   struct UserSendCode: EndPoint {
+    let path: String
     let user: User
 
     var soapMessage: String? {
@@ -271,6 +298,7 @@ struct EndPoints {
   }
 
   struct GetAllNominee: EndPoint {
+    let path: String
     var soapMessage: String? {
       return """
       <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">

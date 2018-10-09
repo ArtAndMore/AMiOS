@@ -42,7 +42,7 @@ class BallotStatisticsCollectionViewCell: BaseCollectionViewCell {
 
 
   func setStatus(_ status: Status?) {
-    if let totalCount = status?.voters.total, let votedCount = status?.voters.isVoted {
+    if let totalCount = status?.voters.total, totalCount != self.totalVotedLabel.text, let votedCount = status?.voters.isVoted {
       totalVotedLabel.animate(to: CGFloat((totalCount as NSString).floatValue), duration: 0.3, delay: 0.3)
       dateLabel.text = date
       progressView.progress = Float(votedCount)! / Float(totalCount)!

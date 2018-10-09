@@ -15,18 +15,19 @@ protocol HomeCoordinatorDelegate: AnyObject {
 class HomeCoordinator: Coordinator {
   weak var delegate: HomeCoordinatorDelegate?
 
-  var username: String?
+  let user: User
 
   let window: UIWindow
 
-  init(window: UIWindow) {
+  init(window: UIWindow, user: User) {
     self.window = window
+    self.user = user
   }
 
   func start() {
     if let navigationController = mainStoryBoard?.instantiateViewController(withIdentifier: "HomeNavigationViewController") as? UINavigationController,
       let homeViewCintroller = navigationController.topViewController as? HomeViewController {
-      let viewModel = HomeViewModel(username: username)
+      let viewModel = HomeViewModel(user: self.user)
       viewModel.coordinatorDelegate = self
       homeViewCintroller.viewModel = viewModel
       window.rootViewController = navigationController
@@ -40,6 +41,7 @@ extension HomeCoordinator: HomeViewModelCoordinatorDelegate {
     if let nomineeVC = mainStoryBoard?.instantiateViewController(withIdentifier: "NomineeCountingTableViewController") as? NomineeCountingTableViewController,
       let navigationController = window.rootViewController as? UINavigationController {
       let nomineeViewModel = NomineeCountingViewModel()
+      nomineeViewModel.currentBallot = viewModel.currentBallot
       if let nominees = viewModel.nominees.value {
         if nominees.isEmpty {
           viewModel.nominees.observe(listener: { nomineeViewModel.nominees = $0 })
@@ -65,7 +67,9 @@ extension HomeCoordinator: HomeViewModelCoordinatorDelegate {
   func showVote(viewModel: HomeViewModel) {
     if let voteUpdaterVC = mainStoryBoard?.instantiateViewController(withIdentifier: "VoteUpdaterViewController") as? VoteUpdaterViewController,
       let navigationController = window.rootViewController as? UINavigationController {
-      voteUpdaterVC.viewModel = VoteUpdaterViewModel()
+      let updateViewModel = VoteUpdaterViewModel()
+      updateViewModel.canUpdateVote = viewModel.permission.value??.canUpdateVotes ?? false
+      voteUpdaterVC.viewModel = updateViewModel
       navigationController.pushViewController(voteUpdaterVC, animated: true)
     }
   }

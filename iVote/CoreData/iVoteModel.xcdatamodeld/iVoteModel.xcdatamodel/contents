@@ -3,9 +3,10 @@
     <entity name="CoreDataUser" representedClassName="CoreDataUser" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="path" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CoreDataUser" positionX="-63" positionY="-18" width="128" height="90"/>
+        <element name="CoreDataUser" positionX="-63" positionY="-18" width="128" height="105"/>
     </elements>
 </model>

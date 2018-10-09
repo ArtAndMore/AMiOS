@@ -23,6 +23,10 @@
 		BB73F5AC216BA72200F19C85 /* iVoteModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5AA216BA72200F19C85 /* iVoteModel.xcdatamodeld */; };
 		BB73F5AE216BA73C00F19C85 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5AD216BA73C00F19C85 /* DataController.swift */; };
 		BB73F5B0216BB1C100F19C85 /* CoreData+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5AF216BB1C100F19C85 /* CoreData+User.swift */; };
+		BB73F5B2216D324F00F19C85 /* RegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5B1216D324F00F19C85 /* RegionViewController.swift */; };
+		BB73F5B4216D3E2700F19C85 /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5B3216D3E2700F19C85 /* Site.swift */; };
+		BB73F5B6216D424800F19C85 /* RegionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5B5216D424800F19C85 /* RegionCoordinator.swift */; };
+		BB73F5B8216D429900F19C85 /* RegionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5B7216D429900F19C85 /* RegionViewModel.swift */; };
 		BB9895972168CE1400DD6B85 /* AuthenticationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9895962168CE1400DD6B85 /* AuthenticationCoordinator.swift */; };
 		BB98959A2168D01A00DD6B85 /* AuthenticateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9895992168D01A00DD6B85 /* AuthenticateViewModel.swift */; };
 		BB98959C2168E0AF00DD6B85 /* CodeValidationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB98959B2168E0AF00DD6B85 /* CodeValidationCoordinator.swift */; };
@@ -97,6 +101,10 @@
 		BB73F5AB216BA72200F19C85 /* iVoteModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iVoteModel.xcdatamodel; sourceTree = "<group>"; };
 		BB73F5AD216BA73C00F19C85 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		BB73F5AF216BB1C100F19C85 /* CoreData+User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreData+User.swift"; sourceTree = "<group>"; };
+		BB73F5B1216D324F00F19C85 /* RegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionViewController.swift; sourceTree = "<group>"; };
+		BB73F5B3216D3E2700F19C85 /* Site.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
+		BB73F5B5216D424800F19C85 /* RegionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionCoordinator.swift; sourceTree = "<group>"; };
+		BB73F5B7216D429900F19C85 /* RegionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionViewModel.swift; sourceTree = "<group>"; };
 		BB9895962168CE1400DD6B85 /* AuthenticationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCoordinator.swift; sourceTree = "<group>"; };
 		BB9895992168D01A00DD6B85 /* AuthenticateViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticateViewModel.swift; sourceTree = "<group>"; };
 		BB98959B2168E0AF00DD6B85 /* CodeValidationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeValidationCoordinator.swift; sourceTree = "<group>"; };
@@ -185,6 +193,7 @@
 				BB9895A721691B0800DD6B85 /* NomineeCountingViewModel.swift */,
 				BB9895AB2169256F00DD6B85 /* BallotViewModel.swift */,
 				BB9895AD216928F300DD6B85 /* ReportCenterViewModel.swift */,
+				BB73F5B7216D429900F19C85 /* RegionViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -196,6 +205,7 @@
 				BB9895962168CE1400DD6B85 /* AuthenticationCoordinator.swift */,
 				BB98959B2168E0AF00DD6B85 /* CodeValidationCoordinator.swift */,
 				BB9895A12168E6FC00DD6B85 /* HomeCoordinator.swift */,
+				BB73F5B5216D424800F19C85 /* RegionCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -279,6 +289,7 @@
 				BB9CD84D21689E4500B3F784 /* NomineeCountingTableViewController.swift */,
 				BB9CD8592168BA0500B3F784 /* BallotsStatusTableViewController.swift */,
 				BB9CD85B2168C2F200B3F784 /* ReportCenterViewController.swift */,
+				BB73F5B1216D324F00F19C85 /* RegionViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -315,6 +326,7 @@
 				BB59A6DC2166C0C9003A8CFB /* Report.swift */,
 				BB9895A921691B4900DD6B85 /* Nominee.swift */,
 				BB73F59E216AED9100F19C85 /* Item.swift */,
+				BB73F5B3216D3E2700F19C85 /* Site.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -523,17 +535,20 @@
 				BB73F5AC216BA72200F19C85 /* iVoteModel.xcdatamodeld in Sources */,
 				BB73F5AE216BA73C00F19C85 /* DataController.swift in Sources */,
 				BBC464B22166E38C007455AF /* CodeValidationViewController.swift in Sources */,
+				BB73F5B8216D429900F19C85 /* RegionViewModel.swift in Sources */,
 				BB56E17521658AE100D740F5 /* WebService.swift in Sources */,
 				BB73F59D216AE89100F19C85 /* Observable.swift in Sources */,
 				BB9CD85A2168BA0500B3F784 /* BallotsStatusTableViewController.swift in Sources */,
 				BB9CD84E21689E4500B3F784 /* NomineeCountingTableViewController.swift in Sources */,
 				BB9CD84A2168527000B3F784 /* VoterDetailsTableViewController.swift in Sources */,
 				BB98959C2168E0AF00DD6B85 /* CodeValidationCoordinator.swift in Sources */,
+				BB73F5B6216D424800F19C85 /* RegionCoordinator.swift in Sources */,
 				BB9895A621690DB100DD6B85 /* VoteUpdaterViewModel.swift in Sources */,
 				BB9895AA21691B4900DD6B85 /* Nominee.swift in Sources */,
 				BB56E17D2165D74B00D740F5 /* Status.swift in Sources */,
 				BBF581172164030A002B05B4 /* Helper.swift in Sources */,
 				BB59A6E12166CB62003A8CFB /* LoginViewController.swift in Sources */,
+				BB73F5B2216D324F00F19C85 /* RegionViewController.swift in Sources */,
 				BB56E1792165D71D00D740F5 /* Ballot.swift in Sources */,
 				BBF581192164030A002B05B4 /* Titles.swift in Sources */,
 				BB9CD84821683E7200B3F784 /* SearchViewController.swift in Sources */,
@@ -556,6 +571,7 @@
 				BB56E17321657D6700D740F5 /* EndPoints.swift in Sources */,
 				BB73F5A5216B92AE00F19C85 /* CountingLabel.swift in Sources */,
 				BBF5810A2163EE82002B05B4 /* BallotSearchCollectionViewCell.swift in Sources */,
+				BB73F5B4216D3E2700F19C85 /* Site.swift in Sources */,
 				BB98959E2168E12D00DD6B85 /* CodeValidationViewModel.swift in Sources */,
 				BB9895972168CE1400DD6B85 /* AuthenticationCoordinator.swift in Sources */,
 				BBF580E02163E021002B05B4 /* AppDelegate.swift in Sources */,
@@ -725,7 +741,10 @@
 				DEVELOPMENT_TEAM = A3JC2SBNCR;
 				INFOPLIST_FILE = iVote/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hasansa.iVote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -742,7 +761,10 @@
 				DEVELOPMENT_TEAM = A3JC2SBNCR;
 				INFOPLIST_FILE = iVote/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hasansa.iVote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -759,7 +781,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A3JC2SBNCR;
 				INFOPLIST_FILE = iVoteTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hasansa.iVoteTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -777,7 +803,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A3JC2SBNCR;
 				INFOPLIST_FILE = iVoteTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hasansa.iVoteTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;

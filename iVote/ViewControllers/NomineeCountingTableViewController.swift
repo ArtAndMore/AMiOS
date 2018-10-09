@@ -18,6 +18,7 @@ class NomineeCountingTableViewController: UITableViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    self.title = viewModel.currentBallot
   }
 
   // MARK: - Table view data source

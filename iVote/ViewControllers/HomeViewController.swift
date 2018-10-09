@@ -61,10 +61,10 @@ private extension HomeViewController {
 
   @IBAction func showDropDown(_ sender: UIBarButtonItem) {
     guard let permission = self.viewModel.permission.value,
-      let titles = permission?.ballots.map({ "\($0.name) - \($0.number)" }) else {
+      let ballots = permission?.ballots else {
       return
     }
-
+    let titles = ballots.map({ "\($0.name) - \($0.number)" })
     let originView = sender.value(forKey: "view") as! UIView
     StringPickerPopover(title: "מס קלפי", choices: titles)
       .setSelectedRow(0)
@@ -73,6 +73,7 @@ private extension HomeViewController {
       })
       .setDoneButton(action: { (_, index, _) in
         sender.title = "קלפי מס: \(index + 1)"
+        self.viewModel.currentBallot = ballots[index].id
       })
       .setCancelButton(action: { (_, _, _) in print("cancel")}
       )
