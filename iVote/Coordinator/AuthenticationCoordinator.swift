@@ -22,12 +22,12 @@ class AuthenticationCoordinator: Coordinator {
   }
 
   func start() {
-    if let navigationController = mainStoryBoard?.instantiateViewController(withIdentifier: "LoginNavigationViewController") as? UINavigationController,
-      let loginViewCintroller = navigationController.topViewController as? LoginViewController {
+    if let navigationController = self.window.rootViewController as? UINavigationController,
+      let loginViewCintroller = mainStoryBoard?.instantiateViewController(withIdentifier: "LoginViewController")as? LoginViewController {
       let viewModel = AuthenticateViewModel()
       viewModel.coordinatorDelegate = self
       loginViewCintroller.viewModel = viewModel
-      window.rootViewController = navigationController
+      navigationController.pushViewController(loginViewCintroller, animated: true)
     }
   }
 }

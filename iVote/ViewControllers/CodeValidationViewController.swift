@@ -35,6 +35,8 @@ class CodeValidationViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    self.pinView.becomeFirstResponder()
+    
     self.viewModel.errorMessage.observe { (_) in
       self.confirmButton.shake()
     }

@@ -33,6 +33,11 @@ class RegionViewController: UIViewController {
     }
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    self.navigationController?.setNavigationBarHidden(true, animated: true)
+  }
+
   @IBAction func selectRegion() {
     self.viewModel.submit()
   }

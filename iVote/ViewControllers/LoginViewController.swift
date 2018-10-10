@@ -31,6 +31,7 @@ class LoginViewController: UIViewController {
       self?.textFieldDidChange(notification.object as? UITextField)
     }
 
+    self.navigationController?.setNavigationBarHidden(false, animated: true)
     self.viewModel.errorMessage.observe { _ in
       self.loginButton.shake()
     }

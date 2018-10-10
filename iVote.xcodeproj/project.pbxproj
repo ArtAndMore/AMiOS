@@ -280,6 +280,7 @@
 		BBF5810C2163F1E3002B05B4 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				BB73F5B1216D324F00F19C85 /* RegionViewController.swift */,
 				BB59A6E02166CB62003A8CFB /* LoginViewController.swift */,
 				BBC464B12166E38C007455AF /* CodeValidationViewController.swift */,
 				BBF5810D2163F206002B05B4 /* HomeViewController.swift */,
@@ -289,7 +290,6 @@
 				BB9CD84D21689E4500B3F784 /* NomineeCountingTableViewController.swift */,
 				BB9CD8592168BA0500B3F784 /* BallotsStatusTableViewController.swift */,
 				BB9CD85B2168C2F200B3F784 /* ReportCenterViewController.swift */,
-				BB73F5B1216D324F00F19C85 /* RegionViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";

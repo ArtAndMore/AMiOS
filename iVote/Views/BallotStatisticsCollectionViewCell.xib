@@ -89,10 +89,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="759-A2-2jt">
-                                <rect key="frame" x="87.5" y="11.5" width="253" height="94.5"/>
+                                <rect key="frame" x="87.5" y="11.5" width="267.5" height="94.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="lo5-nf-K48">
-                                        <rect key="frame" x="0.0" y="0.0" width="253" height="94.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="267.5" height="94.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="סטטוס בחירות" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nog-f5-jgm">
                                                 <rect key="frame" x="0.0" y="0.0" width="83.5" height="29"/>
@@ -101,7 +101,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="eD8-lF-gGB">
-                                                <rect key="frame" x="0.0" y="33" width="213" height="30"/>
+                                                <rect key="frame" x="0.0" y="33" width="267.5" height="30"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <color key="progressTintColor" red="0.49803921569999998" green="0.42352941179999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="trackTintColor" red="0.82745098039215681" green="0.82745098039215681" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
@@ -125,7 +125,7 @@
                                             </stackView>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="eD8-lF-gGB" firstAttribute="width" secondItem="lo5-nf-K48" secondAttribute="width" constant="-40" id="wtG-mq-6lx"/>
+                                            <constraint firstItem="eD8-lF-gGB" firstAttribute="width" secondItem="lo5-nf-K48" secondAttribute="width" id="wtG-mq-6lx"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
@@ -142,13 +142,12 @@
                         <constraints>
                             <constraint firstItem="759-A2-2jt" firstAttribute="height" secondItem="s0T-ln-fbm" secondAttribute="height" multiplier="0.8" id="IHT-lz-HuA"/>
                             <constraint firstItem="off-Q3-udu" firstAttribute="leading" secondItem="s0T-ln-fbm" secondAttribute="leading" constant="20" id="R9V-dy-9en"/>
-                            <constraint firstAttribute="trailing" secondItem="759-A2-2jt" secondAttribute="trailing" priority="250" constant="20" id="SBM-hT-tNS"/>
+                            <constraint firstAttribute="trailing" secondItem="759-A2-2jt" secondAttribute="trailing" constant="20" id="SBM-hT-tNS"/>
                             <constraint firstItem="759-A2-2jt" firstAttribute="centerY" secondItem="s0T-ln-fbm" secondAttribute="centerY" id="V3W-m2-f99"/>
                             <constraint firstItem="759-A2-2jt" firstAttribute="leading" secondItem="off-Q3-udu" secondAttribute="trailing" constant="20" id="VGY-k3-kvs"/>
                             <constraint firstItem="off-Q3-udu" firstAttribute="width" secondItem="s0T-ln-fbm" secondAttribute="height" multiplier="2:5" id="hEg-sD-lIo"/>
                             <constraint firstItem="off-Q3-udu" firstAttribute="height" secondItem="s0T-ln-fbm" secondAttribute="height" multiplier="0.5" id="iKn-aI-xmj"/>
                             <constraint firstItem="off-Q3-udu" firstAttribute="centerY" secondItem="s0T-ln-fbm" secondAttribute="centerY" id="qWn-d8-kBx"/>
-                            <constraint firstItem="759-A2-2jt" firstAttribute="width" secondItem="s0T-ln-fbm" secondAttribute="width" multiplier="0.675" id="xuU-hk-fRD"/>
                         </constraints>
                     </view>
                 </subviews>
