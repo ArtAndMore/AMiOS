@@ -30,7 +30,7 @@ class HomeViewModel {
   var items: [Int: [Item]] = [:]
 
   // Errors
-  var errorMessage: String?
+  var errorMessage: Observable<String?> = Observable(nil)
 
   var user: User {
     get {
@@ -61,7 +61,7 @@ class HomeViewModel {
     ElectionsService.shared.statusForCurrentBallot() { (status) in
       self.status.value = status
       let success = (status != nil)
-      self.errorMessage = !success ? "could not load status data" : nil
+      self.errorMessage.value = !success ? "could not load status data" : nil
     }
   }
 
@@ -69,7 +69,10 @@ class HomeViewModel {
     self.user = user
     // load user permistions
     ElectionsService.shared.authenticate { permission in
-      guard let permission = permission else { return }
+      guard let permission = permission else {
+        self.errorMessage.value = "invalid permission"
+        return
+      }
       self.items = self.generateItems(byUserPermission: permission)
       self.permission.value = permission
 

@@ -13,6 +13,7 @@ class CodeValidationViewController: UIViewController {
 
   private var requestCode: String?
 
+  @IBOutlet private weak var confirmButton: UIButton!
   var viewModel: CodeValidationViewModel! {
     didSet {
       viewModel.viewDelegate = self
@@ -33,6 +34,10 @@ class CodeValidationViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    self.viewModel.errorMessage.observe { (_) in
+      self.confirmButton.shake()
+    }
   }
 
   @IBAction func submitCodeAction() {

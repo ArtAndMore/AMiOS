@@ -42,28 +42,23 @@ class AuthenticateViewModel {
   }
 
   // Errors
-  var errorMessage: String?
+  var errorMessage: Observable<String?> = Observable(nil)
 
   // Submit
   func submit() {
     guard self.viewDelegate?.canSubmit() ?? false else {
+      self.errorMessage.value = "invalid form"
       return
     }
     ElectionsService.shared.authenticate() { (permission) in
       if permission != nil {
-        self.saveUser()
         DispatchQueue.main.async {
           self.coordinatorDelegate?.authenticateViewModelDidLogin(viewModel:self)
         }
       } else {
-        self.errorMessage = "authenticate failed"
+        self.errorMessage.value = "authenticate failed"
       }
     }
-  }
-
-  private func saveUser() {
-    let context = DataController.shared.backgroundContext
-    CoreDataUser.addUser(name: user.name, password: user.password, phone: user.phone, path: user.path, intoContext: context)
   }
 }
 

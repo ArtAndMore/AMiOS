@@ -10,6 +10,7 @@ import UIKit
 
 class SearchViewController: UIViewController {
 
+  @IBOutlet private weak var searchButton: UIButton!
   @IBOutlet private weak var resultsTableViewContainer: UIView!
   @IBOutlet private weak var textField: UITextField!
   @IBOutlet private var labelsMatrixView: NALLabelsMatrixView!
@@ -22,6 +23,9 @@ class SearchViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    viewModel.errorMessage.observe { (_) in
+      self.searchButton.shake()
+    }
   }
 
   @IBAction private func searchAction() {

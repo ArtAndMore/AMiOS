@@ -15,14 +15,18 @@ protocol ReportCenterViewModelDlelegate: AnyObject {
 class ReportCenterViewModel {
   weak var viewDelegate: ReportCenterViewModelDlelegate?
 
-  func sendReport(byType type: ReportType, status: Int) {
-    // TODO: fetch current ballot from local DB
-    ElectionsService.shared.updateReport(byType: type, status: status) { (_) in
+  // Errors
+  var errorMessage: Observable<String?> = Observable(nil)
 
-    }
+  func sendReport(byType type: ReportType, status: Int) {
+    ElectionsService.shared.updateReport(byType: type, status: status) { (_) in }
   }
 
   func sendReport(message: String) {
+    guard !message.isEmpty else {
+      self.errorMessage.value = "empty message" 
+      return
+    }
     ElectionsService.shared.sendReportMessage(message) { success in
       DispatchQueue.main.async {
         self.viewDelegate?.reportCenterViewModel(didSentMessage: success)

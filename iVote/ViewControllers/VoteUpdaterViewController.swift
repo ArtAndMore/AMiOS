@@ -10,6 +10,7 @@ import UIKit
 
 class VoteUpdaterViewController: UIViewController {
 
+  @IBOutlet fileprivate weak var updateVoteButton: UIButton!
   @IBOutlet fileprivate var ballotIdTextField: UITextField!
   @IBOutlet fileprivate var ballotNumberTextField: UITextField!
 
@@ -23,6 +24,10 @@ class VoteUpdaterViewController: UIViewController {
     super.viewDidLoad()
     _ = NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: nil, queue: nil) { [weak self] (notification) in
       self?.textFieldDidChange(notification.object as? UITextField)
+    }
+
+    self.viewModel.errorMessage.observe { _ in
+      self.updateVoteButton.shake()
     }
   }
 

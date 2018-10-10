@@ -10,6 +10,7 @@ import UIKit
 
 class ReportCenterViewController: UIViewController {
 
+  @IBOutlet private weak var sendMessageButton: UIButton!
   @IBOutlet private weak var scrollView: UIScrollView!
   @IBOutlet private weak var stabilizationSwitch: UISwitch!
   @IBOutlet private weak var spectatorSwitch: UISwitch!
@@ -32,7 +33,7 @@ class ReportCenterViewController: UIViewController {
   }
 
   override func viewDidLoad() {
-        super.viewDidLoad()
+    super.viewDidLoad()
     
     _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardDidShowNotification, object: nil, queue: nil, using: { (notification) in
       if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
@@ -45,7 +46,11 @@ class ReportCenterViewController: UIViewController {
     _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: nil, using: { (notification) in
       self.scrollView.frame.size.height = self.view.bounds.height
     })
+
+    self.viewModel.errorMessage.observe { (_) in
+      self.sendMessageButton.shake()
     }
+  }
 
   @IBAction func switchValueChangeAction(_ sender: UISwitch) {
     if let type = ReportType(rawValue: sender.tag) {
@@ -55,9 +60,7 @@ class ReportCenterViewController: UIViewController {
   
   @IBAction private func sendMessage(_ sender: Any) {
     messageTextView.resignFirstResponder()
-    if !messageTextView.text.isEmpty {
-      self.viewModel.sendReport(message: messageTextView.text)
-    }
+    self.viewModel.sendReport(message: messageTextView.text)
   }
 }
 

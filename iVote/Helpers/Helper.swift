@@ -14,6 +14,14 @@ extension UIView {
     return UINib(nibName: String(describing: self), bundle: Bundle(for: self))
   }
 
+  func shake() {
+    let animation = CAKeyframeAnimation(keyPath: "transform.translation.x");
+    animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
+    animation.values = [-5, 5, -5, 5, -3, 3, -2, 2, 0]
+    animation.duration = 0.4
+    self.layer.add(animation, forKey: "shake")
+  }
+
   func addBlurBackground(style: UIBlurEffect.Style = .regular) -> UIVisualEffectView {
     let blurEffect = UIBlurEffect(style: style)
     let blurBackground = UIVisualEffectView(effect: blurEffect)

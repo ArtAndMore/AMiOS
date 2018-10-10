@@ -12,6 +12,7 @@ import SwiftyPickerPopover
 class RegionViewController: UIViewController {
 
   @IBOutlet private weak var pickerView: UIPickerView!
+  @IBOutlet private weak var confirmButton: UIButton!
 
   var viewModel: RegionViewModel!
   
@@ -26,10 +27,14 @@ class RegionViewController: UIViewController {
     viewModel.sites.observe {
       self.sites = $0
     }
+
+    viewModel.errorMessage.observe { (_) in
+      self.confirmButton.shake()
+    }
   }
 
   @IBAction func selectRegion() {
-    self.viewModel.login()
+    self.viewModel.submit()
   }
 
 }
@@ -51,8 +56,11 @@ extension RegionViewController: UIPickerViewDelegate {
   }
 
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    guard row < sites.count else {
+      return
+    }
     let item = sites[row]
-    ElectionsService.shared.user.path = item.path
+    self.viewModel.path = item.path
   }
 
   func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {

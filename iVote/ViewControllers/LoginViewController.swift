@@ -14,6 +14,7 @@ protocol LoginViewControllerCoordinatorDelegate: Coordinator {
 
 class LoginViewController: UIViewController {
 
+  @IBOutlet fileprivate weak var loginButton: UIButton!
   @IBOutlet fileprivate var usernameTextField: UITextField!
   @IBOutlet fileprivate var passwordTextField: UITextField!
   @IBOutlet fileprivate var phoneNumberTextField: UITextField!
@@ -28,6 +29,10 @@ class LoginViewController: UIViewController {
     super.viewDidLoad()
     _ = NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: nil, queue: nil) { [weak self] (notification) in
       self?.textFieldDidChange(notification.object as? UITextField)
+    }
+
+    self.viewModel.errorMessage.observe { _ in
+      self.loginButton.shake()
     }
   }
 }

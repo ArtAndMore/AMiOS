@@ -157,6 +157,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="mX0-gs-a96"/>
                     <connections>
+                        <outlet property="loginButton" destination="cFf-ED-0UP" id="PJn-qR-Vw6"/>
                         <outlet property="passwordTextField" destination="oOG-QE-QVl" id="ONY-Mf-ddL"/>
                         <outlet property="phoneNumberTextField" destination="CoC-7u-L5P" id="w0M-6e-01B"/>
                         <outlet property="usernameTextField" destination="f6j-3O-fJL" id="t3Y-EN-DUa"/>
@@ -308,6 +309,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="tXG-rW-Ftu"/>
                     <connections>
+                        <outlet property="confirmButton" destination="T95-xz-uZ7" id="z6a-aQ-slf"/>
                         <outlet property="pinView" destination="wHd-Md-0Sx" id="O9m-P1-zR4"/>
                     </connections>
                 </viewController>
@@ -358,7 +360,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                                         <connections>
                                             <outlet property="delegate" destination="i88-Nh-LSb" id="0kb-mc-BOa"/>
                                         </connections>
@@ -398,6 +400,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="resultsTableViewContainer" destination="uVR-O7-R7T" id="MAP-9F-4b6"/>
+                        <outlet property="searchButton" destination="2r5-2y-CVX" id="a8k-BA-THL"/>
                         <outlet property="textField" destination="yqH-jX-IcQ" id="IMC-7P-yrw"/>
                     </connections>
                 </viewController>
@@ -754,6 +757,7 @@
                         <outlet property="lastNameLable" destination="Kug-KW-Wfy" id="4kd-og-bvz"/>
                         <outlet property="motherNameLable" destination="YOL-Yr-0tQ" id="4sp-7b-60V"/>
                         <outlet property="phoneLable" destination="Kjl-FH-NJ7" id="G0P-0L-zwH"/>
+                        <outlet property="updateVoteButton" destination="hut-i8-s6d" id="JnK-Ik-hcK"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0li-Sa-JdN" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1017,6 +1021,7 @@
                         <outlet property="messageTitleLabel" destination="Gks-Sd-yIP" id="54K-yE-jt9"/>
                         <outlet property="notesSwitch" destination="ZYb-Na-Mal" id="f9t-M0-rPI"/>
                         <outlet property="scrollView" destination="QGw-3v-9mO" id="9fS-2P-hn5"/>
+                        <outlet property="sendMessageButton" destination="lWC-xY-WV1" id="he0-9v-fzk"/>
                         <outlet property="spectatorSwitch" destination="Pgj-Gv-QMM" id="US4-l8-DT6"/>
                         <outlet property="stabilizationSwitch" destination="b7Z-JI-MfM" id="Txe-w8-ZE2"/>
                     </connections>
@@ -1176,6 +1181,7 @@
                     <connections>
                         <outlet property="ballotIdTextField" destination="X4K-vB-4Ta" id="H59-kA-Uu6"/>
                         <outlet property="ballotNumberTextField" destination="VFL-mu-D0w" id="7Ku-ma-iiK"/>
+                        <outlet property="updateVoteButton" destination="9ot-0F-B7J" id="0ba-AB-y60"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bxL-sG-vte" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1319,6 +1325,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="RvZ-bi-0dx"/>
                     <connections>
+                        <outlet property="confirmButton" destination="BWk-fJ-R07" id="1RU-58-0CB"/>
                         <outlet property="pickerView" destination="sqq-bh-AVh" id="R3W-bb-UCt"/>
                     </connections>
                 </viewController>

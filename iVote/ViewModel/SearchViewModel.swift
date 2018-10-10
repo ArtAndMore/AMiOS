@@ -22,11 +22,14 @@ class SearchViewModel {
 
   private(set) var voter: Voter?
 
+  var canUpdateVotes: Bool = false
+
   // Errors
-  var errorMessage: String?
+  var errorMessage: Observable<String?> = Observable(nil)
 
   func searchVoter(withId id: String?) {
-    guard let id = id else {
+    guard let id = id, !id.isEmpty else {
+      self.errorMessage.value = "invalid voter id"
       return
     }
     ElectionsService.shared.searchVoter(byId: id) { voter in
@@ -36,7 +39,7 @@ class SearchViewModel {
           self.viewDelegate?.searchViewModel(didFindVoter: voter)
         }
       } else {
-        self.errorMessage = "Voter Not Exist"
+        self.errorMessage.value = "Voter not exist"
       }
     }
   }

@@ -20,6 +20,7 @@ class VoterDetailsTableViewController: UITableViewController {
     return viewModel?.voter
   }
   
+  @IBOutlet weak var updateVoteButton: UIButton!
   @IBOutlet private var idLable: UILabel!
   @IBOutlet private var firstNameLable: UILabel!
   @IBOutlet private var lastNameLable: UILabel!
@@ -33,11 +34,14 @@ class VoterDetailsTableViewController: UITableViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.updateVoterDetails()
+    self.setVoterDetails()
+    self.viewModel?.errorMessage.observe { _ in
+      self.updateVoteButton.shake()
+    }
   }
 
 
-  private func updateVoterDetails() {
+  private func setVoterDetails() {
     self.idLable.text = voter?.id
     self.firstNameLable.text = voter?.firstName
     self.lastNameLable.text = voter?.lastName

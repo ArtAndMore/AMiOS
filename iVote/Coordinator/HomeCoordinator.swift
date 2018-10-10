@@ -57,9 +57,10 @@ extension HomeCoordinator: HomeViewModelCoordinatorDelegate {
   func showSearch(viewModel: HomeViewModel) {
     if let searchVC = mainStoryBoard?.instantiateViewController(withIdentifier: "SearchViewController") as? SearchViewController,
       let navigationController = window.rootViewController as? UINavigationController {
-      let viewModel = SearchViewModel()
-      viewModel.coordinatorDelegate = self
-      searchVC.viewModel = viewModel
+      let searchViewModel = SearchViewModel()
+      searchViewModel.canUpdateVotes = viewModel.permission.value??.canUpdateVotes ?? false
+      searchViewModel.coordinatorDelegate = self
+      searchVC.viewModel = searchViewModel
       navigationController.pushViewController(searchVC, animated: true)
     }
   }
@@ -113,6 +114,7 @@ extension HomeCoordinator: SearchViewModelCoordinatorDelegate {
     if let voterVC = mainStoryBoard?.instantiateViewController(withIdentifier: "VoterDetailsTableViewController") as? VoterDetailsTableViewController,
       let navigationController = window.rootViewController as? UINavigationController {
       let voteUpdateViewModel = VoteUpdaterViewModel()
+      voteUpdateViewModel.canUpdateVote = viewModel.canUpdateVotes
       voteUpdateViewModel.voter = viewModel.voter
       voterVC.viewModel = voteUpdateViewModel
       navigationController.pushViewController(voterVC, animated: true)

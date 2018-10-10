@@ -17,18 +17,33 @@ class RegionViewModel {
 
   var sites: Observable<[Site]> = Observable([])
 
+  var path: String {
+    get {
+      return ElectionsService.shared.user.path
+    }
+    set {
+      ElectionsService.shared.user.path = newValue
+    }
+  }
+  // Errors
+  var errorMessage: Observable<String?> = Observable(nil)
+
   init() {
     ElectionsService.shared.sites { sites in
       guard !sites.isEmpty else {
         return
       }
       let item = sites[0]
-      ElectionsService.shared.user.path = item.path
+      self.path = item.path
       self.sites.value = sites
     }
   }
 
-  func login() {
+  func submit() {
+    guard !self.path.isEmpty else {
+      self.errorMessage.value = "invalid path"
+      return
+    }
     self.coordinatorDelegate?.regionViewModelCoordinatorDidFinish(viewModel: self)
   }
 }

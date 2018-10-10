@@ -28,21 +28,37 @@ class CodeValidationViewModel {
     }
   }
 
+  private var user: User {
+    return ElectionsService.shared.user
+  }
+
   init() {
     ElectionsService.shared.getCode() { self.code = $0 }
   }
+
+  // Errors
+  var errorMessage: Observable<String?> = Observable(nil)
 
   // Submit
   func submit() {
 
     guard let requestCode = self.code else {
-      print("request code failed")
+      self.errorMessage.value =  "request code failed"
       return
     }
     if requestCode == self.viewDelegate?.pinCode() {
+      self.saveUser()
       DispatchQueue.main.async {
         self.coordinatorDelegate?.codeValidationViewModelDidEnterCode(viewModel: self)
       }
+    } else {
+      self.errorMessage.value = "incorrect code"
     }
   }
+
+  private func saveUser() {
+    let context = DataController.shared.backgroundContext
+    CoreDataUser.addUser(name: user.name, password: user.password, phone: user.phone, path: user.path, intoContext: context)
+  }
+
 }

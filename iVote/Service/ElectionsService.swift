@@ -20,12 +20,15 @@ class ElectionsService: WebService {
     let endPoint = EndPoints.Global()
     self.loadXMLAccessor(resource: endPoint.resource) { (xmlAccessor, error) in
       guard error == nil, let xml = xmlAccessor else {
-        completion([])
+        completion(sites)
         return
       }
-      let iterator = xml["get_web_addResponse",
-                        "get_web_addResult",
-                        "sites", "site"].makeIterator()
+      let responseData = xml["get_web_addResponse", "get_web_addResult"]
+      guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
+        completion(sites)
+        return
+      }
+      let iterator = responseData["sites", "site"].makeIterator()
 
       while let next = iterator.next() {
         guard let id = next["Site_id"].text, let name = next["Site_name"].text, let path = next["Site_path"].text else {
@@ -48,13 +51,13 @@ class ElectionsService: WebService {
           completion(nil)
           return
         }
-        let reponseData = xml["User_AuthenticationResponse",
+        let responseData = xml["User_AuthenticationResponse",
                               "User_AuthenticationResult"]
-        guard let _ = reponseData["ContainsErrors"].text else {
+        guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
           completion(nil)
           return
         }
-        let userData = reponseData["User"]
+        let userData = responseData["User"]
 
         let permission = Permission()
         permission.canQuery = Bool(userData["New_search"].text)
@@ -63,7 +66,7 @@ class ElectionsService: WebService {
         permission.canReadBallots = Bool(userData["New_kalpi_status"].text)
         permission.canReportIssue = Bool(userData["New_harshat_dovoh"].text)
 
-        let ballotsData = reponseData["User_Permission", "kalpi"]
+        let ballotsData = responseData["User_Permission", "kalpi"]
         let iterator = ballotsData.makeIterator()
         while let next = iterator.next() {
           guard let id = next["Kalpi_id"].text, let name = next["Kalpi_name"].text else {
@@ -101,9 +104,12 @@ class ElectionsService: WebService {
           completion(nil)
           return
         }
-        if let code = xml["User_Send_codeResponse",
-                          "User_Send_codeResult",
-                          "User_code"].text {
+        let responseData = xml["User_Send_codeResponse", "User_Send_codeResult"]
+        guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
+          completion(nil)
+          return
+        }
+        if let code = responseData["User_code"].text {
           completion(code)
         } else {
           completion(nil)
@@ -123,19 +129,23 @@ class ElectionsService: WebService {
           completion(nil)
           return
         }
-        let statusData = xml["Get_MainPage_dataResponse", "Get_MainPage_dataResult"]
+        let responseData = xml["Get_MainPage_dataResponse", "Get_MainPage_dataResult"]
+        guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
+          completion(nil)
+          return
+        }
         // load ballot staus
         let ballotStatus = BallotStatus()
-        ballotStatus.total = statusData["total_ballot_box"].text
-        ballotStatus.isVoted = statusData["Isvote_ballot_box"].text
-        ballotStatus.notVoted = statusData["Notevote_ballot_box"].text
-        ballotStatus.votingPercentage = statusData["pr_ballot_box"].text
+        ballotStatus.total = responseData["total_ballot_box"].text
+        ballotStatus.isVoted = responseData["Isvote_ballot_box"].text
+        ballotStatus.notVoted = responseData["Notevote_ballot_box"].text
+        ballotStatus.votingPercentage = responseData["pr_ballot_box"].text
         // total data
         let votersStatus = VotersStatus()
-        votersStatus.total = statusData["total_ballot_box"].text
-        votersStatus.isVoted = statusData["Isvote_ballot_box"].text
-        votersStatus.notVoted = statusData["Notevote_ballot_box"].text
-        votersStatus.votingPercentage = statusData["pr_ballot_box"].text
+        votersStatus.total = responseData["total_ballot_box"].text
+        votersStatus.isVoted = responseData["Isvote_ballot_box"].text
+        votersStatus.notVoted = responseData["Notevote_ballot_box"].text
+        votersStatus.votingPercentage = responseData["pr_ballot_box"].text
 
         let status = Status(ballot: ballotStatus, voters: votersStatus)
         completion(status)
@@ -155,9 +165,13 @@ class ElectionsService: WebService {
           completion(nil)
           return
         }
-        let contact = xml["Search_contact_by_idResponse",
-                          "Search_contact_by_idResult",
-                          "Search_contact"]
+        let responseData = xml["Search_contact_by_idResponse", "Search_contact_by_idResult"]
+
+        guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
+          completion(nil)
+          return
+        }
+        let contact = responseData["Search_contact"]
         guard let id = contact["Contact_id"].text,
           let fname = contact["Contact_fname"].text,
         let lname = contact["Contact_lname"].text,
@@ -194,9 +208,13 @@ class ElectionsService: WebService {
           return
         }
         var success = false
-        if let _ = xml["Update_voteResponse",
-                          "Update_voteResult",
-                          "Update_vote"].text {
+        let responseData = xml["Update_voteResponse", "Update_voteResult"]
+
+        guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
+          completion(false)
+          return
+        }
+        if let _ = xml["Update_vote"].text {
           success = true
         }
         completion(success)
@@ -216,10 +234,12 @@ class ElectionsService: WebService {
           completion(nominees)
           return
         }
-        let elements = xml["get_all_NomineeResponse",
-                           "get_all_NomineeResult",
-                           "Get_all_Nominee",
-                           "Nominee"]
+        let responseData = xml["get_all_NomineeResponse", "get_all_NomineeResult"]
+        guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
+          completion(nominees)
+          return
+        }
+        let elements = responseData["Get_all_Nominee", "Nominee"]
         let iterator = elements.makeIterator()
         while let next = iterator.next() {
           let nominee = Nominee()
@@ -246,9 +266,12 @@ class ElectionsService: WebService {
           return
         }
         var success = false
-        if let _ = xml["Count_voteResponse",
-                       "Count_voteResult",
-                       "Count_vote"].text {
+        let responseData = xml["Count_voteResponse", "Count_voteResult"]
+        guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
+          completion(false)
+          return
+        }
+       if responseData["Count_vote"].text != nil {
           success = true
         }
         completion(success)
@@ -268,10 +291,12 @@ class ElectionsService: WebService {
           completion(ballots)
           return
         }
-        let elements = xml["Get_all_ballot_boxResponse",
-                           "Get_all_ballot_boxResult",
-                           "Get_all_ballot_box",
-                           "Kalpi_status"]
+        let responseData = xml["Get_all_ballot_boxResponse", "Get_all_ballot_boxResult"]
+        guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
+          completion(ballots)
+          return
+        }
+        let elements = responseData["Get_all_ballot_box", "Kalpi_status"]
         let iterator = elements.makeIterator()
         while let next = iterator.next() {
           guard let id = next["Kalpi_id"].text,
@@ -319,9 +344,12 @@ class ElectionsService: WebService {
           return
         }
         var success = false
-        if let _ = xml["Update_Ballot_box_ptakimResponse",
-                       "Update_Ballot_box_ptakimResult",
-                       responseKey].text {
+        let responseData = xml["Update_Ballot_box_ptakimResponse", "Update_Ballot_box_ptakimResult"]
+        guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
+          completion(false)
+          return
+        }
+        if responseData[responseKey].text != nil {
           success = true
         }
         completion(success)
@@ -338,9 +366,12 @@ class ElectionsService: WebService {
           return
         }
         var success = false
-        if let _ = xml["Send_msg_to_controlResponse",
-                       "Send_msg_to_controlResult",
-                       "Send_msg_to_control"].text {
+        let responseData = xml["Send_msg_to_controlResponse", "Send_msg_to_controlResult"]
+        guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
+          completion(false)
+          return
+        }
+        if responseData["Send_msg_to_control"].text != nil{
           success = true
         }
         completion(success)

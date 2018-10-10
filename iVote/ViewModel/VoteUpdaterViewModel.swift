@@ -22,13 +22,13 @@ class VoteUpdaterViewModel {
 
   var canUpdateVote = false
   // Errors
-  var errorMessage: String?
+  var errorMessage: Observable<String?> = Observable(nil)
 
   func submit() {
     guard let ballotId = self.ballotId ?? self.voter?.ballotId,
       let ballotNumber = self.ballotNumber ?? self.voter?.ballotNumber,
       (self.viewDelegate?.canSubmit() ?? false) else {
-        self.errorMessage = "invalid voter data"
+        self.errorMessage.value = "invalid voter data"
         return
     }
     ElectionsService.shared.updateVoter(withBallotId: ballotId, ballotNumber: ballotNumber) { (success) in
@@ -37,7 +37,7 @@ class VoteUpdaterViewModel {
           self.viewDelegate?.voteUpdaterViewModel(didUpdateVoter: true)
         }
       } else {
-        self.errorMessage = "could not update voter"
+        self.errorMessage.value = "could not update voter"
         self.viewDelegate?.voteUpdaterViewModel(didUpdateVoter: false)
       }
     }
