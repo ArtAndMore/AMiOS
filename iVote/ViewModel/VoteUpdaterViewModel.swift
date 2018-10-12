@@ -31,14 +31,16 @@ class VoteUpdaterViewModel {
         self.errorMessage.value = "invalid voter data"
         return
     }
-    ElectionsService.shared.updateVoter(withBallotId: ballotId, ballotNumber: ballotNumber) { (success) in
-      if success {
+    ElectionsService.shared.updateVoter(withBallotId: ballotId, ballotNumber: ballotNumber) { (error) in
+      if let err = error {
+        if err == .noNetworkConnection {
+          let context = DataController.shared.viewContext
+          VoterEntity.addVoter(ballotId: ballotId, ballotNumber: ballotNumber, intoContext: context)
+        }
+      } else {
         DispatchQueue.main.async {
           self.viewDelegate?.voteUpdaterViewModel(didUpdateVoter: true)
         }
-      } else {
-        self.errorMessage.value = "could not update voter"
-        self.viewDelegate?.voteUpdaterViewModel(didUpdateVoter: false)
       }
     }
   }

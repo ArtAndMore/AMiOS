@@ -58,9 +58,9 @@ class HomeViewModel {
       return
     }
     // getStatus
-    ElectionsService.shared.statusForCurrentBallot() { (status) in
+    ElectionsService.shared.statusForCurrentBallot() { (status, error) in
       self.status.value = status
-      let success = (status != nil)
+      let success = (error == nil && status != nil)
       self.errorMessage.value = !success ? "could not load status data" : nil
     }
   }
@@ -68,8 +68,8 @@ class HomeViewModel {
   init(user: User) {
     self.user = user
     // load user permistions
-    ElectionsService.shared.authenticate { permission in
-      guard let permission = permission else {
+    ElectionsService.shared.authenticate { (permission, error) in
+      guard let permission = permission, error == nil else {
         self.errorMessage.value = "invalid permission"
         return
       }
@@ -79,14 +79,18 @@ class HomeViewModel {
       self.getBallotStatus(withPermission: permission)
       // getAllBallots
       if permission.canReadBallots {
-        ElectionsService.shared.getAllBallots { ballots in
-          self.ballots.value = ballots.sorted(by: { Int($0.number)! < Int($1.number)! })
+        ElectionsService.shared.getAllBallots { (ballots, error) in
+          if error == nil {
+            self.ballots.value = ballots.sorted(by: { Int($0.number)! < Int($1.number)! })
+          }
         }
       }
       // getAllNominee
       if permission.canUpdateNomineeCount {
-        ElectionsService.shared.getAllNominee {
-          self.nominees.value = $0
+        ElectionsService.shared.getAllNominee { (nominees, error) in
+          if error == nil {
+            self.nominees.value = nominees
+          }
         }
       }
 

@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import AlertBar
 
-class VoteUpdaterViewController: UIViewController {
+class VoteUpdaterViewController: UITableViewController {
 
   @IBOutlet fileprivate weak var updateVoteButton: UIButton!
   @IBOutlet fileprivate var ballotIdTextField: UITextField!
@@ -87,6 +88,8 @@ extension VoteUpdaterViewController: VoteUpdaterViewModelDelegate {
   }
 
   func voteUpdaterViewModel(didUpdateVoter success: Bool) {
-    print("voter updated successfully")
+    if success {
+      AlertBar.show(type: .success, message: "עודכן בהצלחה")
+    }
   }
 }

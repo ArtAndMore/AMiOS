@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchViewController: UIViewController {
+class SearchViewController: UITableViewController {
 
   @IBOutlet private weak var searchButton: UIButton!
   @IBOutlet private weak var resultsTableViewContainer: UIView!

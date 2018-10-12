@@ -8,10 +8,10 @@
 
 import UIKit
 import SwiftyPickerPopover
+import JTSplashView
+import AlertBar
 
 class HomeViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
-
-//  private let dropDown = DropDown()
 
   struct ReusableCellIdentifiers {
     static let base         = "BallotCollectionViewCell"
@@ -29,20 +29,24 @@ class HomeViewController: UIViewController, UIAdaptivePresentationControllerDele
     self.collectionView.register(BallotStatisticsCollectionViewCell.nib(), forCellWithReuseIdentifier: ReusableCellIdentifiers.statistics)
     self.collectionView.register(BallotSearchCollectionViewCell.nib(), forCellWithReuseIdentifier: ReusableCellIdentifiers.search)
 
-    observeViewModelChanges()
-  }
+    if self.viewModel.permission.value == nil {
+      JTSplashView.splashView(withBackgroundColor: .white, circleColor: UIColor.color(withHexString: "#6CBBFF"), circleSize: nil)
+    }
 
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
+    observeViewModelChanges()
   }
 }
 
 private extension HomeViewController {
   func observeViewModelChanges() {
+
     self.viewModel.permission.observe { permission in
       if let permission = permission {
         self.navigationItem.leftBarButtonItem?.isEnabled = permission.ballots.count > 0
-        self.collectionView.reloadData()
+
+          JTSplashView.finishWithCompletion() {
+            self.collectionView.reloadData()
+          }
       }
     }
     //

@@ -9,7 +9,7 @@
 import UIKit
 import SVPinView
 
-class CodeValidationViewController: UIViewController {
+class CodeValidationViewController: UITableViewController {
 
   private var requestCode: String?
 

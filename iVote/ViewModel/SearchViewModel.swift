@@ -32,8 +32,8 @@ class SearchViewModel {
       self.errorMessage.value = "invalid voter id"
       return
     }
-    ElectionsService.shared.searchVoter(byId: id) { voter in
-      if let voter = voter {
+    ElectionsService.shared.searchVoter(byId: id) { (voter, error) in
+      if error == nil, let voter = voter {
         self.voter = voter
         DispatchQueue.main.async {
           self.viewDelegate?.searchViewModel(didFindVoter: voter)

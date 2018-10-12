@@ -12,7 +12,7 @@ protocol LoginViewControllerCoordinatorDelegate: Coordinator {
   func authenticateViewModelDidLogin()
 }
 
-class LoginViewController: UIViewController {
+class LoginViewController: UITableViewController {
 
   @IBOutlet fileprivate weak var loginButton: UIButton!
   @IBOutlet fileprivate var usernameTextField: UITextField!
@@ -34,6 +34,8 @@ class LoginViewController: UIViewController {
     self.navigationController?.setNavigationBarHidden(false, animated: true)
     self.viewModel.errorMessage.observe { _ in
       self.loginButton.shake()
+      self.loginButton.isEnabled = true
+      self.loginButton.isHighlighted = false
     }
   }
 }
@@ -42,6 +44,8 @@ private extension LoginViewController {
 
   @IBAction func submitAction() {
     self.viewModel.submit()
+    self.loginButton.isEnabled = false
+    self.loginButton.isHighlighted = true
   }
 
   func textFieldDidChange(_ textField: UITextField?) {

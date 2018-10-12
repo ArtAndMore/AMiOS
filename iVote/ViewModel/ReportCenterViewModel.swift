@@ -9,6 +9,7 @@
 import Foundation
 
 protocol ReportCenterViewModelDlelegate: AnyObject {
+  func reportCenterViewModel(didUpdateStatus success:Bool)
   func reportCenterViewModel(didSentMessage success:Bool)
 }
 
@@ -19,7 +20,11 @@ class ReportCenterViewModel {
   var errorMessage: Observable<String?> = Observable(nil)
 
   func sendReport(byType type: ReportType, status: Int) {
-    ElectionsService.shared.updateReport(byType: type, status: status) { (_) in }
+    ElectionsService.shared.updateReport(byType: type, status: status) { (error) in
+      DispatchQueue.main.async {
+        self.viewDelegate?.reportCenterViewModel(didUpdateStatus: (error != nil))
+      }
+    }
   }
 
   func sendReport(message: String) {
@@ -27,9 +32,9 @@ class ReportCenterViewModel {
       self.errorMessage.value = "empty message" 
       return
     }
-    ElectionsService.shared.sendReportMessage(message) { success in
+    ElectionsService.shared.sendReportMessage(message) { error in
       DispatchQueue.main.async {
-        self.viewDelegate?.reportCenterViewModel(didSentMessage: success)
+        self.viewDelegate?.reportCenterViewModel(didSentMessage: (error != nil))
       }
     }
   }

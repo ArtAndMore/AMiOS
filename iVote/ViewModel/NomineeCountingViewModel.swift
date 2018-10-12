@@ -26,6 +26,9 @@ class NomineeCountingViewModel {
     }
   }
 
+  // Errors
+  var errorMessage: Observable<String?> = Observable(nil)
+
   init() {
     guard self.nominees.isEmpty else {
       return
@@ -38,11 +41,17 @@ class NomineeCountingViewModel {
     }
     let nominee = nominees[index]
     nominee.status = status
-    ElectionsService.shared.updateNominee(nominee) { (success) in
-      DispatchQueue.main.async {
-        self.viewDelegate?.nommineeCountingViewModel(didUpdateStatus: success)
+    ElectionsService.shared.updateNominee(nominee) { (error) in
+      if let err = error {
+        if err == .noNetworkConnection {
+          let context = DataController.shared.viewContext
+          NomineeEntity.addNominee(id: nominee.id, status: nominee.status, intoContext: context)
+        }
+      } else {
+        DispatchQueue.main.async {
+          self.viewDelegate?.nommineeCountingViewModel(didUpdateStatus: true)
+        }
       }
-      // TODO: save status for nominee to local DB
     }
   }
 }

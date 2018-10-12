@@ -72,7 +72,10 @@ extension AppCoordinator: RegionCoordinatorDelegate {
 
 extension AppCoordinator: AuthenticationCoordinatorDelegate {
   func authenticationCoordinatorDidFinish(authenticationCoordinator: AuthenticationCoordinator) {
-    self.showCodeValidationViewController()
+    // self.showCodeValidationViewController()
+    if let user = DataController.shared.authenticatedUser {
+      self.showHomeViewController(forUser: user)
+    }
   }
 }
 
@@ -86,7 +89,7 @@ extension AppCoordinator: CodeValidationCoordinatorDelegate {
 
 extension AppCoordinator: HomeCoordinatorDelegate {
   func logout(coordinator: HomeCoordinator) {
-    DataController.shared.deleteAllUsers()
+    DataController.shared.emptyUsers()
     self.showRegionViewController()
   }
 

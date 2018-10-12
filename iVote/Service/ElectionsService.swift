@@ -13,19 +13,20 @@ class ElectionsService: WebService {
 
   var user: User = User()
   var currentBallot: String =  ""
+
   // MARK: - GLOBAL SERVICES URLS
 
-  func sites(completion: @escaping ((_ sites: [Site]) -> Void)) {
+  func sites(completion: @escaping ((_ sites: [Site], WebServiceError?) -> Void)) {
     var sites: [Site] = []
     let endPoint = EndPoints.Global()
     self.loadXMLAccessor(resource: endPoint.resource) { (xmlAccessor, error) in
       guard error == nil, let xml = xmlAccessor else {
-        completion(sites)
+        completion(sites, error)
         return
       }
       let responseData = xml["get_web_addResponse", "get_web_addResult"]
       guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
-        completion(sites)
+        completion(sites, error)
         return
       }
       let iterator = responseData["sites", "site"].makeIterator()
@@ -37,24 +38,24 @@ class ElectionsService: WebService {
         let site = Site(name: name, id: id, path: path)
         sites.append(site)
       }
-      completion(sites)
+      completion(sites, error)
     }
   }
 
   // MARK: - USER
 
-  func authenticate(completion: @escaping ((_ permission: Permission?) -> Void)) {
+  func authenticate(completion: @escaping ((_ permission: Permission?, _ error: WebServiceError?) -> Void)) {
     self.queue.async {
       let endPoint = EndPoints.UserAuthentication(path: self.user.path, user: self.user)
       self.loadXMLAccessor(resource: endPoint.resource) { (xmlAccessor, error) in
         guard error == nil, let xml = xmlAccessor else {
-          completion(nil)
+          completion(nil, error)
           return
         }
         let responseData = xml["User_AuthenticationResponse",
                               "User_AuthenticationResult"]
         guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
-          completion(nil)
+          completion(nil, error)
           return
         }
         let userData = responseData["User"]
@@ -90,48 +91,45 @@ class ElectionsService: WebService {
         }
         self.currentBallot = permission.ballots.first?.id ?? ""
         self.user.permission = permission
-        completion(permission)
+        completion(permission, error)
       }
     }
   }
 
-  func getCode(completion:@escaping ((_ code: String?) -> Void)) {
+  func getCode(completion:@escaping ((_ code: String?, _ error: WebServiceError?) -> Void)) {
     self.queue.async {
       let endPoint = EndPoints.UserSendCode(path: self.user.path, user: self.user)
 
       self.loadXMLAccessor(resource: endPoint.resource) { (xmlAccessor, error) in
         guard error == nil, let xml = xmlAccessor else {
-          completion(nil)
+          completion(nil, error)
           return
         }
         let responseData = xml["User_Send_codeResponse", "User_Send_codeResult"]
-        guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
-          completion(nil)
-          return
+        guard let value = responseData["ContainsErrors"].text,
+          Bool(value) == false, let code = responseData["User_code"].text else {
+            completion(nil, WebServiceError.invalidResponseData)
+            return
         }
-        if let code = responseData["User_code"].text {
-          completion(code)
-        } else {
-          completion(nil)
-        }
+        completion(code, nil)
       }
     }
   }
 
   // MARK: - STATUS
 
-  func statusForCurrentBallot(completion:@escaping ((_ status: Status?) -> Void)) {
+  func statusForCurrentBallot(completion:@escaping ((_ status: Status?, _ error: WebServiceError?) -> Void)) {
     self.queue.async {
       let endPoint = EndPoints.GetMainPageData(path: self.user.path, ballotNumber: self.currentBallot)
 
       self.loadXMLAccessor(resource: endPoint.resource) { (xmlAccessor, error) in
         guard error == nil, let xml = xmlAccessor else {
-          completion(nil)
+          completion(nil, error)
           return
         }
         let responseData = xml["Get_MainPage_dataResponse", "Get_MainPage_dataResult"]
         guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
-          completion(nil)
+          completion(nil, WebServiceError.invalidResponseData)
           return
         }
         // load ballot staus
@@ -148,7 +146,7 @@ class ElectionsService: WebService {
         votersStatus.votingPercentage = responseData["pr_ballot_box"].text
 
         let status = Status(ballot: ballotStatus, voters: votersStatus)
-        completion(status)
+        completion(status, nil)
       }
 
     }
@@ -156,19 +154,19 @@ class ElectionsService: WebService {
 
   // MARK: - VOTER
 
-  func searchVoter(byId voterId: String, completion:@escaping ((_ voter: Voter?) -> Void)) {
+  func searchVoter(byId voterId: String, completion:@escaping ((_ voter: Voter?, _ error: WebServiceError?) -> Void)) {
     self.queue.async {
       let endPoint = EndPoints.SearchContactById(path: self.user.path, id: voterId)
 
       self.loadXMLAccessor(resource: endPoint.resource) { (xmlAccessor, error) in
         guard error == nil, let xml = xmlAccessor else {
-          completion(nil)
+          completion(nil, error)
           return
         }
         let responseData = xml["Search_contact_by_idResponse", "Search_contact_by_idResult"]
 
         guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
-          completion(nil)
+          completion(nil, WebServiceError.invalidResponseData)
           return
         }
         let contact = responseData["Search_contact"]
@@ -178,7 +176,7 @@ class ElectionsService: WebService {
         let father = contact["Contact_father_name"].text,
         let ballotId = contact["Contact_kalpi_id"].text,
         let ballotNumber = contact["Contact_kalpi_sidori_num"].text else {
-          completion(nil)
+          completion(nil, WebServiceError.invalidResponseData)
           return
         }
         let voter = Voter(id: id)
@@ -193,50 +191,47 @@ class ElectionsService: WebService {
         voter.ballotNumber = ballotNumber
         voter.phoneNumber = contact["Contact_phone"].text
 
-        completion(voter)
+        completion(voter, nil)
       }
 
     }
   }
 
-  func updateVoter(withBallotId ballotId: String, ballotNumber: String, completion:@escaping ((_ success: Bool) -> Void)) {
+  func updateVoter(withBallotId ballotId: String, ballotNumber: String, completion:@escaping ((_ error: WebServiceError?) -> Void)) {
     self.queue.async {
       let endPoint = EndPoints.UpdateVote(path: self.user.path, ballotId: ballotId, ballotNumber: ballotNumber)
       self.loadXMLAccessor(resource: endPoint.resource) { (xmlAccessor, error) in
         guard error == nil, let xml = xmlAccessor else {
-          completion(false)
+          completion(error)
           return
         }
-        var success = false
         let responseData = xml["Update_voteResponse", "Update_voteResult"]
 
-        guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
-          completion(false)
+        guard let value = responseData["ContainsErrors"].text, Bool(value) == false,
+        xml["Update_vote"].text != nil else {
+          completion(WebServiceError.invalidResponseData)
           return
         }
-        if let _ = xml["Update_vote"].text {
-          success = true
-        }
-        completion(success)
+        completion(nil)
       }
     }
   }
 
   // MARK: - NOMINEE
 
-  func getAllNominee(completion:@escaping (([Nominee]) -> Void)) {
+  func getAllNominee(completion:@escaping (([Nominee], _ error: WebServiceError?) -> Void)) {
     self.queue.async {
       let endPoint = EndPoints.GetAllNominee(path: self.user.path)
 
       self.loadXMLAccessor(resource: endPoint.resource) { (xmlAccessor, error) in
         var nominees: [Nominee] = []
         guard error == nil, let xml = xmlAccessor else {
-          completion(nominees)
+          completion(nominees, error)
           return
         }
         let responseData = xml["get_all_NomineeResponse", "get_all_NomineeResult"]
         guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
-          completion(nominees)
+          completion(nominees, WebServiceError.invalidResponseData)
           return
         }
         let elements = responseData["Get_all_Nominee", "Nominee"]
@@ -250,50 +245,47 @@ class ElectionsService: WebService {
             nominees.append(nominee)
           }
         }
-        completion(nominees)
+        completion(nominees, nil)
       }
     }
   }
 
-  func updateNominee(_ nominee: Nominee, completion:@escaping ((_ success: Bool) -> Void)) {
+  func updateNominee(_ nominee: Nominee, completion:@escaping ((_ error: WebServiceError?) -> Void)) {
     self.queue.async {
       let endPoint = EndPoints.CountVote(path: self.user.path, ballotId: self.currentBallot,
                                          electedId: nominee.id,
                                          value: "\(nominee.status)")
       self.loadXMLAccessor(resource: endPoint.resource) { (xmlAccessor, error) in
         guard error == nil, let xml = xmlAccessor else {
-          completion(false)
+          completion(error)
           return
         }
-        var success = false
         let responseData = xml["Count_voteResponse", "Count_voteResult"]
-        guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
-          completion(false)
+        guard let value = responseData["ContainsErrors"].text, Bool(value) == false,
+          responseData["Count_vote"].text != nil else {
+          completion(WebServiceError.invalidResponseData)
           return
         }
-       if responseData["Count_vote"].text != nil {
-          success = true
-        }
-        completion(success)
+        completion(nil)
       }
     }
   }
 
   // MARK: - BALLOTS
 
-  func getAllBallots(completion:@escaping ((_ success: [Ballot]) -> Void)) {
+  func getAllBallots(completion:@escaping ((_ success: [Ballot], _ error: WebServiceError?) -> Void)) {
     self.queue.async {
       let endPoint = EndPoints.GetAllBallotBox(path: self.user.path)
 
       self.loadXMLAccessor(resource: endPoint.resource) { (xmlAccessor, error) in
         var ballots: [Ballot] = []
         guard error == nil, let xml = xmlAccessor else {
-          completion(ballots)
+          completion(ballots, nil)
           return
         }
         let responseData = xml["Get_all_ballot_boxResponse", "Get_all_ballot_boxResult"]
         guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
-          completion(ballots)
+          completion(ballots, WebServiceError.invalidResponseData)
           return
         }
         let elements = responseData["Get_all_ballot_box", "Kalpi_status"]
@@ -311,14 +303,14 @@ class ElectionsService: WebService {
           let ballot = Ballot(id: id, number: number, name: name, total: total, isVoted: isVoted, notVoted: notVoted)
           ballots.append(ballot)
         }
-        completion(ballots)
+        completion(ballots, nil)
       }
     }
   }
 
   // MARK: - REPORT
 
-  func updateReport(byType type: ReportType, status: Int, completion:@escaping ((_ success: Bool) -> Void)) {
+  func updateReport(byType type: ReportType, status: Int, completion:@escaping ((_ error: WebServiceError?) -> Void)) {
     self.queue.async {
       let ballotId = self.currentBallot
       var endPoint: EndPoint
@@ -340,41 +332,33 @@ class ElectionsService: WebService {
 
       self.loadXMLAccessor(resource: endPoint.resource) { (xmlAccessor, error) in
         guard error == nil, let xml = xmlAccessor else {
-          completion(false)
+          completion(error)
           return
         }
-        var success = false
         let responseData = xml["Update_Ballot_box_ptakimResponse", "Update_Ballot_box_ptakimResult"]
-        guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
-          completion(false)
+        guard let value = responseData["ContainsErrors"].text, Bool(value) == false, responseData[responseKey].text != nil else {
+          completion(WebServiceError.invalidResponseData)
           return
         }
-        if responseData[responseKey].text != nil {
-          success = true
-        }
-        completion(success)
+        completion(nil)
       }
     }
   }
 
-  func sendReportMessage(_ message: String, completion:@escaping ((_ success: Bool) -> Void)) {
+  func sendReportMessage(_ message: String, completion:@escaping ((_ error: WebServiceError?) -> Void)) {
     self.queue.async {
       let endPoint = EndPoints.SendMessgeToControl(path: self.user.path, username: self.user.name, message: message)
       self.loadXMLAccessor(resource: endPoint.resource) { (xmlAccessor, error) in
         guard error == nil, let xml = xmlAccessor else {
-          completion(false)
+          completion(error)
           return
         }
-        var success = false
         let responseData = xml["Send_msg_to_controlResponse", "Send_msg_to_controlResult"]
-        guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
-          completion(false)
+        guard let value = responseData["ContainsErrors"].text, Bool(value) == false, responseData["Send_msg_to_control"].text != nil else {
+          completion(WebServiceError.invalidResponseData)
           return
         }
-        if responseData["Send_msg_to_control"].text != nil{
-          success = true
-        }
-        completion(success)
+        completion(nil)
       }
     }
   }

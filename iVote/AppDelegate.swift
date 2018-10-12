@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AlertBar
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     //
     Theme.configure()
+    //
+    self.observeReachabilityChanges()
     //
     DataController.configure()
     //
@@ -50,6 +53,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
 
+}
 
+private extension AppDelegate {
+
+  func observeReachabilityChanges() {
+    NotificationCenter.default.addObserver(forName: NSNotification.Name.ReachabilityIsUnreachable, object: nil, queue: OperationQueue.main) { (_) in
+      AlertBar.show(type: .error, message: "אין חיבור אינטרנט")
+    }
+    NotificationCenter.default.addObserver(forName: NSNotification.Name.ReachabilityIsReachable, object: nil, queue: OperationQueue.main) { (_) in
+      self.networkReachabilityHandler()
+    }
+  }
+
+  func networkReachabilityHandler() {
+    let voters = DataController.shared.fetchVoters()
+    if !voters.isEmpty {
+      self.updateVoters(voters)
+    }
+    let nominees = DataController.shared.fetchNominees()
+    if !nominees.isEmpty {
+      self.updateNominees(nominees)
+    }
+  }
+
+  func updateVoters(_ voters: [Voter]) {
+    voters.forEach { (voter) in
+      if let ballotId = voter.ballotId, let ballotNumber = voter.ballotNumber {
+        ElectionsService.shared.updateVoter(withBallotId: ballotId, ballotNumber: ballotNumber, completion: { (error) in
+          if error == nil {
+            DataController.shared.emptyVoter(voter)
+          }
+        })
+      }
+    }
+  }
+
+  func updateNominees(_ nominees: [Nominee]) {
+    nominees.forEach { (nominee) in
+      ElectionsService.shared.updateNominee(nominee, completion: { (error) in
+        if error == nil {
+          DataController.shared.emptyNominee(nominee)
+        }
+      })
+    }
+
+  }
 }
 

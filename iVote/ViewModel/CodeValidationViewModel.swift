@@ -33,7 +33,7 @@ class CodeValidationViewModel {
   }
 
   init() {
-    ElectionsService.shared.getCode() { self.code = $0 }
+    ElectionsService.shared.getCode() {(code,_) in self.code = code }
   }
 
   // Errors
@@ -58,7 +58,7 @@ class CodeValidationViewModel {
 
   private func saveUser() {
     let context = DataController.shared.backgroundContext
-    CoreDataUser.addUser(name: user.name, password: user.password, phone: user.phone, path: user.path, intoContext: context)
+    UserEntity.addUser(name: user.name, password: user.password, phone: user.phone, path: user.path, intoContext: context)
   }
 
 }

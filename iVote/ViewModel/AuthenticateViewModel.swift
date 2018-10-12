@@ -50,8 +50,9 @@ class AuthenticateViewModel {
       self.errorMessage.value = "invalid form"
       return
     }
-    ElectionsService.shared.authenticate() { (permission) in
-      if permission != nil {
+    ElectionsService.shared.authenticate() { (permission, error)  in
+      if error == nil, permission != nil {
+        self.saveUser()
         DispatchQueue.main.async {
           self.coordinatorDelegate?.authenticateViewModelDidLogin(viewModel:self)
         }
@@ -59,6 +60,11 @@ class AuthenticateViewModel {
         self.errorMessage.value = "authenticate failed"
       }
     }
+  }
+
+  private func saveUser() {
+    let context = DataController.shared.backgroundContext
+    UserEntity.addUser(name: user.name, password: user.password, phone: user.phone, path: user.path, intoContext: context)
   }
 }
 

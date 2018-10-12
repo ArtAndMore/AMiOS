@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AlertBar
 
 class NomineeCountingTableViewController: UITableViewController {
 
@@ -47,7 +48,11 @@ extension NomineeCountingTableViewController: NomineeCountingViewModelDelegate {
     self.tableView?.reloadData()
   }
 
-  func nommineeCountingViewModel(didUpdateStatus success: Bool) {}
+  func nommineeCountingViewModel(didUpdateStatus success: Bool) {
+    if success {
+      AlertBar.show(type: .success, message: "עודכן בהצלחה")
+    }
+  }
 }
 
 extension NomineeCountingTableViewController: NomineeCountingTableViewCellDlegate {

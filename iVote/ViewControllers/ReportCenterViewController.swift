@@ -7,17 +7,12 @@
 //
 
 import UIKit
+import AlertBar
 
-class ReportCenterViewController: UIViewController {
+class ReportCenterViewController: UITableViewController {
 
   @IBOutlet private weak var sendMessageButton: UIButton!
-  @IBOutlet private weak var scrollView: UIScrollView!
-  @IBOutlet private weak var stabilizationSwitch: UISwitch!
-  @IBOutlet private weak var spectatorSwitch: UISwitch!
-  @IBOutlet private weak var notesSwitch: UISwitch!
-  @IBOutlet private weak var disturbanceSwitch: UISwitch!
-  @IBOutlet private weak var messageTitleLabel: UILabel!
-  
+
   @IBOutlet private weak var messageTextView: UITextView! {
     didSet {
       messageTextView.layer.borderColor = UIColor.color(withHexString: "#808080").cgColor
@@ -35,18 +30,6 @@ class ReportCenterViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardDidShowNotification, object: nil, queue: nil, using: { (notification) in
-      if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-        let keyboardRectangle = keyboardFrame.cgRectValue
-        let keyboardHeight = keyboardRectangle.height
-        self.scrollView.frame.size.height = self.view.bounds.height - (keyboardHeight / 2.0)
-      }
-    })
-
-    _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: nil, using: { (notification) in
-      self.scrollView.frame.size.height = self.view.bounds.height
-    })
-
     self.viewModel.errorMessage.observe { (_) in
       self.sendMessageButton.shake()
     }
@@ -65,8 +48,13 @@ class ReportCenterViewController: UIViewController {
 }
 
 extension ReportCenterViewController: ReportCenterViewModelDlelegate {
-  func reportCenterViewModel(didSentMessage success: Bool) {
+
+  func reportCenterViewModel(didUpdateStatus success:Bool) {
+    AlertBar.show(type: .success, message: "עודכן בהצלחה")
+  }
+  func reportCenterViewModel(didSentMessage success:Bool) {
     self.messageTextView.text = ""
+    AlertBar.show(type: .success, message: "נשלח בהצלחה")
   }
 
 

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AlertBar
 
 struct Theme {
   static let redColor = UIColor.init(red: 255/255, green: 126/255, blue: 121/255, alpha: 1)
@@ -19,9 +20,11 @@ struct Theme {
   
   static func configure() {
     UIBarButtonItem.appearance().tintColor = .black
-//    UITabBar.appearance().unselectedItemTintColor = secondColor
-//    UISegmentedControl.appearance().tintColor = secondColor
-//    UIToolbar.appearance().tintColor = mainColor
-//    UIPickerView.appearance().tintColor = mainColor
+    AlertBar.setDefault(options: AlertBar.Options(
+      shouldConsiderSafeArea: true,
+      isStretchable: true,
+      textAlignment: .center
+      )
+    )
   }
 }

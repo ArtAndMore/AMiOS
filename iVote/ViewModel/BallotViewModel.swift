@@ -27,8 +27,10 @@ class BallotViewModel {
     guard self.ballots.isEmpty else {
       return
     }
-    ElectionsService.shared.getAllBallots { ballots in
-      self.ballots = ballots.sorted(by: { Int($0.number)! < Int($1.number)! })
+    ElectionsService.shared.getAllBallots { (ballots, error) in
+      if error == nil {
+        self.ballots = ballots.sorted(by: { Int($0.number)! < Int($1.number)! })
+      }
     }
   }
 }

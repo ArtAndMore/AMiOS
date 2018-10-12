@@ -27,27 +27,16 @@ class DataController {
 
   var backgroundContext: NSManagedObjectContext!
 
+  /**
+   The persistent container for the application. This implementation
+   creates and returns a container, having loaded the store for the
+   application to it. This property is optional since there are legitimate
+   error conditions that could cause the creation of the store to fail.
+  */
   lazy var persistentContainer: NSPersistentContainer = {
-    /*
-     The persistent container for the application. This implementation
-     creates and returns a container, having loaded the store for the
-     application to it. This property is optional since there are legitimate
-     error conditions that could cause the creation of the store to fail.
-     */
     let container = NSPersistentContainer(name: "iVoteModel")
     container.loadPersistentStores(completionHandler: { (storeDescription, error) in
       if let error = error as NSError? {
-        // Replace this implementation with code to handle the error appropriately.
-        // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-
-        /*
-         Typical reasons for an error here include:
-         * The parent directory does not exist, cannot be created, or disallows writing.
-         * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-         * The device is out of space.
-         * The store could not be migrated to the current model version.
-         Check the error message to determine what the actual problem was.
-         */
         fatalError("Unresolved error \(error), \(error.userInfo)")
       }
     })
@@ -63,12 +52,82 @@ class DataController {
     viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
   }
 
+  // MARK: - Voters
+  func fetchVoters() -> [Voter] {
+    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "VoterEntity")
+    request.returnsObjectsAsFaults = false
+    if let result = try? self.backgroundContext?.fetch(request) as? [VoterEntity] {
+      return result?.compactMap({
+        let voter = Voter(id: "")
+        voter.ballotId = $0.ballotId
+        voter.ballotNumber = $0.ballotNumber
+        return voter
+      }) ?? []
+    }
+    return []
+  }
+
+  func emptyVoter(_ voter: Voter) {
+    let context = backgroundContext
+
+    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "VoterEntity")
+    request.returnsObjectsAsFaults = false
+
+    do {
+      if let result = try context?.fetch(request) as? [VoterEntity] {
+        if let toDelete = result.filter({ $0.ballotId == voter.ballotId && $0.ballotNumber == voter.ballotNumber }).first {
+          context?.delete(toDelete)
+        }
+      }
+      try? context?.save()
+    } catch {
+      print("Failed")
+    }
+  }
+
+  // MARK: - Nominees
+
+  func fetchNominees() -> [Nominee] {
+    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "NomineeEntity")
+    request.returnsObjectsAsFaults = false
+    if let result = try? self.backgroundContext?.fetch(request) as? [NomineeEntity] {
+      return result?.compactMap({
+        let nominee = Nominee()
+        if let id = $0.id {
+          nominee.id = id
+          nominee.status = Int($0.status)
+          return nominee
+        }
+        return nil
+      }) ?? []
+    }
+    return []
+  }
+
+  func emptyNominee(_ nominee: Nominee) {
+    let context = backgroundContext
+
+    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "NomineeEntity")
+    request.returnsObjectsAsFaults = false
+
+    do {
+      if let result = try context?.fetch(request) as? [NomineeEntity] {
+        if let toDelete = result.filter({ $0.id == nominee.id }).first {
+          context?.delete(toDelete)
+        }
+      }
+      try? context?.save()
+    } catch {
+      print("Failed")
+    }
+  }
+
+  // MARK: - Users
 
   func fetchUsers(intoContext context: NSManagedObjectContext?) -> User? {
-    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "CoreDataUser")
-    //request.predicate = NSPredicate(format: "age = %@", "12")
+    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "UserEntity")
     request.returnsObjectsAsFaults = false
-    if let result = try? context?.fetch(request) as? [CoreDataUser] {
+    if let result = try? context?.fetch(request) as? [UserEntity] {
       if let first = result?.last, let name = first.name, let password = first.password, let phone = first.phone, let path = first.path {
         let user = User()
         user.name = name
@@ -81,11 +140,14 @@ class DataController {
     return nil
   }
 
-  func deleteAllUsers() {
+  func emptyUsers() {
+    self.emptyEntities(name: "UserEntity")
+  }
+
+  private func emptyEntities(name entityName: String) {
     let context = viewContext
 
-    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "CoreDataUser")
-    //request.predicate = NSPredicate(format: "age = %@", "12")
+    let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
     request.returnsObjectsAsFaults = false
 
     do {
@@ -93,11 +155,8 @@ class DataController {
       for data in result as! [NSManagedObject] {
         context.delete(data)
       }
-
       try? context.save()
-
     } catch {
-
       print("Failed")
     }
   }

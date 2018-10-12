@@ -22,7 +22,6 @@
 		BB73F5A5216B92AE00F19C85 /* CountingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5A4216B92AE00F19C85 /* CountingLabel.swift */; };
 		BB73F5AC216BA72200F19C85 /* iVoteModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5AA216BA72200F19C85 /* iVoteModel.xcdatamodeld */; };
 		BB73F5AE216BA73C00F19C85 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5AD216BA73C00F19C85 /* DataController.swift */; };
-		BB73F5B0216BB1C100F19C85 /* CoreData+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5AF216BB1C100F19C85 /* CoreData+User.swift */; };
 		BB73F5B2216D324F00F19C85 /* RegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5B1216D324F00F19C85 /* RegionViewController.swift */; };
 		BB73F5B4216D3E2700F19C85 /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5B3216D3E2700F19C85 /* Site.swift */; };
 		BB73F5B6216D424800F19C85 /* RegionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB73F5B5216D424800F19C85 /* RegionCoordinator.swift */; };
@@ -50,6 +49,8 @@
 		BB9CD85C2168C2F200B3F784 /* ReportCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9CD85B2168C2F200B3F784 /* ReportCenterViewController.swift */; };
 		BBC464B22166E38C007455AF /* CodeValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC464B12166E38C007455AF /* CodeValidationViewController.swift */; };
 		BBC464B421675F40007455AF /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC464B321675F40007455AF /* AppCoordinator.swift */; };
+		BBF167602170C80A00470FA3 /* CoreData+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF1675F2170C80A00470FA3 /* CoreData+Entity.swift */; };
+		BBF167622170D9B000470FA3 /* GMStepper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBF167612170D9B000470FA3 /* GMStepper.framework */; };
 		BBF580E02163E021002B05B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF580DF2163E021002B05B4 /* AppDelegate.swift */; };
 		BBF580E52163E021002B05B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBF580E32163E021002B05B4 /* Main.storyboard */; };
 		BBF580E72163E022002B05B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBF580E62163E022002B05B4 /* Assets.xcassets */; };
@@ -100,7 +101,6 @@
 		BB73F5A4216B92AE00F19C85 /* CountingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountingLabel.swift; sourceTree = "<group>"; };
 		BB73F5AB216BA72200F19C85 /* iVoteModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iVoteModel.xcdatamodel; sourceTree = "<group>"; };
 		BB73F5AD216BA73C00F19C85 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
-		BB73F5AF216BB1C100F19C85 /* CoreData+User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreData+User.swift"; sourceTree = "<group>"; };
 		BB73F5B1216D324F00F19C85 /* RegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionViewController.swift; sourceTree = "<group>"; };
 		BB73F5B3216D3E2700F19C85 /* Site.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
 		BB73F5B5216D424800F19C85 /* RegionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionCoordinator.swift; sourceTree = "<group>"; };
@@ -128,6 +128,8 @@
 		BB9CD85B2168C2F200B3F784 /* ReportCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCenterViewController.swift; sourceTree = "<group>"; };
 		BBC464B12166E38C007455AF /* CodeValidationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeValidationViewController.swift; sourceTree = "<group>"; };
 		BBC464B321675F40007455AF /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		BBF1675F2170C80A00470FA3 /* CoreData+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreData+Entity.swift"; sourceTree = "<group>"; };
+		BBF167612170D9B000470FA3 /* GMStepper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GMStepper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBF580DC2163E021002B05B4 /* iVote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iVote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBF580DF2163E021002B05B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBF580E42163E021002B05B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBF167622170D9B000470FA3 /* GMStepper.framework in Frameworks */,
 				405ADAD17B1062A066451C2A /* Pods_iVote.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -176,7 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				BB73F5AD216BA73C00F19C85 /* DataController.swift */,
-				BB73F5AF216BB1C100F19C85 /* CoreData+User.swift */,
+				BBF1675F2170C80A00470FA3 /* CoreData+Entity.swift */,
 				BB73F5AA216BA72200F19C85 /* iVoteModel.xcdatamodeld */,
 			);
 			path = CoreData;
@@ -185,6 +188,7 @@
 		BB9895982168CE7900DD6B85 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				BB73F5B7216D429900F19C85 /* RegionViewModel.swift */,
 				BB9895992168D01A00DD6B85 /* AuthenticateViewModel.swift */,
 				BB98959D2168E12D00DD6B85 /* CodeValidationViewModel.swift */,
 				BB98959F2168E53C00DD6B85 /* HomeViewModel.swift */,
@@ -193,7 +197,6 @@
 				BB9895A721691B0800DD6B85 /* NomineeCountingViewModel.swift */,
 				BB9895AB2169256F00DD6B85 /* BallotViewModel.swift */,
 				BB9895AD216928F300DD6B85 /* ReportCenterViewModel.swift */,
-				BB73F5B7216D429900F19C85 /* RegionViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 		CF2CB8C1A8FBE247A3D69A7D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BBF167612170D9B000470FA3 /* GMStepper.framework */,
 				21ABC851459E92A9A28E308A /* Pods_iVote.framework */,
 				BC39736EA41199040CCEAFF3 /* Pods_iVoteTests.framework */,
 			);
@@ -479,7 +483,9 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-iVote/Pods-iVote-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AlertBar/AlertBar.framework",
 				"${BUILT_PRODUCTS_DIR}/GMStepper/GMStepper.framework",
+				"${BUILT_PRODUCTS_DIR}/JTSplashView/JTSplashView.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/SVPinView/SVPinView.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyPickerPopover/SwiftyPickerPopover.framework",
@@ -487,7 +493,9 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlertBar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GMStepper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JTSplashView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVPinView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyPickerPopover.framework",
@@ -528,6 +536,7 @@
 				BB56E1712165793600D740F5 /* Resource.swift in Sources */,
 				BBF5810E2163F206002B05B4 /* HomeViewController.swift in Sources */,
 				BB59A6DD2166C0C9003A8CFB /* Report.swift in Sources */,
+				BBF167602170C80A00470FA3 /* CoreData+Entity.swift in Sources */,
 				BB9895AE216928F300DD6B85 /* ReportCenterViewModel.swift in Sources */,
 				BB73F59F216AED9100F19C85 /* Item.swift in Sources */,
 				BB9895A821691B0800DD6B85 /* NomineeCountingViewModel.swift in Sources */,
@@ -553,7 +562,6 @@
 				BBF581192164030A002B05B4 /* Titles.swift in Sources */,
 				BB9CD84821683E7200B3F784 /* SearchViewController.swift in Sources */,
 				BB9895A22168E6FC00DD6B85 /* HomeCoordinator.swift in Sources */,
-				BB73F5B0216BB1C100F19C85 /* CoreData+User.swift in Sources */,
 				BB9895A02168E53C00DD6B85 /* HomeViewModel.swift in Sources */,
 				BB9CD85321689EF000B3F784 /* NomineeCountingTableViewCell.swift in Sources */,
 				BB9895AC2169256F00DD6B85 /* BallotViewModel.swift in Sources */,

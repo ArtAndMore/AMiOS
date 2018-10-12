@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AlertBar
 
 class VoterDetailsTableViewController: UITableViewController {
 
@@ -79,7 +80,7 @@ extension VoterDetailsTableViewController: VoteUpdaterViewModelDelegate {
   }
 
   func voteUpdaterViewModel(didUpdateVoter success: Bool) {
-    print("didUpdateVoter", success)
+    AlertBar.show(type: .success, message: "עודכן בהצלחה")
   }
 
 

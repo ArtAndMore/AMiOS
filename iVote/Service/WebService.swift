@@ -8,8 +8,13 @@
 
 import Foundation
 import SwiftyXMLParser
+import Reachability
 
-/// <#Description#>
+extension NSNotification.Name {
+  static let ReachabilityIsReachable = NSNotification.Name("ReachabilityIsReachable")
+  static let ReachabilityIsUnreachable = NSNotification.Name("ReachabilityIsUnreachable")
+}
+
 class WebService {
   let queue = DispatchQueue(label: "com.iVote.service_queue", attributes: .concurrent)
   
@@ -17,54 +22,77 @@ class WebService {
     let config = URLSessionConfiguration.default
     return URLSession(configuration: config)
   }
-  
-  /// <#Description#>
-  ///
-  /// - invalidResponseData: <#invalidResponseData description#>
+
   enum WebServiceError: Error {
+    case invalidRequest
+    case noNetworkConnection
     case invalidResponseData
   }
-  
-  /// <#Description#>
-  ///
-  /// - Parameters:
-  ///   - resource: <#resource description#>
-  ///   - callback: <#callback description#>
-  func load<A: Codable>(resource: CodableResource<A>, callback: @escaping (A?, Error?) -> Void) {
+  private var reachability: Reachability!
+
+  init() {
+    reachability = Reachability()!
+
+    reachability.whenUnreachable = { reachability in
+      if reachability.connection == .none {
+        NotificationCenter.default.post(name: NSNotification.Name.ReachabilityIsUnreachable, object: nil)
+      }
+    }
+
+    reachability.whenReachable = { reachability in
+      if reachability.connection != .none {
+        NotificationCenter.default.post(name: NSNotification.Name.ReachabilityIsReachable, object: nil)
+      }
+    }
+
+
+    do {
+      try reachability.startNotifier()
+    } catch {
+      print("Unable to start notifier")
+    }
+  }
+
+  func load<A: Codable>(resource: CodableResource<A>, callback: @escaping (A?, WebServiceError?) -> Void) {
+    guard self.reachability.connection != .none else {
+      callback(nil, WebServiceError.noNetworkConnection)
+      return
+    }
     guard let request = resource.request else {
+      callback(nil, WebServiceError.invalidRequest)
       return
     }
     self.session.dataTask(with: request) { (data, response, error) in
       self.queue.async {
         guard error == nil, let data = data else {
           print(error!)
-          callback(nil, error!)
+          callback(nil, WebServiceError.invalidResponseData)
           return
         }
         do {
           let result = try JSONDecoder().decode(A.self, from: data)
           callback(result, nil)
         } catch {
-          callback(nil, error)
+          callback(nil, WebServiceError.invalidResponseData)
         }
       }
       }.resume()
   }
-  
-  /// <#Description#>
-  ///
-  /// - Parameters:
-  ///   - resource: <#resource description#>
-  ///   - callback: <#callback description#>
-  func loadXMLAccessor(resource: Resource, callback: @escaping (XML.Accessor?, Error?) -> Void) {
-    guard let request = resource.request else {
+
+  func loadXMLAccessor(resource: Resource, callback: @escaping (XML.Accessor?, WebServiceError?) -> Void) {
+    guard self.reachability.connection != .none else {
+      callback(nil, WebServiceError.noNetworkConnection)
+      return
+    }
+      guard let request = resource.request else {
+        callback(nil, WebServiceError.invalidRequest)
       return
     }
     self.queue.async {
       self.session.dataTask(with: request) { (data, response, error) in
         self.queue.async {
           guard error == nil, let responseData = data else {
-            callback(nil, error)
+            callback(nil, WebServiceError.invalidResponseData)
             return
           }
           do {
@@ -79,7 +107,7 @@ class WebService {
 
             callback(result, nil)
           } catch {
-            callback(nil, error)
+            callback(nil, WebServiceError.invalidResponseData)
           }}
         }.resume()
 

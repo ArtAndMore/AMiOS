@@ -11,8 +11,16 @@ import SwiftyPickerPopover
 
 class RegionViewController: UIViewController {
 
-  @IBOutlet private weak var pickerView: UIPickerView!
-  @IBOutlet private weak var confirmButton: UIButton!
+  @IBOutlet private weak var pickerView: UIPickerView! {
+    didSet {
+      pickerView.isUserInteractionEnabled = false
+    }
+  }
+  @IBOutlet private weak var confirmButton: UIButton! {
+    didSet {
+      confirmButton.isEnabled = false
+    }
+  }
 
   var viewModel: RegionViewModel!
   
@@ -24,7 +32,10 @@ class RegionViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+
     viewModel.sites.observe {
+      self.pickerView.isUserInteractionEnabled = true
+      self.confirmButton.isEnabled = true
       self.sites = $0
     }
 

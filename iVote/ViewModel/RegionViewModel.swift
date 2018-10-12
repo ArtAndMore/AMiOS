@@ -29,8 +29,8 @@ class RegionViewModel {
   var errorMessage: Observable<String?> = Observable(nil)
 
   init() {
-    ElectionsService.shared.sites { sites in
-      guard !sites.isEmpty else {
+    ElectionsService.shared.sites { (sites, error) in
+      guard error == nil, !sites.isEmpty else {
         return
       }
       let item = sites[0]
