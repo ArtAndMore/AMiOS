@@ -30,7 +30,9 @@ class SearchViewController: TableViewController {
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    self.searchAction()
+    if let text = textField.text, !text.isEmpty {
+      self.searchAction()
+    }
   }
 
   @IBAction private func searchAction() {
