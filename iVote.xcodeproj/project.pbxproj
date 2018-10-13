@@ -50,7 +50,6 @@
 		BBC464B22166E38C007455AF /* CodeValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC464B12166E38C007455AF /* CodeValidationViewController.swift */; };
 		BBC464B421675F40007455AF /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC464B321675F40007455AF /* AppCoordinator.swift */; };
 		BBF167602170C80A00470FA3 /* CoreData+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF1675F2170C80A00470FA3 /* CoreData+Entity.swift */; };
-		BBF167622170D9B000470FA3 /* GMStepper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBF167612170D9B000470FA3 /* GMStepper.framework */; };
 		BBF52238217161620089CBC1 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF52237217161620089CBC1 /* TableViewController.swift */; };
 		BBF580E02163E021002B05B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF580DF2163E021002B05B4 /* AppDelegate.swift */; };
 		BBF580E52163E021002B05B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBF580E32163E021002B05B4 /* Main.storyboard */; };
@@ -161,7 +160,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BBF167622170D9B000470FA3 /* GMStepper.framework in Frameworks */,
 				405ADAD17B1062A066451C2A /* Pods_iVote.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -748,6 +746,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 858760D8E163BA0E9ABE906D /* Pods-iVote.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A3JC2SBNCR;
@@ -768,6 +767,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 823D27848841EA5640B37636 /* Pods-iVote.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A3JC2SBNCR;
