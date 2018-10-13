@@ -12,7 +12,7 @@ protocol LoginViewControllerCoordinatorDelegate: Coordinator {
   func authenticateViewModelDidLogin()
 }
 
-class LoginViewController: UITableViewController {
+class LoginViewController: TableViewController {
 
   @IBOutlet fileprivate weak var loginButton: UIButton!
   @IBOutlet fileprivate var usernameTextField: UITextField!
@@ -82,7 +82,7 @@ extension LoginViewController: UITextFieldDelegate {
       textFieldDidChange(textField)
       self.phoneNumberTextField.becomeFirstResponder()
     case 2:
-      textField.resignFirstResponder()
+      self.view.endEditing(true)
       textFieldDidChange(textField)
       self.viewModel.submit()
     default:
@@ -94,9 +94,7 @@ extension LoginViewController: UITextFieldDelegate {
 
 extension LoginViewController: AuthenticateViewModelViewDelegate {
   func canSubmit() -> Bool {
-    usernameTextField.resignFirstResponder()
-    passwordTextField.resignFirstResponder()
-    phoneNumberTextField.resignFirstResponder()
+    self.view.endEditing(true)
     guard let usernameText = usernameTextField.text,
      let passwordText = passwordTextField.text,
      let phoneNumberText = phoneNumberTextField.text else {

@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyPickerPopover
 import JTSplashView
-import AlertBar
+import StatusAlert
 
 class HomeViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
 
@@ -20,17 +20,21 @@ class HomeViewController: UIViewController, UIAdaptivePresentationControllerDele
   }
   
   var viewModel: HomeViewModel!
-  
+
   @IBOutlet fileprivate weak var collectionView: UICollectionView!
   
   override func viewDidLoad() {
-        super.viewDidLoad()
+    super.viewDidLoad()
     self.collectionView.register(BallotCollectionViewCell.nib(), forCellWithReuseIdentifier: ReusableCellIdentifiers.base)
     self.collectionView.register(BallotStatisticsCollectionViewCell.nib(), forCellWithReuseIdentifier: ReusableCellIdentifiers.statistics)
     self.collectionView.register(BallotSearchCollectionViewCell.nib(), forCellWithReuseIdentifier: ReusableCellIdentifiers.search)
 
     if self.viewModel.permission.value == nil {
       JTSplashView.splashView(withBackgroundColor: .white, circleColor: UIColor.color(withHexString: "#6CBBFF"), circleSize: nil)
+
+      DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+        JTSplashView.finish()
+      }
     }
 
     observeViewModelChanges()
@@ -43,10 +47,12 @@ private extension HomeViewController {
     self.viewModel.permission.observe { permission in
       if let permission = permission {
         self.navigationItem.leftBarButtonItem?.isEnabled = permission.ballots.count > 0
+        let title = permission.ballots.first?.name ?? ""
+        self.navigationItem.leftBarButtonItem?.title = "קלפי מס: \(title)"
 
-          JTSplashView.finishWithCompletion() {
-            self.collectionView.reloadData()
-          }
+        JTSplashView.finishWithCompletion() {
+          self.collectionView.reloadData()
+        }
       }
     }
     //
@@ -55,7 +61,7 @@ private extension HomeViewController {
     }
     //
     self.viewModel.ballots.observe { ballots in
-     self.collectionView.reloadData()
+      self.collectionView.reloadData()
     }
     //
     self.viewModel.nominees.observe { _ in
@@ -66,20 +72,23 @@ private extension HomeViewController {
   @IBAction func showDropDown(_ sender: UIBarButtonItem) {
     guard let permission = self.viewModel.permission.value,
       let ballots = permission?.ballots else {
-      return
+        return
     }
     let titles = ballots.map({ "\($0.name) - \($0.number)" })
+    let ballotsNumbers = ballots.map({ $0.number })
+    let index = ballotsNumbers.firstIndex(where: { $0 == self.viewModel.currentBallot }) ?? 0
+
     let originView = sender.value(forKey: "view") as! UIView
     StringPickerPopover(title: "מס קלפי", choices: titles)
-      .setSelectedRow(0)
+      .setSelectedRow(index)
       .setValueChange(action: { (_, index, _) in
-
       })
       .setDoneButton(action: { (_, index, _) in
-        sender.title = "קלפי מס: \(index + 1)"
+        let title = ballotsNumbers[index]
+        sender.title = "קלפי מס: \(title)"
         self.viewModel.currentBallot = ballots[index].id
       })
-      .setCancelButton(action: { (_, _, _) in print("cancel")}
+      .setCancelButton(action: { (_, _, _) in }
       )
       .appear(originView: originView, baseViewController: self)
   }
@@ -93,7 +102,15 @@ private extension HomeViewController {
   }
 
   @IBAction func logoutAction(_ sender: Any) {
-    self.viewModel.logout()
+    let alert = UIAlertController(title: "אנא אשר התנתקות בבקשה", message: "", preferredStyle: .actionSheet)
+
+    alert.addAction(UIAlertAction(title: "אישור", style: .destructive , handler:{ (UIAlertAction)in
+      self.viewModel.logout()
+    }))
+
+    alert.addAction(UIAlertAction(title: "ביטול", style: .cancel, handler: nil))
+
+    self.present(alert, animated: true, completion:nil)
   }
 
 }
@@ -116,10 +133,7 @@ extension HomeViewController: UICollectionViewDataSource {
     case .statistics:
       let statusCell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableCellIdentifiers.statistics, for: indexPath) as! BallotStatisticsCollectionViewCell
       if let status = self.viewModel.status.value {
-        statusCell.hideLoading()
         statusCell.setStatus(status)
-      } else {
-        statusCell.showLoading()
       }
       cell = statusCell
     case .query:

@@ -7,9 +7,9 @@
 //
 
 import UIKit
-import AlertBar
+import StatusAlert
 
-class VoteUpdaterViewController: UITableViewController {
+class VoteUpdaterViewController: TableViewController {
 
   @IBOutlet fileprivate weak var updateVoteButton: UIButton!
   @IBOutlet fileprivate var ballotIdTextField: UITextField!
@@ -26,6 +26,7 @@ class VoteUpdaterViewController: UITableViewController {
     _ = NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: nil, queue: nil) { [weak self] (notification) in
       self?.textFieldDidChange(notification.object as? UITextField)
     }
+    self.ballotIdTextField.text = self.viewModel.ballotId
 
     self.viewModel.errorMessage.observe { _ in
       self.updateVoteButton.shake()
@@ -44,10 +45,6 @@ private extension VoteUpdaterViewController {
       return
     }
     switch textField.tag {
-    case 0:
-      if let ballotId = textField.text {
-        self.viewModel.ballotId = ballotId
-      }
     case 1:
       if let ballotNumber = textField.text {
         self.viewModel.ballotNumber = ballotNumber
@@ -62,11 +59,8 @@ extension VoteUpdaterViewController: UITextFieldDelegate {
 
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     switch textField.tag {
-    case 0:
-      textFieldDidChange(textField)
-      self.ballotNumberTextField.becomeFirstResponder()
     case 1:
-      textField.resignFirstResponder()
+      self.view.endEditing(true)
       textFieldDidChange(textField)
       self.viewModel.submit()
     default:
@@ -79,8 +73,7 @@ extension VoteUpdaterViewController: UITextFieldDelegate {
 extension VoteUpdaterViewController: VoteUpdaterViewModelDelegate {
 
   func canSubmit() -> Bool {
-    ballotIdTextField.resignFirstResponder()
-    ballotNumberTextField.resignFirstResponder()
+    self.view.endEditing(true)
     guard let ballotIdText = ballotIdTextField.text, let ballotNumberText = ballotNumberTextField.text else {
         return false
     }
@@ -89,7 +82,7 @@ extension VoteUpdaterViewController: VoteUpdaterViewModelDelegate {
 
   func voteUpdaterViewModel(didUpdateVoter success: Bool) {
     if success {
-      AlertBar.show(type: .success, message: "עודכן בהצלחה")
+      showAlert(withStatus: .update)
     }
   }
 }

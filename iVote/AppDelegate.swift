@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import AlertBar
+import StatusAlert
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -58,15 +58,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 private extension AppDelegate {
 
   func observeReachabilityChanges() {
-    NotificationCenter.default.addObserver(forName: NSNotification.Name.ReachabilityIsUnreachable, object: nil, queue: OperationQueue.main) { (_) in
-      AlertBar.show(type: .error, message: "אין חיבור אינטרנט")
-    }
-    NotificationCenter.default.addObserver(forName: NSNotification.Name.ReachabilityIsReachable, object: nil, queue: OperationQueue.main) { (_) in
-      self.networkReachabilityHandler()
-    }
+    NotificationCenter.default.addObserver(self, selector: #selector(whenReachabilityIsUnreachableHandler), name: NSNotification.Name.ReachabilityIsUnreachable, object: nil)
+
+    NotificationCenter.default.addObserver(self, selector: #selector(whenReachabilityIsReachableHandler), name: NSNotification.Name.ReachabilityIsReachable, object: nil)
   }
 
-  func networkReachabilityHandler() {
+  @objc func whenReachabilityIsUnreachableHandler() {
+    showAlert(withStatus: .noConnection)
+  }
+
+  @objc func whenReachabilityIsReachableHandler() {
     let voters = DataController.shared.fetchVoters()
     if !voters.isEmpty {
       self.updateVoters(voters)

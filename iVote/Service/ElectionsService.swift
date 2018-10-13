@@ -140,10 +140,10 @@ class ElectionsService: WebService {
         ballotStatus.votingPercentage = responseData["pr_ballot_box"].text
         // total data
         let votersStatus = VotersStatus()
-        votersStatus.total = responseData["total_ballot_box"].text
-        votersStatus.isVoted = responseData["Isvote_ballot_box"].text
-        votersStatus.notVoted = responseData["Notevote_ballot_box"].text
-        votersStatus.votingPercentage = responseData["pr_ballot_box"].text
+        votersStatus.total = responseData["total_All_Contact"].text
+        votersStatus.isVoted = responseData["Isvote_All_Contact"].text
+        votersStatus.notVoted = responseData["Notevote_All_Contact"].text
+        votersStatus.votingPercentage = responseData["pr_All_Contact"].text
 
         let status = Status(ballot: ballotStatus, voters: votersStatus)
         completion(status, nil)
@@ -208,7 +208,7 @@ class ElectionsService: WebService {
         let responseData = xml["Update_voteResponse", "Update_voteResult"]
 
         guard let value = responseData["ContainsErrors"].text, Bool(value) == false,
-        xml["Update_vote"].text != nil else {
+        responseData["Update_vote"].text != nil else {
           completion(WebServiceError.invalidResponseData)
           return
         }

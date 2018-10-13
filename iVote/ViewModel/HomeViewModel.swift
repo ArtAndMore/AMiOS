@@ -51,8 +51,6 @@ class HomeViewModel {
     }
   }
 
-
-
   fileprivate func getBallotStatus(withPermission permission: Permission?) {
     guard let permission = permission, permission.canReadStatistics else {
       return

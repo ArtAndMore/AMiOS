@@ -51,6 +51,7 @@
 		BBC464B421675F40007455AF /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC464B321675F40007455AF /* AppCoordinator.swift */; };
 		BBF167602170C80A00470FA3 /* CoreData+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF1675F2170C80A00470FA3 /* CoreData+Entity.swift */; };
 		BBF167622170D9B000470FA3 /* GMStepper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBF167612170D9B000470FA3 /* GMStepper.framework */; };
+		BBF52238217161620089CBC1 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF52237217161620089CBC1 /* TableViewController.swift */; };
 		BBF580E02163E021002B05B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF580DF2163E021002B05B4 /* AppDelegate.swift */; };
 		BBF580E52163E021002B05B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBF580E32163E021002B05B4 /* Main.storyboard */; };
 		BBF580E72163E022002B05B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBF580E62163E022002B05B4 /* Assets.xcassets */; };
@@ -130,6 +131,7 @@
 		BBC464B321675F40007455AF /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		BBF1675F2170C80A00470FA3 /* CoreData+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreData+Entity.swift"; sourceTree = "<group>"; };
 		BBF167612170D9B000470FA3 /* GMStepper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GMStepper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBF52237217161620089CBC1 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		BBF580DC2163E021002B05B4 /* iVote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iVote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBF580DF2163E021002B05B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBF580E42163E021002B05B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 		BBF5810C2163F1E3002B05B4 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				BBF52237217161620089CBC1 /* TableViewController.swift */,
 				BB73F5B1216D324F00F19C85 /* RegionViewController.swift */,
 				BB59A6E02166CB62003A8CFB /* LoginViewController.swift */,
 				BBC464B12166E38C007455AF /* CodeValidationViewController.swift */,
@@ -483,21 +486,21 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-iVote/Pods-iVote-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AlertBar/AlertBar.framework",
 				"${BUILT_PRODUCTS_DIR}/GMStepper/GMStepper.framework",
 				"${BUILT_PRODUCTS_DIR}/JTSplashView/JTSplashView.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/SVPinView/SVPinView.framework",
+				"${BUILT_PRODUCTS_DIR}/StatusAlert/StatusAlert.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyPickerPopover/SwiftyPickerPopover.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyXMLParser/SwiftyXMLParser.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlertBar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GMStepper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JTSplashView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVPinView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StatusAlert.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyPickerPopover.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyXMLParser.framework",
 			);
@@ -559,6 +562,7 @@
 				BB59A6E12166CB62003A8CFB /* LoginViewController.swift in Sources */,
 				BB73F5B2216D324F00F19C85 /* RegionViewController.swift in Sources */,
 				BB56E1792165D71D00D740F5 /* Ballot.swift in Sources */,
+				BBF52238217161620089CBC1 /* TableViewController.swift in Sources */,
 				BBF581192164030A002B05B4 /* Titles.swift in Sources */,
 				BB9CD84821683E7200B3F784 /* SearchViewController.swift in Sources */,
 				BB9895A22168E6FC00DD6B85 /* HomeCoordinator.swift in Sources */,

@@ -17,7 +17,10 @@ class VoteUpdaterViewModel {
   weak var viewDelegate: VoteUpdaterViewModelDelegate?
 
   var voter: Voter?
-  var ballotId: String?
+
+  var ballotId: String {
+    return ElectionsService.shared.currentBallot
+  }
   var ballotNumber: String?
 
   var canUpdateVote = false
@@ -25,8 +28,7 @@ class VoteUpdaterViewModel {
   var errorMessage: Observable<String?> = Observable(nil)
 
   func submit() {
-    guard let ballotId = self.ballotId ?? self.voter?.ballotId,
-      let ballotNumber = self.ballotNumber ?? self.voter?.ballotNumber,
+    guard let ballotNumber = self.ballotNumber ?? self.voter?.ballotNumber,
       (self.viewDelegate?.canSubmit() ?? false) else {
         self.errorMessage.value = "invalid voter data"
         return
@@ -35,7 +37,7 @@ class VoteUpdaterViewModel {
       if let err = error {
         if err == .noNetworkConnection {
           let context = DataController.shared.viewContext
-          VoterEntity.addVoter(ballotId: ballotId, ballotNumber: ballotNumber, intoContext: context)
+          VoterEntity.addVoter(ballotId: self.ballotId, ballotNumber: ballotNumber, intoContext: context)
         }
       } else {
         DispatchQueue.main.async {

@@ -7,9 +7,9 @@
 //
 
 import UIKit
-import AlertBar
+import StatusAlert
 
-class ReportCenterViewController: UITableViewController {
+class ReportCenterViewController: TableViewController {
 
   @IBOutlet private weak var sendMessageButton: UIButton!
 
@@ -42,7 +42,7 @@ class ReportCenterViewController: UITableViewController {
   }
   
   @IBAction private func sendMessage(_ sender: Any) {
-    messageTextView.resignFirstResponder()
+    self.view.endEditing(true)
     self.viewModel.sendReport(message: messageTextView.text)
   }
 }
@@ -50,11 +50,11 @@ class ReportCenterViewController: UITableViewController {
 extension ReportCenterViewController: ReportCenterViewModelDlelegate {
 
   func reportCenterViewModel(didUpdateStatus success:Bool) {
-    AlertBar.show(type: .success, message: "עודכן בהצלחה")
+    showAlert(withStatus: .update)
   }
   func reportCenterViewModel(didSentMessage success:Bool) {
+    showAlert(withStatus: .send)
     self.messageTextView.text = ""
-    AlertBar.show(type: .success, message: "נשלח בהצלחה")
   }
 
 

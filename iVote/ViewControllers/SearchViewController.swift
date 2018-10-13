@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchViewController: UITableViewController {
+class SearchViewController: TableViewController {
 
   @IBOutlet private weak var searchButton: UIButton!
   @IBOutlet private weak var resultsTableViewContainer: UIView!
@@ -28,8 +28,13 @@ class SearchViewController: UITableViewController {
     }
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    self.searchAction()
+  }
+
   @IBAction private func searchAction() {
-    self.textField.resignFirstResponder()
+    self.view.endEditing(true)
     self.labelsMatrixView?.removeFromSuperview()
     self.viewModel.searchVoter(withId: self.textField.text)
   }
@@ -59,7 +64,8 @@ extension SearchViewController: SearchViewModelDelegate {
   func searchViewModel(didFindVoter voter: Voter) {
       setupMatrixView()
       labelsMatrixView.addRecord(record: ["הצביע", "מס בקלפי", "קלפי", "שם", "תעודת זהות"])
-      labelsMatrixView.addRecord(record: [voter.id, voter.firstName!, voter.ballotId!, voter.ballotNumber!, voter.hasVoted!].reversed())
+    let isVotedIcon = Bool(voter.hasVoted) ? "✅" : "⛔️"
+    labelsMatrixView.addRecord(record: [voter.id, voter.firstName!, voter.ballotId!, voter.ballotNumber!, isVotedIcon].reversed())
   }
 
 

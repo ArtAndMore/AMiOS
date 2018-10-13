@@ -7,9 +7,9 @@
 //
 
 import UIKit
-import AlertBar
+import StatusAlert
 
-class NomineeCountingTableViewController: UITableViewController {
+class NomineeCountingTableViewController: TableViewController {
 
   var viewModel: NomineeCountingViewModel! {
     didSet {
@@ -50,7 +50,7 @@ extension NomineeCountingTableViewController: NomineeCountingViewModelDelegate {
 
   func nommineeCountingViewModel(didUpdateStatus success: Bool) {
     if success {
-      AlertBar.show(type: .success, message: "עודכן בהצלחה")
+      showAlert(withStatus: .update)
     }
   }
 }

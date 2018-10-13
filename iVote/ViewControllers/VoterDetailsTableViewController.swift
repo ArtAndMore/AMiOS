@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import AlertBar
+import StatusAlert
 
 class VoterDetailsTableViewController: UITableViewController {
 
@@ -30,7 +30,7 @@ class VoterDetailsTableViewController: UITableViewController {
   @IBOutlet private var ballotIdLable: UILabel!
   @IBOutlet private var ballotNumberLable: UILabel!
   @IBOutlet private var phoneLable: UILabel!
-  @IBOutlet private var isActiveLable: UILabel!
+  @IBOutlet private var isAVotedLable: UILabel!
 
 
   override func viewDidLoad() {
@@ -56,8 +56,11 @@ class VoterDetailsTableViewController: UITableViewController {
     }
     self.phoneLable.text = voter?.phoneNumber
     if let hasVoted = voter?.hasVoted {
-      self.isActiveLable.text = "\(hasVoted)"
+      let isVotedIcon = Bool(hasVoted) ? "✅" : "⛔️"
+      self.updateVoteButton.isEnabled = !Bool(hasVoted)
+      self.isAVotedLable.text = isVotedIcon
     }
+
   }
 
   @IBAction func updateVoter() {
@@ -80,7 +83,9 @@ extension VoterDetailsTableViewController: VoteUpdaterViewModelDelegate {
   }
 
   func voteUpdaterViewModel(didUpdateVoter success: Bool) {
-    AlertBar.show(type: .success, message: "עודכן בהצלחה")
+    showAlert(withStatus: .update)
+    self.voter?.hasVoted = "true"
+    setVoterDetails()
   }
 
 

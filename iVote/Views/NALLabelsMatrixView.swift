@@ -42,7 +42,7 @@ class NALLabelsMatrixView : UIView {
 
     //STYLE TO SET MARGINS AND ALIGNMENT
     let paragraphStyle:NSMutableParagraphStyle = NSMutableParagraphStyle.init()
-    paragraphStyle.alignment = .natural
+    paragraphStyle.alignment = .center
     paragraphStyle.headIndent = 10.0
     paragraphStyle.firstLineHeadIndent = 10.0
     paragraphStyle.tailIndent = -10.0
@@ -66,7 +66,6 @@ class NALLabelsMatrixView : UIView {
 
       //SPECIAL TREATMENT FOR THE FIRST ROW
       if(self.numRows == 0){
-        paragraphStyle.alignment = .center
         column.backgroundColor = self.headerColour
       } else {
         column.isUserInteractionEnabled = true

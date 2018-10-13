@@ -31,6 +31,10 @@ class WebService {
   private var reachability: Reachability!
 
   init() {
+    self.setupReachability()
+  }
+
+  private func setupReachability() {
     reachability = Reachability()!
 
     reachability.whenUnreachable = { reachability in
@@ -44,8 +48,6 @@ class WebService {
         NotificationCenter.default.post(name: NSNotification.Name.ReachabilityIsReachable, object: nil)
       }
     }
-
-
     do {
       try reachability.startNotifier()
     } catch {

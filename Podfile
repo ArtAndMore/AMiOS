@@ -12,7 +12,8 @@ target 'iVote' do
   pod 'GMStepper'
   pod 'SwiftyPickerPopover'
   pod 'JTSplashView'
-  pod 'AlertBar'
+  pod 'StatusAlert'
+
 target 'iVoteTests' do
     inherit! :search_paths
     # Pods for testing

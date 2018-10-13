@@ -8,6 +8,38 @@
 
 import Foundation
 import UIKit
+import StatusAlert
+
+enum StatusAlertType {
+  case noConnection
+  case update
+  case send
+}
+
+extension UIResponder {
+  func showAlert(withStatus status: StatusAlertType) {
+    var image: UIImage?
+    var title: String?
+    switch status {
+    case .noConnection:
+      image = UIImage(named: "no-wifi")
+      title = "אין חיבור אינטרנט"
+    case .update:
+      image = UIImage(named: "check")
+      title = "עודכן בהצלחה"
+    case .send:
+      image = UIImage(named: "check")
+      title = "נשלח בהצלחה"
+    }
+
+    let statusAlert = StatusAlert()
+    statusAlert.image = image
+    statusAlert.title = title
+    statusAlert.canBePickedOrDismissed = true
+    // Presenting created instance
+    statusAlert.showInKeyWindow()
+  }
+}
 
 extension UIView {
   static func nib() -> UINib {
@@ -20,21 +52,6 @@ extension UIView {
     animation.values = [-5, 5, -5, 5, -3, 3, -2, 2, 0]
     animation.duration = 0.4
     self.layer.add(animation, forKey: "shake")
-  }
-
-  func addBlurBackground(style: UIBlurEffect.Style = .regular) -> UIVisualEffectView {
-    let blurEffect = UIBlurEffect(style: style)
-    let blurBackground = UIVisualEffectView(effect: blurEffect)
-
-    addSubview(blurBackground)
-
-    blurBackground.translatesAutoresizingMaskIntoConstraints = false
-    blurBackground.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-    blurBackground.topAnchor.constraint(equalTo: topAnchor).isActive = true
-    blurBackground.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-    blurBackground.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-
-    return blurBackground
   }
 }
 
