@@ -13,6 +13,7 @@ import StatusAlert
 enum StatusAlertType {
   case noConnection
   case update
+  case voteUpdateError
   case send
 }
 
@@ -30,6 +31,9 @@ extension UIResponder {
     case .send:
       image = UIImage(named: "check")
       title = "נשלח בהצלחה"
+    case .voteUpdateError:
+      image = UIImage(named: "cancel")
+      title = "הבוחר אינו קיים בקלפי הנוכחי"
     }
 
     let statusAlert = StatusAlert()

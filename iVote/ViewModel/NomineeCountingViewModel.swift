@@ -42,12 +42,11 @@ class NomineeCountingViewModel {
     let nominee = nominees[index]
     nominee.status = status
     ElectionsService.shared.updateNominee(nominee) { (error) in
-      if let err = error {
-        if err == .noNetworkConnection {
+      if error == nil || error == .noNetworkConnection  {
+        if error == .noNetworkConnection {
           let context = DataController.shared.viewContext
           NomineeEntity.addNominee(id: nominee.id, status: nominee.status, intoContext: context)
         }
-      } else {
         DispatchQueue.main.async {
           self.viewDelegate?.nommineeCountingViewModel(didUpdateStatus: true)
         }

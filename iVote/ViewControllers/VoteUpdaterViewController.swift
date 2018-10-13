@@ -34,7 +34,7 @@ class VoteUpdaterViewController: TableViewController {
   }
 
   @IBAction private func updateVote() {
-    self.viewModel.submit()
+    self.viewModel?.submit()
   }
 
 }
@@ -47,7 +47,7 @@ private extension VoteUpdaterViewController {
     switch textField.tag {
     case 1:
       if let ballotNumber = textField.text {
-        self.viewModel.ballotNumber = ballotNumber
+        self.viewModel.voter.ballotNumber = ballotNumber
       }
     default:
       break;

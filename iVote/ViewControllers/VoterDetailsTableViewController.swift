@@ -64,7 +64,12 @@ class VoterDetailsTableViewController: UITableViewController {
   }
 
   @IBAction func updateVoter() {
-    self.viewModel?.submit()
+    let allowedBallot = self.viewModel?.allowedBallots.filter({ $0.id == voter?.ballotId}).first
+    if allowedBallot != nil {
+      self.viewModel?.submit()
+    } else {
+      showAlert(withStatus: .voteUpdateError)
+    }
   }
 
   // MARK: - Table view data source

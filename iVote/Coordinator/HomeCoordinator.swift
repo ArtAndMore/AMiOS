@@ -115,7 +115,9 @@ extension HomeCoordinator: SearchViewModelCoordinatorDelegate {
       let navigationController = window.rootViewController as? UINavigationController {
       let voteUpdateViewModel = VoteUpdaterViewModel()
       voteUpdateViewModel.canUpdateVote = viewModel.canUpdateVotes
-      voteUpdateViewModel.voter = viewModel.voter
+      if let voter = viewModel.voter {
+        voteUpdateViewModel.voter = voter
+      }
       voterVC.viewModel = voteUpdateViewModel
       navigationController.pushViewController(voterVC, animated: true)
     }
