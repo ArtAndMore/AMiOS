@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.18" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="NomineeEntity" representedClassName="NomineeEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="UserEntity" representedClassName="UserEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="path" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="VoterEntity" representedClassName="VoterEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="ballotId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ballotNumber" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="UserEntity" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="VoterEntity" positionX="-63" positionY="9" width="128" height="75"/>
+        <element name="NomineeEntity" positionX="-54" positionY="18" width="128" height="75"/>
+    </elements>
+</model>
