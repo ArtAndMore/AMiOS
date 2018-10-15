@@ -50,7 +50,7 @@ extension NomineeCountingTableViewController: NomineeCountingViewModelDelegate {
 
   func nommineeCountingViewModel(didUpdateStatus success: Bool) {
     if success {
-      showAlert(withStatus: .update)
+      toast(StatusAlertType.update.rawValue)
     }
   }
 }

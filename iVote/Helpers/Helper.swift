@@ -10,30 +10,26 @@ import Foundation
 import UIKit
 import StatusAlert
 
-enum StatusAlertType {
-  case noConnection
-  case update
-  case voteUpdateError
-  case send
+enum StatusAlertType: String {
+  case noConnection = "אין חיבור אינטרנט"
+  case update = "עודכן בהצלחה"
+  case voteUpdateError = "נשלח בהצלחה"
+  case send = "הבוחר אינו קיים בקלפי הנוכחי"
 }
 
 extension UIResponder {
   func showAlert(withStatus status: StatusAlertType) {
     var image: UIImage?
-    var title: String?
+    let title = status.rawValue
     switch status {
     case .noConnection:
       image = UIImage(named: "no-wifi")
-      title = "אין חיבור אינטרנט"
     case .update:
       image = UIImage(named: "check")
-      title = "עודכן בהצלחה"
     case .send:
       image = UIImage(named: "check")
-      title = "נשלח בהצלחה"
     case .voteUpdateError:
       image = UIImage(named: "cancel")
-      title = "הבוחר אינו קיים בקלפי הנוכחי"
     }
 
     let statusAlert = StatusAlert()

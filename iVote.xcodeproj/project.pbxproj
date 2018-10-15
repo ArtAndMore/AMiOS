@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		405ADAD17B1062A066451C2A /* Pods_iVote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21ABC851459E92A9A28E308A /* Pods_iVote.framework */; };
+		BB1D15FD217402C0002E7D31 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1D15FC217402C0002E7D31 /* Toast.swift */; };
 		BB56E1712165793600D740F5 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56E1702165793600D740F5 /* Resource.swift */; };
 		BB56E17321657D6700D740F5 /* EndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56E17221657D6700D740F5 /* EndPoints.swift */; };
 		BB56E17521658AE100D740F5 /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56E17421658AE100D740F5 /* WebService.swift */; };
@@ -87,6 +88,7 @@
 		7458FD4A9D86043E2DD5055E /* Pods-iVoteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iVoteTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-iVoteTests/Pods-iVoteTests.release.xcconfig"; sourceTree = "<group>"; };
 		823D27848841EA5640B37636 /* Pods-iVote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iVote.release.xcconfig"; path = "Pods/Target Support Files/Pods-iVote/Pods-iVote.release.xcconfig"; sourceTree = "<group>"; };
 		858760D8E163BA0E9ABE906D /* Pods-iVote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iVote.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iVote/Pods-iVote.debug.xcconfig"; sourceTree = "<group>"; };
+		BB1D15FC217402C0002E7D31 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		BB56E1702165793600D740F5 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		BB56E17221657D6700D740F5 /* EndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoints.swift; sourceTree = "<group>"; };
 		BB56E17421658AE100D740F5 /* WebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 		BBF580FF2163E178002B05B4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BB1D15FC217402C0002E7D31 /* Toast.swift */,
 				BB9CD845216832F600B3F784 /* NALLabelsMatrixView.swift */,
 				BB73F5A0216B166F00F19C85 /* BaseCollectionViewCell.swift */,
 				BBF5810F2163FBDA002B05B4 /* BallotCollectionViewCell.swift */,
@@ -575,6 +578,7 @@
 				BB9CD846216832F600B3F784 /* NALLabelsMatrixView.swift in Sources */,
 				BBF5812121640EA8002B05B4 /* Voter.swift in Sources */,
 				BB9CD85C2168C2F200B3F784 /* ReportCenterViewController.swift in Sources */,
+				BB1D15FD217402C0002E7D31 /* Toast.swift in Sources */,
 				BBF5811D21640E8D002B05B4 /* ElectionsService.swift in Sources */,
 				BB73F5A1216B166F00F19C85 /* BaseCollectionViewCell.swift in Sources */,
 				BB98959A2168D01A00DD6B85 /* AuthenticateViewModel.swift in Sources */,
