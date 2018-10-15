@@ -59,14 +59,6 @@ private extension HomeViewController {
     self.viewModel.status.observe { data in
       self.collectionView.reloadData()
     }
-    //
-    self.viewModel.ballots.observe { ballots in
-      self.collectionView.reloadData()
-    }
-    //
-    self.viewModel.nominees.observe { _ in
-      self.collectionView.reloadData()
-    }
   }
 
   @IBAction func showDropDown(_ sender: UIBarButtonItem) {

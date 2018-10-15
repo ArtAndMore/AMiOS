@@ -16,9 +16,8 @@ class DataController {
     return self.fetchUsers(intoContext: viewContext)
   }
 
-  static func configure() {
-    _ = self.shared.persistentContainer
-    self.shared.configureContexts()
+  func configure() {
+    self.setupContexts()
   }
 
   var viewContext: NSManagedObjectContext {
@@ -43,7 +42,7 @@ class DataController {
     return container
   }()
 
-  func configureContexts() {
+  func setupContexts() {
     self.backgroundContext = self.persistentContainer.newBackgroundContext()
     viewContext.automaticallyMergesChangesFromParent = true
     backgroundContext?.automaticallyMergesChangesFromParent = true
@@ -53,16 +52,20 @@ class DataController {
   }
 
   // MARK: - Voters
+  
   func fetchVoters() -> [Voter] {
     let request = NSFetchRequest<NSFetchRequestResult>(entityName: "VoterEntity")
     request.returnsObjectsAsFaults = false
-    if let result = try? self.backgroundContext?.fetch(request) as? [VoterEntity] {
-      return result?.compactMap({
-        let voter = Voter(id: "")
-        voter.ballotId = $0.ballotId
-        voter.ballotNumber = $0.ballotNumber
-        return voter
-      }) ?? []
+    if let result = try? self.backgroundContext?.fetch(request) as? [VoterEntity],
+      let res = result {
+      return res.reduce(into: [:], {
+        if let ballotId = $1.ballotId, let ballotNumber = $1.ballotNumber {
+          let voter = Voter(id: "")
+          voter.ballotId = ballotId
+          voter.ballotNumber = ballotNumber
+          $0["\(ballotId)-\(ballotNumber)"] = voter
+        }
+      }).compactMap({ $1 })
     }
     return []
   }
@@ -87,36 +90,25 @@ class DataController {
 
   // MARK: - Nominees
 
-  func fetchNominees() -> [Nominee] {
+  func fetchNominees() -> [NomineeEntity] {
     let request = NSFetchRequest<NSFetchRequestResult>(entityName: "NomineeEntity")
     request.returnsObjectsAsFaults = false
-    if let result = try? self.backgroundContext?.fetch(request) as? [NomineeEntity] {
-      return result?.compactMap({
-        let nominee = Nominee()
-        if let id = $0.id {
-          nominee.id = id
-          nominee.status = Int($0.status)
-          return nominee
+    if let result = try? self.backgroundContext?.fetch(request) as? [NomineeEntity],
+      let res = result {
+      return res.reduce(into: [:], {
+        if let id = $1.id {
+          $0[id] = $1
         }
-        return nil
-      }) ?? []
+      }).map({ $1 })
     }
     return []
   }
 
-  func emptyNominee(_ nominee: Nominee) {
+  func emptyNominee(_ toDelete: NomineeEntity) {
     let context = backgroundContext
-
-    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "NomineeEntity")
-    request.returnsObjectsAsFaults = false
-
     do {
-      if let result = try context?.fetch(request) as? [NomineeEntity] {
-        if let toDelete = result.filter({ $0.id == nominee.id }).first {
-          context?.delete(toDelete)
-        }
-      }
-      try? context?.save()
+      context?.delete(toDelete)
+      try context?.save()
     } catch {
       print("Failed")
     }

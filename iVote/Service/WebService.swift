@@ -11,17 +11,12 @@ import SwiftyXMLParser
 import Reachability
 
 extension NSNotification.Name {
-  static let ReachabilityIsReachable = NSNotification.Name("ReachabilityIsReachable")
-  static let ReachabilityIsUnreachable = NSNotification.Name("ReachabilityIsUnreachable")
+  static let NetworkConnectionIsReachable = NSNotification.Name("NetworkConnectionIsReachable")
+  static let NetworkConnectionIsUnreachable = NSNotification.Name("NetworkConnectionIsUnreachable")
 }
 
 class WebService {
   let queue = DispatchQueue(label: "com.iVote.service_queue", attributes: .concurrent)
-  
-  private var session: URLSession {
-    let config = URLSessionConfiguration.default
-    return URLSession(configuration: config)
-  }
 
   enum WebServiceError: Error {
     case invalidRequest
@@ -39,13 +34,13 @@ class WebService {
 
     reachability.whenUnreachable = { reachability in
       if reachability.connection == .none {
-        NotificationCenter.default.post(name: NSNotification.Name.ReachabilityIsUnreachable, object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name.NetworkConnectionIsUnreachable, object: nil)
       }
     }
 
     reachability.whenReachable = { reachability in
       if reachability.connection != .none {
-        NotificationCenter.default.post(name: NSNotification.Name.ReachabilityIsReachable, object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name.NetworkConnectionIsReachable, object: nil)
       }
     }
     do {
@@ -64,20 +59,22 @@ class WebService {
       callback(nil, WebServiceError.invalidRequest)
       return
     }
-    self.session.dataTask(with: request) { (data, response, error) in
-      self.queue.async {
-        guard error == nil, let data = data else {
-          print(error!)
-          callback(nil, WebServiceError.invalidResponseData)
-          return
+    let config = URLSessionConfiguration.default
+    URLSession(configuration: config)
+      .dataTask(with: request) { (data, response, error) in
+        self.queue.async {
+          guard error == nil, let data = data else {
+            print(error!)
+            callback(nil, WebServiceError.invalidResponseData)
+            return
+          }
+          do {
+            let result = try JSONDecoder().decode(A.self, from: data)
+            callback(result, nil)
+          } catch {
+            callback(nil, WebServiceError.invalidResponseData)
+          }
         }
-        do {
-          let result = try JSONDecoder().decode(A.self, from: data)
-          callback(result, nil)
-        } catch {
-          callback(nil, WebServiceError.invalidResponseData)
-        }
-      }
       }.resume()
   }
 
@@ -86,33 +83,31 @@ class WebService {
       callback(nil, WebServiceError.noNetworkConnection)
       return
     }
-      guard let request = resource.request else {
-        callback(nil, WebServiceError.invalidRequest)
+    guard let request = resource.request else {
+      callback(nil, WebServiceError.invalidRequest)
       return
     }
-    self.queue.async {
-      self.session.dataTask(with: request) { (data, response, error) in
-        self.queue.async {
-          guard error == nil, let responseData = data else {
+    let config = URLSessionConfiguration.default
+    URLSession(configuration: config).dataTask(with: request) { (data, response, error) in
+      self.queue.async {
+        guard error == nil, let responseData = data else {
+          callback(nil, WebServiceError.invalidResponseData)
+          return
+        }
+        do {
+          guard let responseString = String(data: responseData, encoding: String.Encoding.utf8) else {
             callback(nil, WebServiceError.invalidResponseData)
             return
           }
-          do {
-            guard let responseString = String(data: responseData, encoding: String.Encoding.utf8) else {
-              callback(nil, WebServiceError.invalidResponseData)
-              return
-            }
-            let xml = try XML.parse(responseString)
-            // access xml element
-            let result = xml["soap:Envelope",
-                             "soap:Body"]
+          let xml = try XML.parse(responseString)
+          // access xml element
+          let result = xml["soap:Envelope",
+                           "soap:Body"]
 
-            callback(result, nil)
-          } catch {
-            callback(nil, WebServiceError.invalidResponseData)
-          }}
-        }.resume()
-
-    }
+          callback(result, nil)
+        } catch {
+          callback(nil, WebServiceError.invalidResponseData)
+        }}
+      }.resume()
   }
 }

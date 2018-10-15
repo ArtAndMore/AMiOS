@@ -36,7 +36,6 @@
 		BB9895A4216905C400DD6B85 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9895A3216905C400DD6B85 /* SearchViewModel.swift */; };
 		BB9895A621690DB100DD6B85 /* VoteUpdaterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9895A521690DB100DD6B85 /* VoteUpdaterViewModel.swift */; };
 		BB9895A821691B0800DD6B85 /* NomineeCountingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9895A721691B0800DD6B85 /* NomineeCountingViewModel.swift */; };
-		BB9895AA21691B4900DD6B85 /* Nominee.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9895A921691B4900DD6B85 /* Nominee.swift */; };
 		BB9895AC2169256F00DD6B85 /* BallotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9895AB2169256F00DD6B85 /* BallotViewModel.swift */; };
 		BB9895AE216928F300DD6B85 /* ReportCenterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9895AD216928F300DD6B85 /* ReportCenterViewModel.swift */; };
 		BB9CD846216832F600B3F784 /* NALLabelsMatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9CD845216832F600B3F784 /* NALLabelsMatrixView.swift */; };
@@ -50,6 +49,8 @@
 		BB9CD85C2168C2F200B3F784 /* ReportCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9CD85B2168C2F200B3F784 /* ReportCenterViewController.swift */; };
 		BBC464B22166E38C007455AF /* CodeValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC464B12166E38C007455AF /* CodeValidationViewController.swift */; };
 		BBC464B421675F40007455AF /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC464B321675F40007455AF /* AppCoordinator.swift */; };
+		BBDB9FA121752F1700B52E2E /* Nominee.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDB9FA021752F1600B52E2E /* Nominee.swift */; };
+		BBDB9FA321754A3200B52E2E /* NetworkConnectionReachablilityHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDB9FA221754A3200B52E2E /* NetworkConnectionReachablilityHandler.swift */; };
 		BBF167602170C80A00470FA3 /* CoreData+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF1675F2170C80A00470FA3 /* CoreData+Entity.swift */; };
 		BBF52238217161620089CBC1 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF52237217161620089CBC1 /* TableViewController.swift */; };
 		BBF580E02163E021002B05B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF580DF2163E021002B05B4 /* AppDelegate.swift */; };
@@ -116,7 +117,6 @@
 		BB9895A3216905C400DD6B85 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		BB9895A521690DB100DD6B85 /* VoteUpdaterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteUpdaterViewModel.swift; sourceTree = "<group>"; };
 		BB9895A721691B0800DD6B85 /* NomineeCountingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NomineeCountingViewModel.swift; sourceTree = "<group>"; };
-		BB9895A921691B4900DD6B85 /* Nominee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nominee.swift; sourceTree = "<group>"; };
 		BB9895AB2169256F00DD6B85 /* BallotViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallotViewModel.swift; sourceTree = "<group>"; };
 		BB9895AD216928F300DD6B85 /* ReportCenterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCenterViewModel.swift; sourceTree = "<group>"; };
 		BB9CD845216832F600B3F784 /* NALLabelsMatrixView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NALLabelsMatrixView.swift; sourceTree = "<group>"; };
@@ -130,6 +130,8 @@
 		BB9CD85B2168C2F200B3F784 /* ReportCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCenterViewController.swift; sourceTree = "<group>"; };
 		BBC464B12166E38C007455AF /* CodeValidationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeValidationViewController.swift; sourceTree = "<group>"; };
 		BBC464B321675F40007455AF /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		BBDB9FA021752F1600B52E2E /* Nominee.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nominee.swift; sourceTree = "<group>"; };
+		BBDB9FA221754A3200B52E2E /* NetworkConnectionReachablilityHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectionReachablilityHandler.swift; sourceTree = "<group>"; };
 		BBF1675F2170C80A00470FA3 /* CoreData+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreData+Entity.swift"; sourceTree = "<group>"; };
 		BBF167612170D9B000470FA3 /* GMStepper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GMStepper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBF52237217161620089CBC1 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
@@ -207,10 +209,10 @@
 			isa = PBXGroup;
 			children = (
 				BBC464B321675F40007455AF /* AppCoordinator.swift */,
+				BB73F5B5216D424800F19C85 /* RegionCoordinator.swift */,
 				BB9895962168CE1400DD6B85 /* AuthenticationCoordinator.swift */,
 				BB98959B2168E0AF00DD6B85 /* CodeValidationCoordinator.swift */,
 				BB9895A12168E6FC00DD6B85 /* HomeCoordinator.swift */,
-				BB73F5B5216D424800F19C85 /* RegionCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -319,6 +321,7 @@
 				BBF5811B21640E8D002B05B4 /* ElectionsService.swift */,
 				BB56E1702165793600D740F5 /* Resource.swift */,
 				BB56E17221657D6700D740F5 /* EndPoints.swift */,
+				BBDB9FA221754A3200B52E2E /* NetworkConnectionReachablilityHandler.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -328,10 +331,10 @@
 			children = (
 				BBF5812021640EA8002B05B4 /* Voter.swift */,
 				BB56E1762165D6E700D740F5 /* User.swift */,
+				BBDB9FA021752F1600B52E2E /* Nominee.swift */,
 				BB56E1782165D71D00D740F5 /* Ballot.swift */,
 				BB56E17C2165D74B00D740F5 /* Status.swift */,
 				BB59A6DC2166C0C9003A8CFB /* Report.swift */,
-				BB9895A921691B4900DD6B85 /* Nominee.swift */,
 				BB73F59E216AED9100F19C85 /* Item.swift */,
 				BB73F5B3216D3E2700F19C85 /* Site.swift */,
 			);
@@ -557,10 +560,10 @@
 				BB98959C2168E0AF00DD6B85 /* CodeValidationCoordinator.swift in Sources */,
 				BB73F5B6216D424800F19C85 /* RegionCoordinator.swift in Sources */,
 				BB9895A621690DB100DD6B85 /* VoteUpdaterViewModel.swift in Sources */,
-				BB9895AA21691B4900DD6B85 /* Nominee.swift in Sources */,
 				BB56E17D2165D74B00D740F5 /* Status.swift in Sources */,
 				BBF581172164030A002B05B4 /* Helper.swift in Sources */,
 				BB59A6E12166CB62003A8CFB /* LoginViewController.swift in Sources */,
+				BBDB9FA321754A3200B52E2E /* NetworkConnectionReachablilityHandler.swift in Sources */,
 				BB73F5B2216D324F00F19C85 /* RegionViewController.swift in Sources */,
 				BB56E1792165D71D00D740F5 /* Ballot.swift in Sources */,
 				BBF52238217161620089CBC1 /* TableViewController.swift in Sources */,
@@ -573,6 +576,7 @@
 				BB9CD8582168B9C700B3F784 /* BallotTableViewCell.swift in Sources */,
 				BBF581062163E6CB002B05B4 /* BallotStatisticsCollectionViewCell.swift in Sources */,
 				BBF581112163FBDA002B05B4 /* BallotCollectionViewCell.swift in Sources */,
+				BBDB9FA121752F1700B52E2E /* Nominee.swift in Sources */,
 				BB9CD84C21685F3400B3F784 /* VoteUpdaterViewController.swift in Sources */,
 				BB56E1772165D6E700D740F5 /* User.swift in Sources */,
 				BB9CD846216832F600B3F784 /* NALLabelsMatrixView.swift in Sources */,

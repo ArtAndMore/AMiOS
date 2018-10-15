@@ -42,13 +42,6 @@ extension HomeCoordinator: HomeViewModelCoordinatorDelegate {
       let navigationController = window.rootViewController as? UINavigationController {
       let nomineeViewModel = NomineeCountingViewModel()
       nomineeViewModel.currentBallot = viewModel.currentBallot
-      if let nominees = viewModel.nominees.value {
-        if nominees.isEmpty {
-          viewModel.nominees.observe(listener: { nomineeViewModel.nominees = $0 })
-        } else {
-          nomineeViewModel.nominees = nominees
-        }
-      }
       nomineeVC.viewModel = nomineeViewModel
       navigationController.pushViewController(nomineeVC, animated: true)
     }
@@ -79,14 +72,10 @@ extension HomeCoordinator: HomeViewModelCoordinatorDelegate {
     if let ballotsStatusVC = mainStoryBoard?.instantiateViewController(withIdentifier: "BallotsStatusTableViewController") as? BallotsStatusTableViewController,
       let navigationController = window.rootViewController as? UINavigationController {
       let ballotViewModel = BallotViewModel()
-      if let ballots = viewModel.ballots.value {
-        if ballots.isEmpty {
-          viewModel.ballots.observe(listener: { ballotViewModel.ballots = $0 })
-        } else {
-          ballotViewModel.ballots = ballots
-        }
+      if let permission = viewModel.permission.value {
+        ballotViewModel.canReadBallots = permission?.canReadBallots ?? false
+        ballotViewModel.ballots = viewModel.ballots
       }
-
       ballotsStatusVC.viewModel = ballotViewModel
       navigationController.pushViewController(ballotsStatusVC, animated: true)
     }

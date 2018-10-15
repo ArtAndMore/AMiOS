@@ -30,22 +30,34 @@ class VoteUpdaterViewModel {
   // Errors
   var errorMessage: Observable<String?> = Observable(nil)
 
-  func submit() {
+  private var dispatchWorkItem: DispatchWorkItem?
+
+  func submit(completion: ((Bool) -> Void)? = nil) {
     let ballotId = voter.ballotId ?? self.ballotId
     guard let ballotNumber = self.voter.ballotNumber,
-      (self.viewDelegate?.canSubmit() ?? false) else {
+      (self.viewDelegate?.canSubmit() ?? true) else {
         self.errorMessage.value = "invalid voter data"
+        completion?(false)
         return
     }
-    ElectionsService.shared.updateVoter(withBallotId: ballotId, ballotNumber: ballotNumber) { (error) in
+    self.dispatchWorkItem = DispatchWorkItem {
+      let context = DataController.shared.backgroundContext
+      VoterEntity.addVoter(ballotId: self.ballotId, ballotNumber: ballotNumber, intoContext: context)
+    }
+
+    ElectionsService.shared.updateVoter(withBallotId: ballotId, ballotNumber: ballotNumber) { [weak self] (error) in
       if error == nil || error == .noNetworkConnection  {
         if error == .noNetworkConnection {
-          let context = DataController.shared.viewContext
-          VoterEntity.addVoter(ballotId: self.ballotId, ballotNumber: ballotNumber, intoContext: context)
+          if let workItem = self?.dispatchWorkItem {
+            DispatchQueue.global().async(execute: workItem)
+          }
         }
         DispatchQueue.main.async {
-          self.viewDelegate?.voteUpdaterViewModel(didUpdateVoter: true)
+          self?.viewDelegate?.voteUpdaterViewModel(didUpdateVoter: true)
         }
+        completion?(true)
+      } else {
+        completion?(false)
       }
     }
   }

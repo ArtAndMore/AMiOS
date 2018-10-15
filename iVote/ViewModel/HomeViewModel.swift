@@ -24,8 +24,8 @@ class HomeViewModel {
 
   var status: Observable<Status?> = Observable(nil)
   var permission: Observable<Permission?> = Observable(nil)
-  var ballots: Observable<[Ballot]> = Observable([])
-  var nominees: Observable<[Nominee]> = Observable([])
+  var ballots: [Ballot] = []
+  var nominees: Observable<Bool> = Observable(false)
 
   var items: [Int: [Item]] = [:]
 
@@ -79,15 +79,20 @@ class HomeViewModel {
       if permission.canReadBallots {
         ElectionsService.shared.getAllBallots { (ballots, error) in
           if error == nil {
-            self.ballots.value = ballots.sorted(by: { Int($0.number)! < Int($1.number)! })
+            self.ballots = ballots.sorted(by: { Int($0.number)! < Int($1.number)! })
           }
         }
       }
       // getAllNominee
       if permission.canUpdateNomineeCount {
         ElectionsService.shared.getAllNominee { (nominees, error) in
-          if error == nil {
-            self.nominees.value = nominees
+          if error == nil, DataController.shared.fetchNominees().isEmpty  {
+            let context = DataController.shared.backgroundContext
+            // SAVE TO Core Data if not exist in DB
+            nominees.forEach {
+              NomineeEntity.add(nominee: $0, intoContext: context)
+            }
+            self.nominees.value = true
           }
         }
       }

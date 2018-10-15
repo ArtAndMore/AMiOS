@@ -31,12 +31,12 @@ class NomineeCountingTableViewCell: UITableViewCell {
     // Initialization code
   }
 
-  override func setSelected(_ selected: Bool, animated: Bool) {
-    super.setSelected(selected, animated: animated)
-    // Configure the view for the selected state
+  func setNominee(name: String?, count: Int64) {
+    self.nomineeLabel.text = name
+    self.stepper.value = Double(count)
   }
 
-  @objc func stepperValueChanged(stepper: GMStepper) {
+  @objc private func stepperValueChanged(stepper: GMStepper) {
     let countValue = (stepper.value > currentValue) ? 1 : -1
     self.currentValue = stepper.value
     self.delegate?.countingTableViewCell(self, stepperValueDidChange: Int(countValue))

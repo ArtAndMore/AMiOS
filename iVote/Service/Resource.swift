@@ -16,54 +16,6 @@ enum HTTPMethod: String {
   case delete = "DELETE"
 }
 
-// MARK:- EndPoint
-protocol EndPoint {
-  var base: String {get}
-  var path: String {get}
-  var soapMessage: String? {get}
-  var httpMethod: HTTPMethod {get}
-  var parameters: [String: String] {get set}
-  var headers: [String: String] {get set}
-  var resource: Resource {get}
-}
-
-extension EndPoint {
-  var base: String {
-    return "http://site.ashamsoft.com"
-  }
-  
-  var path: String {
-    return "/CRM-tabash/GlobalService.ASMX"
-  }
-  
-  var httpMethod: HTTPMethod {
-    return .post
-  }
-  
-  var parameters: [String: String] {
-    get {
-      return [:]
-    }
-    set {}
-  }
-  
-  var headers: [String: String] {
-    get {
-      var eHeaders: [String: String] = [:]
-      if let soapMessage = self.soapMessage {
-        eHeaders["Content-Type"] = "text/xml; charset=utf-8"
-        eHeaders["Content-Length"] = String(soapMessage.count)
-      }
-      return eHeaders
-    }
-    set {}
-  }
-
-  var resource: Resource {
-    return Resource(endPoint: self)
-  }
-}
-
 // MARK:- Resource
 class Resource {
   let endPoint: EndPoint

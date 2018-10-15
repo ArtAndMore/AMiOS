@@ -19,9 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //
     Theme.configure()
     //
-    self.observeReachabilityChanges()
+    NetworkConnectionReachablilityHandler.shared.configure()
     //
-    DataController.configure()
+    DataController.shared.configure()
     //
     window = UIWindow()
     appCoordinator = AppCoordinator(window: window!)
@@ -54,51 +54,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
 }
-
-private extension AppDelegate {
-
-  func observeReachabilityChanges() {
-    NotificationCenter.default.addObserver(self, selector: #selector(whenReachabilityIsUnreachableHandler), name: NSNotification.Name.ReachabilityIsUnreachable, object: nil)
-
-    NotificationCenter.default.addObserver(self, selector: #selector(whenReachabilityIsReachableHandler), name: NSNotification.Name.ReachabilityIsReachable, object: nil)
-  }
-
-  @objc func whenReachabilityIsUnreachableHandler() {
-    showAlert(withStatus: .noConnection)
-  }
-
-  @objc func whenReachabilityIsReachableHandler() {
-    let voters = DataController.shared.fetchVoters()
-    if !voters.isEmpty {
-      self.updateVoters(voters)
-    }
-    let nominees = DataController.shared.fetchNominees()
-    if !nominees.isEmpty {
-      self.updateNominees(nominees)
-    }
-  }
-
-  func updateVoters(_ voters: [Voter]) {
-    voters.forEach { (voter) in
-      if let ballotId = voter.ballotId, let ballotNumber = voter.ballotNumber {
-        ElectionsService.shared.updateVoter(withBallotId: ballotId, ballotNumber: ballotNumber, completion: { (error) in
-          if error == nil {
-            DataController.shared.emptyVoter(voter)
-          }
-        })
-      }
-    }
-  }
-
-  func updateNominees(_ nominees: [Nominee]) {
-    nominees.forEach { (nominee) in
-      ElectionsService.shared.updateNominee(nominee, completion: { (error) in
-        if error == nil {
-          DataController.shared.emptyNominee(nominee)
-        }
-      })
-    }
-
-  }
-}
-

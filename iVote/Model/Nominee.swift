@@ -11,5 +11,5 @@ import Foundation
 class Nominee {
   var name: String = ""
   var id: String = ""
-  var status: Int = 0
+  var count: Int = 0
 }

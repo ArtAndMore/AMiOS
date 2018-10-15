@@ -69,7 +69,7 @@ class Toast {
   /// - parameter message: The text to display
   /// - parameter size: The text size
   /// - parameter duration: How long to display the toast message for
-  static func toast(_ message:String, size:ToastSize = .normal, duration: ToastDuration = .normal, in view: UIView) {
+  static func toast(_ message:String, size:ToastSize = .small, duration: ToastDuration = .short, in view: UIView) {
     guard instance.label == nil else {
       DispatchQueue.main.asyncAfter(deadline: .now() + duration.rawValue) {
         toast(message, size: size, duration: duration, in: view)
@@ -122,7 +122,7 @@ class Toast {
 /// - parameter message: The text to display
 /// - parameter size: The text size
 /// - parameter duration: How long to display the toast message for
-func toast(_ message:String, size:ToastSize = .small, duration: ToastDuration = .short) {
+func toast(_ message:String, size:ToastSize, duration: ToastDuration) {
   guard let window = UIApplication.shared.keyWindow else {
     return
   }

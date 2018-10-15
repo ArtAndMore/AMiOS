@@ -8,7 +8,61 @@
 
 import Foundation
 
+
+// MARK:- EndPoint
+
+protocol EndPoint {
+  var base: String {get}
+  var path: String {get}
+  var soapMessage: String? {get}
+  var httpMethod: HTTPMethod {get}
+  var parameters: [String: String] {get set}
+  var headers: [String: String] {get set}
+  var resource: Resource {get}
+}
+
+extension EndPoint {
+  var base: String {
+    return "http://site.ashamsoft.com"
+  }
+
+  var path: String {
+    return "/CRM-tabash/GlobalService.ASMX"
+  }
+
+  var httpMethod: HTTPMethod {
+    return .post
+  }
+
+  var parameters: [String: String] {
+    get {
+      return [:]
+    }
+    set {}
+  }
+
+  var headers: [String: String] {
+    get {
+      var eHeaders: [String: String] = [:]
+      if let soapMessage = self.soapMessage {
+        eHeaders["Content-Type"] = "text/xml; charset=utf-8"
+        eHeaders["Content-Length"] = String(soapMessage.count)
+      }
+      return eHeaders
+    }
+    set {}
+  }
+
+  var resource: Resource {
+    return Resource(endPoint: self)
+  }
+}
+
+// MARK:- Wrapper Struct For All EndPoints
+
 struct EndPoints {
+
+  // MARK: - GLOBAL SERVICES URLS
 
   struct Global: EndPoint {
     var soapMessage: String? {
@@ -22,26 +76,45 @@ struct EndPoints {
     }
   }
 
-  struct CountVote: EndPoint {
+  // MARK: - USER
+
+  struct UserAuthentication: EndPoint {
     let path: String
-    let ballotId: String
-    let electedId: String
-    let value: String
+    let user: User
 
     var soapMessage: String? {
       return """
       <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
       <soap:Body>
-      <Count_vote xmlns="http://tempuri.org/">
-      <kalpi_id>\(ballotId)</kalpi_id>
-      <nevhar_id>\(electedId)</nevhar_id>
-      <val>\(value)</val>
-      </Count_vote>
+      <User_Authentication xmlns="http://tempuri.org/">
+      <user>\(user.name)</user>
+      <pass>\(user.password)</pass>
+      <phone>\(user.phone)</phone>
+      </User_Authentication>
       </soap:Body>
       </soap:Envelope>
       """
     }
   }
+
+  struct UserSendCode: EndPoint {
+    let path: String
+    let user: User
+
+    var soapMessage: String? {
+      return """
+      <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+      <soap:Body>
+      <User_Send_code xmlns="http://tempuri.org/">
+      <phone>\(user.phone)</phone>
+      </User_Send_code>
+      </soap:Body>
+      </soap:Envelope>
+      """
+    }
+  }
+
+  // MARK: - STATUS
 
   struct GetMainPageData: EndPoint {
     let path: String
@@ -60,37 +133,7 @@ struct EndPoints {
     }
   }
 
-  struct GetAllBallotBox: EndPoint {
-    let path: String
-    var soapMessage: String? {
-      return """
-      <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-      <soap:Body>
-      <Get_all_ballot_box xmlns="http://tempuri.org/">
-      <code></code>
-      </Get_all_ballot_box>
-      </soap:Body>
-      </soap:Envelope>
-      """
-    }
-  }
-
-  struct GetAllBallotBoxById: EndPoint {
-    let path: String
-    let ballotNumber: Int
-
-    var soapMessage: String? {
-      return """
-      <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-      <soap:Body>
-      <Get_all_ballot_box_by_id xmlns="http://tempuri.org/">
-      <kalpinum>\(ballotNumber)</kalpinum>
-      </Get_all_ballot_box_by_id>
-      </soap:Body>
-      </soap:Envelope>
-      """
-    }
-  }
+  // MARK: - VOTER
 
   struct SearchContact: EndPoint {
     let path: String
@@ -123,6 +166,97 @@ struct EndPoints {
       <Search_contact_by_id xmlns="http://tempuri.org/">
       <contact_id>\(id)</contact_id>
       </Search_contact_by_id>
+      </soap:Body>
+      </soap:Envelope>
+      """
+    }
+  }
+
+  struct UpdateVote: EndPoint {
+    let path: String
+    let ballotId: String
+    let ballotNumber: String
+
+    var soapMessage: String? {
+      return """
+      <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+      <soap:Body>
+      <Update_vote xmlns="http://tempuri.org/">
+      <kapli_id>\(ballotId)</kapli_id>
+      <kali_num>\(ballotNumber)</kali_num>
+      </Update_vote>
+      </soap:Body>
+      </soap:Envelope>
+      """
+    }
+  }
+
+  // MARK: - NOMINEE
+
+  struct GetAllNominee: EndPoint {
+    let path: String
+    var soapMessage: String? {
+      return """
+      <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+      <soap:Body>
+      <get_all_Nominee xmlns="http://tempuri.org/">
+      <code></code>
+      </get_all_Nominee>
+      </soap:Body>
+      </soap:Envelope>
+      """
+    }
+  }
+
+  struct CountVote: EndPoint {
+    let path: String
+    let ballotId: String
+    let electedId: String
+    let value: String
+
+    var soapMessage: String? {
+      return """
+      <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+      <soap:Body>
+      <Count_vote xmlns="http://tempuri.org/">
+      <kalpi_id>\(ballotId)</kalpi_id>
+      <nevhar_id>\(electedId)</nevhar_id>
+      <val>\(value)</val>
+      </Count_vote>
+      </soap:Body>
+      </soap:Envelope>
+      """
+    }
+  }
+
+  // MARK: - BALLOTS
+
+  struct GetAllBallotBox: EndPoint {
+    let path: String
+    var soapMessage: String? {
+      return """
+      <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+      <soap:Body>
+      <Get_all_ballot_box xmlns="http://tempuri.org/">
+      <code></code>
+      </Get_all_ballot_box>
+      </soap:Body>
+      </soap:Envelope>
+      """
+    }
+  }
+
+  struct GetAllBallotBoxById: EndPoint {
+    let path: String
+    let ballotNumber: Int
+
+    var soapMessage: String? {
+      return """
+      <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+      <soap:Body>
+      <Get_all_ballot_box_by_id xmlns="http://tempuri.org/">
+      <kalpinum>\(ballotNumber)</kalpinum>
+      </Get_all_ballot_box_by_id>
       </soap:Body>
       </soap:Envelope>
       """
@@ -219,93 +353,6 @@ struct EndPoints {
       <kalpi_id>\(ballotId)</kalpi_id>
       <status>\(status)</status>
       </Update_Ballot_box_st_mashkif>
-      </soap:Body>
-      </soap:Envelope>
-      """
-    }
-  }
-
-  struct UpdateVote: EndPoint {
-    let path: String
-    let ballotId: String
-    let ballotNumber: String
-
-    var soapMessage: String? {
-      return """
-      <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-      <soap:Body>
-      <Update_vote xmlns="http://tempuri.org/">
-      <kapli_id>\(ballotId)</kapli_id>
-      <kali_num>\(ballotNumber)</kali_num>
-      </Update_vote>
-      </soap:Body>
-      </soap:Envelope>
-      """
-    }
-  }
-
-  struct UserAuthentication: EndPoint {
-    let path: String
-    let user: User
-
-    var soapMessage: String? {
-      return """
-      <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-      <soap:Body>
-      <User_Authentication xmlns="http://tempuri.org/">
-      <user>\(user.name)</user>
-      <pass>\(user.password)</pass>
-      <phone>\(user.phone)</phone>
-      </User_Authentication>
-      </soap:Body>
-      </soap:Envelope>
-      """
-    }
-  }
-
-  struct UserPermission: EndPoint {
-    let path: String
-    let user: User
-
-    var soapMessage: String? {
-      return """
-      <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-      <soap:Body>
-      <User_Permission xmlns="http://tempuri.org/">
-      <user>\(user.name)</user>
-      </User_Permission>
-      </soap:Body>
-      </soap:Envelope>
-      """
-    }
-  }
-
-  struct UserSendCode: EndPoint {
-    let path: String
-    let user: User
-
-    var soapMessage: String? {
-      return """
-      <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-      <soap:Body>
-      <User_Send_code xmlns="http://tempuri.org/">
-      <phone>\(user.phone)</phone>
-      </User_Send_code>
-      </soap:Body>
-      </soap:Envelope>
-      """
-    }
-  }
-
-  struct GetAllNominee: EndPoint {
-    let path: String
-    var soapMessage: String? {
-      return """
-      <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-      <soap:Body>
-      <get_all_Nominee xmlns="http://tempuri.org/">
-      <code></code>
-      </get_all_Nominee>
       </soap:Body>
       </soap:Envelope>
       """

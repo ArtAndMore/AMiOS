@@ -15,19 +15,16 @@ protocol NomineeCountingViewModelDelegate: AnyObject {
 
 class NomineeCountingViewModel {
   weak var viewDelegate: NomineeCountingViewModelDelegate?
-
   var currentBallot: String!
 
-  var nominees: [Nominee] = [] {
-    didSet {
-      DispatchQueue.main.async {
-        self.viewDelegate?.nomineesCountingViewModelDidLoaded()
-      }
-    }
-  }
+  lazy var nominees: [NomineeEntity] = {
+    return DataController.shared.fetchNominees()
+  }()
 
   // Errors
   var errorMessage: Observable<String?> = Observable(nil)
+
+  private var dispatchWorkItem: DispatchWorkItem?
 
   init() {
     guard self.nominees.isEmpty else {
@@ -35,20 +32,29 @@ class NomineeCountingViewModel {
     }
   }
 
-  func update(nomineeAtIndex index: Int, status: Int) {
-    guard index < nominees.count else {
+  func update(nomineeWithId id: String?, sign: Int, updateCount: Bool = true) {
+    guard let nominee = nominees.filter({ $0.id == id}).first else {
       return
     }
-    let nominee = nominees[index]
-    nominee.status = status
-    ElectionsService.shared.updateNominee(nominee) { (error) in
+
+    self.dispatchWorkItem = DispatchWorkItem {
+      try? DataController.shared.backgroundContext.save()
+    }
+    nominee.sign = Int16(sign)
+
+    // if updateCount
+    nominee.count += updateCount ? Int64(sign) : 0
+
+    ElectionsService.shared.updateNominee(nominee) { [weak self] (error) in
       if error == nil || error == .noNetworkConnection  {
-        if error == .noNetworkConnection {
-          let context = DataController.shared.viewContext
-          NomineeEntity.addNominee(id: nominee.id, status: nominee.status, intoContext: context)
+        if error == nil {
+          nominee.lastUpdatedCount = nominee.count
+        }
+        if let workItem = self?.dispatchWorkItem {
+          DispatchQueue.global().async(execute: workItem)
         }
         DispatchQueue.main.async {
-          self.viewDelegate?.nommineeCountingViewModel(didUpdateStatus: true)
+          self?.viewDelegate?.nommineeCountingViewModel(didUpdateStatus: true)
         }
       }
     }

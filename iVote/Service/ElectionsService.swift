@@ -250,11 +250,11 @@ class ElectionsService: WebService {
     }
   }
 
-  func updateNominee(_ nominee: Nominee, completion:@escaping ((_ error: WebServiceError?) -> Void)) {
+  func updateNominee(_ nominee: NomineeEntity, completion:@escaping ((_ error: WebServiceError?) -> Void)) {
     self.queue.async {
       let endPoint = EndPoints.CountVote(path: self.user.path, ballotId: self.currentBallot,
-                                         electedId: nominee.id,
-                                         value: "\(nominee.status)")
+                                         electedId: nominee.id!,
+                                         value: "\(nominee.sign)")
       self.loadXMLAccessor(resource: endPoint.resource) { (xmlAccessor, error) in
         guard error == nil, let xml = xmlAccessor else {
           completion(error)

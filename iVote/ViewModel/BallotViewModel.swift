@@ -14,6 +14,13 @@ protocol BallotViewModelDelegate: AnyObject {
 
 class BallotViewModel {
   weak var viewDelegate: BallotViewModelDelegate?
+
+  var canReadBallots: Bool = false {
+    didSet {
+      self.getAllBallots()
+    }
+  }
+
   var ballots: [Ballot] = [] {
     didSet {
       DispatchQueue.main.async {
@@ -22,9 +29,8 @@ class BallotViewModel {
     }
   }
 
-
-  init() {
-    guard self.ballots.isEmpty else {
+  private func getAllBallots() {
+    guard self.canReadBallots, ballots.isEmpty else {
       return
     }
     ElectionsService.shared.getAllBallots { (ballots, error) in

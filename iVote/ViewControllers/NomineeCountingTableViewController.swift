@@ -33,7 +33,7 @@ class NomineeCountingTableViewController: TableViewController {
     let cell = tableView.dequeueReusableCell(withIdentifier: "NomineeCountingTableViewCell") as! NomineeCountingTableViewCell
     cell.delegate = self
     let nominee = viewModel.nominees[indexPath.row]
-    cell.nomineeLabel.text = nominee.name
+    cell.setNominee(name: nominee.name, count: nominee.count)
     return cell
   }
 
@@ -50,15 +50,16 @@ extension NomineeCountingTableViewController: NomineeCountingViewModelDelegate {
 
   func nommineeCountingViewModel(didUpdateStatus success: Bool) {
     if success {
-      toast(StatusAlertType.update.rawValue)
+      toast(StatusAlertType.update.rawValue, size: .small, duration: .short)
     }
   }
 }
 
 extension NomineeCountingTableViewController: NomineeCountingTableViewCellDlegate {
   func countingTableViewCell(_ cell: NomineeCountingTableViewCell, stepperValueDidChange value: Int) {
-    if let index = self.tableView.indexPath(for: cell) {
-      self.viewModel.update(nomineeAtIndex: index.row, status: value)
+    if let indexPath = self.tableView.indexPath(for: cell) {
+      let nominee = viewModel.nominees[indexPath.row]
+      self.viewModel.update(nomineeWithId: nominee.id, sign: value)
     }
   }
 }
