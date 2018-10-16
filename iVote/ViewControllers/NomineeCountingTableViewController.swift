@@ -11,6 +11,8 @@ import StatusAlert
 
 class NomineeCountingTableViewController: TableViewController {
 
+  private var toastFooterView: ToastView?
+
   var viewModel: NomineeCountingViewModel! {
     didSet {
       viewModel.viewDelegate = self
@@ -41,6 +43,18 @@ class NomineeCountingTableViewController: TableViewController {
     return 120
   }
 
+  // set view for footer
+  override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    let footerView = ToastView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 40))
+    footerView.title = StatusAlertType.update.rawValue
+    self.toastFooterView = footerView
+    return footerView
+  }
+
+  // set height for footer
+  override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    return 40
+  }
 }
 
 extension NomineeCountingTableViewController: NomineeCountingViewModelDelegate {
@@ -50,7 +64,7 @@ extension NomineeCountingTableViewController: NomineeCountingViewModelDelegate {
 
   func nommineeCountingViewModel(didUpdateStatus success: Bool) {
     if success {
-      toast(StatusAlertType.update.rawValue, size: .small, duration: .short)
+      self.toastFooterView?.show()
     }
   }
 }
