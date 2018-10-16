@@ -136,6 +136,10 @@ class DataController {
     self.emptyEntities(name: "UserEntity")
   }
 
+  func emptyNominees() {
+    self.emptyEntities(name: "NomineeEntity")
+  }
+
   private func emptyEntities(name entityName: String) {
     let context = viewContext
 

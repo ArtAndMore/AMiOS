@@ -86,14 +86,21 @@ class HomeViewModel {
       // getAllNominee
       if permission.canUpdateNomineeCount {
         ElectionsService.shared.getAllNominee { (nominees, error) in
-          if error == nil, DataController.shared.fetchNominees().isEmpty  {
-            let context = DataController.shared.backgroundContext
-            // SAVE TO Core Data if not exist in DB
-            nominees.forEach {
-              NomineeEntity.add(nominee: $0, intoContext: context)
-            }
-            self.nominees.value = true
+          guard error == nil  else {
+            return
           }
+          let currentNominees = DataController.shared.fetchNominees()
+          guard currentNominees.filter({ $0.id == nominees.first?.id }).first == nil else {
+            return
+          }
+          DataController.shared.emptyNominees()
+
+          let context = DataController.shared.backgroundContext
+          // SAVE TO Core Data if not exist in DB
+          nominees.forEach {
+            NomineeEntity.add(nominee: $0, intoContext: context)
+          }
+          self.nominees.value = true
         }
       }
 
