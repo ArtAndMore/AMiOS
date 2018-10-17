@@ -90,13 +90,13 @@ class DataController {
 
   // MARK: - Nominees
 
-  func fetchNominees() -> [NomineeEntity] {
+  func fetchNominees(withBallotId ballotId: String) -> [NomineeEntity] {
     let request = NSFetchRequest<NSFetchRequestResult>(entityName: "NomineeEntity")
     request.returnsObjectsAsFaults = false
     if let result = try? self.backgroundContext?.fetch(request) as? [NomineeEntity],
       let res = result {
       return res.reduce(into: [:], {
-        if let id = $1.id {
+        if let id = $1.id, $1.ballotId == ballotId {
           $0[id] = $1
         }
       }).map({ $1 })
@@ -134,10 +134,6 @@ class DataController {
 
   func emptyUsers() {
     self.emptyEntities(name: "UserEntity")
-  }
-
-  func emptyNominees() {
-    self.emptyEntities(name: "NomineeEntity")
   }
 
   private func emptyEntities(name entityName: String) {

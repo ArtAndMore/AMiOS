@@ -80,30 +80,31 @@ class HomeViewModel {
         ElectionsService.shared.getAllBallots { (ballots, error) in
           if error == nil {
             self.ballots = ballots.sorted(by: { Int($0.number)! < Int($1.number)! })
+
+            // getAllNominee
+            if permission.canUpdateNomineeCount {
+              ElectionsService.shared.getAllNominee { (nominees, error) in
+                guard error == nil  else {
+                  return
+                }
+                self.ballots.forEach { ballot in
+                  let currentNominees = DataController.shared.fetchNominees(withBallotId: ballot.id)
+                  guard currentNominees.filter({ $0.id == nominees.first?.id }).first == nil else {
+                    return
+                  }
+
+                  let context = DataController.shared.backgroundContext
+                  // SAVE TO Core Data if not exist in DB
+                  nominees.forEach {
+                    NomineeEntity.add(nominee: $0, ballotId: ballot.id, intoContext: context)
+                  }
+                  self.nominees.value = true
+                }
+              }
+            }
           }
         }
       }
-      // getAllNominee
-      if permission.canUpdateNomineeCount {
-        ElectionsService.shared.getAllNominee { (nominees, error) in
-          guard error == nil  else {
-            return
-          }
-          let currentNominees = DataController.shared.fetchNominees()
-          guard currentNominees.filter({ $0.id == nominees.first?.id }).first == nil else {
-            return
-          }
-          DataController.shared.emptyNominees()
-
-          let context = DataController.shared.backgroundContext
-          // SAVE TO Core Data if not exist in DB
-          nominees.forEach {
-            NomineeEntity.add(nominee: $0, intoContext: context)
-          }
-          self.nominees.value = true
-        }
-      }
-
     }
   }
 

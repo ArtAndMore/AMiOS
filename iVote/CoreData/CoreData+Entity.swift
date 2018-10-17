@@ -48,9 +48,10 @@ extension VoterEntity {
 
 
 extension NomineeEntity {
-  static func add(nominee: Nominee, intoContext context: NSManagedObjectContext?) {
+  static func add(nominee: Nominee, ballotId: String, intoContext context: NSManagedObjectContext?) {
     if let context = context {
-      _ = nominee.entity(inContext: context)
+      let entity = nominee.entity(inContext: context)
+      entity.ballotId = ballotId
       do {
         try context.save()
 

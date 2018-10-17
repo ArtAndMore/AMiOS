@@ -15,22 +15,18 @@ protocol NomineeCountingViewModelDelegate: AnyObject {
 
 class NomineeCountingViewModel {
   weak var viewDelegate: NomineeCountingViewModelDelegate?
-  var currentBallot: String!
+  var currentBallot: String! {
+    didSet {
+      self.nominees = DataController.shared.fetchNominees(withBallotId: currentBallot)
+    }
+  }
 
-  lazy var nominees: [NomineeEntity] = {
-    return DataController.shared.fetchNominees()
-  }()
+  var nominees: [NomineeEntity] = []
 
   // Errors
   var errorMessage: Observable<String?> = Observable(nil)
 
   private var dispatchWorkItem: DispatchWorkItem?
-
-  init() {
-    guard self.nominees.isEmpty else {
-      return
-    }
-  }
 
   func update(nomineeWithId id: String?, sign: Int, updateCount: Bool = true) {
     guard let nominee = nominees.filter({ $0.id == id}).first else {
@@ -41,7 +37,7 @@ class NomineeCountingViewModel {
       try? DataController.shared.backgroundContext.save()
     }
     nominee.sign = Int16(sign)
-
+    nominee.ballotId = currentBallot
     // if updateCount
     nominee.count += updateCount ? Int64(sign) : 0
 
