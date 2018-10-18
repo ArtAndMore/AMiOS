@@ -22,7 +22,9 @@ class SearchViewModel {
 
   private(set) var voter: Voter?
 
-  var canUpdateVotes: Bool = false
+  var canUpdateVotes: Bool {
+    return UserAuth.shared.user.permission?.canUpdateVotes ?? false
+  }
 
   // Errors
   var errorMessage: Observable<String?> = Observable(nil)

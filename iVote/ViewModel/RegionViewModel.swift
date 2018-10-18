@@ -19,10 +19,10 @@ class RegionViewModel {
 
   var path: String {
     get {
-      return ElectionsService.shared.user.path
+      return UserAuth.shared.user.path
     }
     set {
-      ElectionsService.shared.user.path = newValue
+      UserAuth.shared.user.path = newValue
     }
   }
   // Errors

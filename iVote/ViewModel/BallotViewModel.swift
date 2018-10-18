@@ -8,35 +8,16 @@
 
 import Foundation
 
-protocol BallotViewModelDelegate: AnyObject {
-  func ballotViewModelDidLoadBallots()
-}
-
 class BallotViewModel {
-  weak var viewDelegate: BallotViewModelDelegate?
-
-  var canReadBallots: Bool = false {
-    didSet {
-      self.getAllBallots()
-    }
+  var canReadBallots: Bool {
+    return UserAuth.shared.user.permission?.canReadBallots ?? false
   }
 
-  var ballots: [Ballot] = [] {
-    didSet {
-      DispatchQueue.main.async {
-        self.viewDelegate?.ballotViewModelDidLoadBallots()
-      }
-    }
-  }
+  var ballots: Observable<[Ballot]> = Observable([])
 
-  private func getAllBallots() {
-    guard self.canReadBallots, ballots.isEmpty else {
-      return
-    }
-    ElectionsService.shared.getAllBallots { (ballots, error) in
-      if error == nil {
-        self.ballots = ballots.sorted(by: { Int($0.number)! < Int($1.number)! })
-      }
+  init() {
+    UserAuth.shared.ballots.observe {
+      self.ballots.value = $0
     }
   }
 }

@@ -23,6 +23,6 @@ class User {
   var password: String = ""
   var phone: String = ""
   var path: String = ""
-  var permission = Permission()
+  var permission: Permission?
 }
 

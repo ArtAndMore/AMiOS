@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7iN-SL-fRD">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="A55-zN-jmk">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -61,7 +61,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1976.8" y="640.92953523238384"/>
+            <point key="canvasLocation" x="2916" y="640.92953523238384"/>
         </scene>
         <!--כניסה-->
         <scene sceneID="jin-8K-6l6">
@@ -394,7 +394,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GAD-WS-uUe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2713" y="641"/>
+            <point key="canvasLocation" x="3652" y="640.92953523238384"/>
         </scene>
         <!--בוחר-->
         <scene sceneID="SWK-5p-CoR">
@@ -730,7 +730,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0li-Sa-JdN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3500" y="640.92953523238384"/>
+            <point key="canvasLocation" x="4439.1999999999998" y="640.92953523238384"/>
         </scene>
         <!--סטטוס קלפיות-->
         <scene sceneID="LOV-EM-DHV">
@@ -797,6 +797,22 @@
             </objects>
             <point key="canvasLocation" x="1977" y="2214"/>
         </scene>
+        <!--Loading View Controller-->
+        <scene sceneID="gVC-sv-uPZ">
+            <objects>
+                <viewController storyboardIdentifier="LoadingViewController" id="W69-pa-Ueo" customClass="LoadingViewController" customModule="iVote" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tgc-AH-tb4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Ub5-Cj-k6J"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="3ur-cl-iTG"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U7c-g5-7Ey" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1037.5999999999999" y="643.62818590704649"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Dfu-JC-1uH">
             <objects>
@@ -813,7 +829,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kh4-3W-rsU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1037.5999999999999" y="640.92953523238384"/>
+            <point key="canvasLocation" x="1976.8" y="640.92953523238384"/>
         </scene>
         <!--ספירה-->
         <scene sceneID="3Wq-Qn-N64">
@@ -1489,6 +1505,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HA6-F3-c9U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2713" y="2213"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="DHP-o9-Nut">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="A55-zN-jmk" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wyP-7H-pay">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="W69-pa-Ueo" kind="relationship" relationship="rootViewController" id="uSk-lI-3Cj"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LWc-RM-Bxk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="98.400000000000006" y="643.62818590704649"/>
         </scene>
     </scenes>
     <resources>

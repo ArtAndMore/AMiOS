@@ -15,19 +15,20 @@ protocol HomeCoordinatorDelegate: AnyObject {
 class HomeCoordinator: Coordinator {
   weak var delegate: HomeCoordinatorDelegate?
 
-  let user: User
+  var user: User {
+    return UserAuth.shared.user
+  }
 
   let window: UIWindow
 
-  init(window: UIWindow, user: User) {
+  init(window: UIWindow) {
     self.window = window
-    self.user = user
   }
 
   func start() {
     if let navigationController = mainStoryBoard?.instantiateViewController(withIdentifier: "HomeNavigationViewController") as? UINavigationController,
       let homeViewCintroller = navigationController.topViewController as? HomeViewController {
-      let viewModel = HomeViewModel(user: self.user)
+      let viewModel = HomeViewModel()
       viewModel.coordinatorDelegate = self
       homeViewCintroller.viewModel = viewModel
       window.rootViewController = navigationController
@@ -51,7 +52,6 @@ extension HomeCoordinator: HomeViewModelCoordinatorDelegate {
     if let searchVC = mainStoryBoard?.instantiateViewController(withIdentifier: "SearchViewController") as? SearchViewController,
       let navigationController = window.rootViewController as? UINavigationController {
       let searchViewModel = SearchViewModel()
-      searchViewModel.canUpdateVotes = viewModel.permission.value??.canUpdateVotes ?? false
       searchViewModel.coordinatorDelegate = self
       searchVC.viewModel = searchViewModel
       navigationController.pushViewController(searchVC, animated: true)
@@ -62,7 +62,6 @@ extension HomeCoordinator: HomeViewModelCoordinatorDelegate {
     if let voteUpdaterVC = mainStoryBoard?.instantiateViewController(withIdentifier: "VoteUpdaterViewController") as? VoteUpdaterViewController,
       let navigationController = window.rootViewController as? UINavigationController {
       let updateViewModel = VoteUpdaterViewModel()
-      updateViewModel.canUpdateVote = viewModel.permission.value??.canUpdateVotes ?? false
       voteUpdaterVC.viewModel = updateViewModel
       navigationController.pushViewController(voteUpdaterVC, animated: true)
     }
@@ -72,10 +71,6 @@ extension HomeCoordinator: HomeViewModelCoordinatorDelegate {
     if let ballotsStatusVC = mainStoryBoard?.instantiateViewController(withIdentifier: "BallotsStatusTableViewController") as? BallotsStatusTableViewController,
       let navigationController = window.rootViewController as? UINavigationController {
       let ballotViewModel = BallotViewModel()
-      if let permission = viewModel.permission.value {
-        ballotViewModel.canReadBallots = permission?.canReadBallots ?? false
-        ballotViewModel.ballots = viewModel.ballots
-      }
       ballotsStatusVC.viewModel = ballotViewModel
       navigationController.pushViewController(ballotsStatusVC, animated: true)
     }

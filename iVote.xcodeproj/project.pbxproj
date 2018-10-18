@@ -51,6 +51,10 @@
 		BBC464B421675F40007455AF /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC464B321675F40007455AF /* AppCoordinator.swift */; };
 		BBDB9FA121752F1700B52E2E /* Nominee.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDB9FA021752F1600B52E2E /* Nominee.swift */; };
 		BBDB9FA321754A3200B52E2E /* NetworkConnectionReachablilityHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDB9FA221754A3200B52E2E /* NetworkConnectionReachablilityHandler.swift */; };
+		BBDB9FA52177EC6500B52E2E /* UserAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDB9FA42177EC6500B52E2E /* UserAuth.swift */; };
+		BBDB9FA72177FC4700B52E2E /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDB9FA62177FC4700B52E2E /* LoadingViewController.swift */; };
+		BBDB9FA92177FCEA00B52E2E /* LoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDB9FA82177FCEA00B52E2E /* LoadingViewModel.swift */; };
+		BBDB9FAB2177FD7200B52E2E /* LoadingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDB9FAA2177FD7200B52E2E /* LoadingCoordinator.swift */; };
 		BBF167602170C80A00470FA3 /* CoreData+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF1675F2170C80A00470FA3 /* CoreData+Entity.swift */; };
 		BBF52238217161620089CBC1 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF52237217161620089CBC1 /* TableViewController.swift */; };
 		BBF580E02163E021002B05B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF580DF2163E021002B05B4 /* AppDelegate.swift */; };
@@ -132,6 +136,10 @@
 		BBC464B321675F40007455AF /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		BBDB9FA021752F1600B52E2E /* Nominee.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nominee.swift; sourceTree = "<group>"; };
 		BBDB9FA221754A3200B52E2E /* NetworkConnectionReachablilityHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectionReachablilityHandler.swift; sourceTree = "<group>"; };
+		BBDB9FA42177EC6500B52E2E /* UserAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuth.swift; sourceTree = "<group>"; };
+		BBDB9FA62177FC4700B52E2E /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		BBDB9FA82177FCEA00B52E2E /* LoadingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewModel.swift; sourceTree = "<group>"; };
+		BBDB9FAA2177FD7200B52E2E /* LoadingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCoordinator.swift; sourceTree = "<group>"; };
 		BBF1675F2170C80A00470FA3 /* CoreData+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreData+Entity.swift"; sourceTree = "<group>"; };
 		BBF167612170D9B000470FA3 /* GMStepper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GMStepper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBF52237217161620089CBC1 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
@@ -193,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				BB73F5B7216D429900F19C85 /* RegionViewModel.swift */,
+				BBDB9FA82177FCEA00B52E2E /* LoadingViewModel.swift */,
 				BB9895992168D01A00DD6B85 /* AuthenticateViewModel.swift */,
 				BB98959D2168E12D00DD6B85 /* CodeValidationViewModel.swift */,
 				BB98959F2168E53C00DD6B85 /* HomeViewModel.swift */,
@@ -210,6 +219,7 @@
 			children = (
 				BBC464B321675F40007455AF /* AppCoordinator.swift */,
 				BB73F5B5216D424800F19C85 /* RegionCoordinator.swift */,
+				BBDB9FAA2177FD7200B52E2E /* LoadingCoordinator.swift */,
 				BB9895962168CE1400DD6B85 /* AuthenticationCoordinator.swift */,
 				BB98959B2168E0AF00DD6B85 /* CodeValidationCoordinator.swift */,
 				BB9895A12168E6FC00DD6B85 /* HomeCoordinator.swift */,
@@ -289,6 +299,7 @@
 			isa = PBXGroup;
 			children = (
 				BBF52237217161620089CBC1 /* TableViewController.swift */,
+				BBDB9FA62177FC4700B52E2E /* LoadingViewController.swift */,
 				BB73F5B1216D324F00F19C85 /* RegionViewController.swift */,
 				BB59A6E02166CB62003A8CFB /* LoginViewController.swift */,
 				BBC464B12166E38C007455AF /* CodeValidationViewController.swift */,
@@ -318,6 +329,7 @@
 			isa = PBXGroup;
 			children = (
 				BB56E17421658AE100D740F5 /* WebService.swift */,
+				BBDB9FA42177EC6500B52E2E /* UserAuth.swift */,
 				BBF5811B21640E8D002B05B4 /* ElectionsService.swift */,
 				BB56E1702165793600D740F5 /* Resource.swift */,
 				BB56E17221657D6700D740F5 /* EndPoints.swift */,
@@ -541,6 +553,7 @@
 				BB9895A4216905C400DD6B85 /* SearchViewModel.swift in Sources */,
 				BBC464B421675F40007455AF /* AppCoordinator.swift in Sources */,
 				BB56E1712165793600D740F5 /* Resource.swift in Sources */,
+				BBDB9FA92177FCEA00B52E2E /* LoadingViewModel.swift in Sources */,
 				BBF5810E2163F206002B05B4 /* HomeViewController.swift in Sources */,
 				BB59A6DD2166C0C9003A8CFB /* Report.swift in Sources */,
 				BBF167602170C80A00470FA3 /* CoreData+Entity.swift in Sources */,
@@ -549,6 +562,7 @@
 				BB9895A821691B0800DD6B85 /* NomineeCountingViewModel.swift in Sources */,
 				BBF581182164030A002B05B4 /* Theme.swift in Sources */,
 				BB73F5AC216BA72200F19C85 /* iVoteModel.xcdatamodeld in Sources */,
+				BBDB9FA72177FC4700B52E2E /* LoadingViewController.swift in Sources */,
 				BB73F5AE216BA73C00F19C85 /* DataController.swift in Sources */,
 				BBC464B22166E38C007455AF /* CodeValidationViewController.swift in Sources */,
 				BB73F5B8216D429900F19C85 /* RegionViewModel.swift in Sources */,
@@ -565,6 +579,7 @@
 				BB59A6E12166CB62003A8CFB /* LoginViewController.swift in Sources */,
 				BBDB9FA321754A3200B52E2E /* NetworkConnectionReachablilityHandler.swift in Sources */,
 				BB73F5B2216D324F00F19C85 /* RegionViewController.swift in Sources */,
+				BBDB9FAB2177FD7200B52E2E /* LoadingCoordinator.swift in Sources */,
 				BB56E1792165D71D00D740F5 /* Ballot.swift in Sources */,
 				BBF52238217161620089CBC1 /* TableViewController.swift in Sources */,
 				BBF581192164030A002B05B4 /* Titles.swift in Sources */,
@@ -572,6 +587,7 @@
 				BB9895A22168E6FC00DD6B85 /* HomeCoordinator.swift in Sources */,
 				BB9895A02168E53C00DD6B85 /* HomeViewModel.swift in Sources */,
 				BB9CD85321689EF000B3F784 /* NomineeCountingTableViewCell.swift in Sources */,
+				BBDB9FA52177EC6500B52E2E /* UserAuth.swift in Sources */,
 				BB9895AC2169256F00DD6B85 /* BallotViewModel.swift in Sources */,
 				BB9CD8582168B9C700B3F784 /* BallotTableViewCell.swift in Sources */,
 				BBF581062163E6CB002B05B4 /* BallotStatisticsCollectionViewCell.swift in Sources */,

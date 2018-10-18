@@ -29,7 +29,7 @@ class CodeValidationViewModel {
   }
 
   private var user: User {
-    return ElectionsService.shared.user
+    return UserAuth.shared.user
   }
 
   init() {

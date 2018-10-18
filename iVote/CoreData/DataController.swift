@@ -104,6 +104,10 @@ class DataController {
     return []
   }
 
+  func emptyNominees() {
+    self.emptyEntities(name: "NomineeEntity")
+  }
+
   func emptyNominee(_ toDelete: NomineeEntity) {
     let context = backgroundContext
     do {

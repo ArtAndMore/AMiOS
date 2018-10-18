@@ -23,7 +23,7 @@ class VoteUpdaterViewModel {
   }
 
   var allowedBallots: [Ballot] {
-    return ElectionsService.shared.user.permission.ballots
+    return UserAuth.shared.allowedBallots
   }
 
   var canUpdateVote = false

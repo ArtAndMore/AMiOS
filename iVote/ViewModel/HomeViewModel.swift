@@ -23,8 +23,15 @@ class HomeViewModel {
   var coordinatorDelegate: HomeViewModelCoordinatorDelegate?
 
   var status: Observable<Status?> = Observable(nil)
-  var permission: Observable<Permission?> = Observable(nil)
-  var ballots: [Ballot] = []
+
+  var permission: Permission? {
+    return UserAuth.shared.user.permission
+  }
+
+  var allowedBallots: [Ballot] {
+    return UserAuth.shared.allowedBallots
+  }
+
   var nominees: Observable<Bool> = Observable(false)
 
   var items: [Int: [Item]] = [:]
@@ -32,23 +39,18 @@ class HomeViewModel {
   // Errors
   var errorMessage: Observable<String?> = Observable(nil)
 
-  var user: User {
-    get {
-      return ElectionsService.shared.user
-    }
-    set {
-      ElectionsService.shared.user = newValue
-    }
-  }
-
   var currentBallot: String {
     get {
       return ElectionsService.shared.currentBallot
     }
     set {
       ElectionsService.shared.currentBallot = newValue
-      self.getBallotStatus(withPermission: self.permission.value!)
+      self.getBallotStatus(withPermission: self.permission)
     }
+  }
+
+  init() {
+    self.items = self.generateItems(byUserPermission: permission)
   }
 
   fileprivate func getBallotStatus(withPermission permission: Permission?) {
@@ -63,53 +65,14 @@ class HomeViewModel {
     }
   }
 
-  init(user: User) {
-    self.user = user
-    // load user permistions
-    ElectionsService.shared.authenticate { (permission, error) in
-      guard let permission = permission, error == nil else {
-        self.errorMessage.value = "invalid permission"
-        return
-      }
-      self.items = self.generateItems(byUserPermission: permission)
-      self.permission.value = permission
 
-      self.getBallotStatus(withPermission: permission)
-      // getAllBallots
-      if permission.canReadBallots {
-        ElectionsService.shared.getAllBallots { (ballots, error) in
-          if error == nil {
-            self.ballots = ballots.sorted(by: { Int($0.number)! < Int($1.number)! })
-
-            // getAllNominee
-            if permission.canUpdateNomineeCount {
-              ElectionsService.shared.getAllNominee { (nominees, error) in
-                guard error == nil  else {
-                  return
-                }
-                self.ballots.forEach { ballot in
-                  let currentNominees = DataController.shared.fetchNominees(withBallotId: ballot.id)
-                  guard currentNominees.filter({ $0.id == nominees.first?.id }).first == nil else {
-                    return
-                  }
-
-                  let context = DataController.shared.backgroundContext
-                  // SAVE TO Core Data if not exist in DB
-                  nominees.forEach {
-                    NomineeEntity.add(nominee: $0, ballotId: ballot.id, intoContext: context)
-                  }
-                  self.nominees.value = true
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  private func generateItems(byUserPermission permission: Permission) -> [Int: [Item]] {
+  private func generateItems(byUserPermission permission: Permission?) -> [Int: [Item]] {
     var result: [Int: [Item]] = [:]
+
+    guard let permission = permission else {
+      return result
+    }
+    
     var key = -1
     if permission.canReadStatistics {
       key += 1

@@ -11,7 +11,10 @@ import Foundation
 class ElectionsService: WebService {
   static let shared = ElectionsService()
 
-  var user: User = User()
+  private var user: User {
+    return UserAuth.shared.user
+  }
+
   var currentBallot: String =  ""
 
   // MARK: - GLOBAL SERVICES URLS
@@ -55,7 +58,7 @@ class ElectionsService: WebService {
         let responseData = xml["User_AuthenticationResponse",
                               "User_AuthenticationResult"]
         guard let value = responseData["ContainsErrors"].text, Bool(value) == false else {
-          completion(nil, error)
+          completion(nil, WebServiceError.invalidResponseData)
           return
         }
         let userData = responseData["User"]

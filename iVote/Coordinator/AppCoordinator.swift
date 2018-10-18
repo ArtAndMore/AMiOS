@@ -30,15 +30,17 @@ class AppCoordinator: Coordinator {
   }
 
   func start() {
-    if let user = DataController.shared.authenticatedUser {
-      showHomeViewController(forUser: user)
-    } else {
-      showRegionViewController()
-    }
+    showLoadingViewController()
   }
 }
 
-fileprivate extension AppCoordinator {
+private extension AppCoordinator {
+  func showLoadingViewController() {
+    let loadingCoordinator = LoadingCoordinator(window: window)
+    loadingCoordinator.delegate = self
+    loadingCoordinator.start()
+  }
+
   func showRegionViewController() {
     let regionCoordinator = RegionCoordinator(window: window)
     regionCoordinator.delegate = self
@@ -57,10 +59,21 @@ fileprivate extension AppCoordinator {
     codeValidationCoordinator.start()
   }
 
-  func showHomeViewController(forUser user: User) {
-    let homeCoordinator = HomeCoordinator(window: window, user: user)
+  func showHomeViewController() {
+    let homeCoordinator = HomeCoordinator(window: window)
     homeCoordinator.delegate = self
     homeCoordinator.start()
+  }
+}
+
+extension AppCoordinator: LoadingCoordinatorDelegate {
+  func loadingCoordinatorDidFinish(loadingCoordinator: LoadingCoordinator) {
+    // self.showCodeValidationViewController()
+    if UserAuth.shared.isAuthenticated  {
+      showHomeViewController()
+    } else {
+      showRegionViewController()
+    }
   }
 }
 
@@ -71,18 +84,17 @@ extension AppCoordinator: RegionCoordinatorDelegate {
 }
 
 extension AppCoordinator: AuthenticationCoordinatorDelegate {
-  func authenticationCoordinatorDidFinish(authenticationCoordinator: AuthenticationCoordinator) {
-    // self.showCodeValidationViewController()
-    if let user = DataController.shared.authenticatedUser {
-      self.showHomeViewController(forUser: user)
+  func authenticationCoordinatorLogin(authenticationCoordinator: AuthenticationCoordinator) {
+    if UserAuth.shared.isAuthenticated {
+      self.showHomeViewController()
     }
   }
 }
 
 extension AppCoordinator: CodeValidationCoordinatorDelegate {
   func codeValidationCoordinatorDidFinish(codeValidationCoordinator: CodeValidationCoordinator) {
-    if let user = DataController.shared.authenticatedUser {
-      self.showHomeViewController(forUser: user)
+    if UserAuth.shared.isAuthenticated {
+      self.showHomeViewController()
     }
   }
 }
@@ -90,8 +102,7 @@ extension AppCoordinator: CodeValidationCoordinatorDelegate {
 extension AppCoordinator: HomeCoordinatorDelegate {
   func logout(coordinator: HomeCoordinator) {
     DataController.shared.emptyUsers()
+    DataController.shared.emptyNominees()
     self.showRegionViewController()
   }
-
-
 }

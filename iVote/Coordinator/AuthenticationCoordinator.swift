@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 protocol AuthenticationCoordinatorDelegate: AnyObject {
-  func authenticationCoordinatorDidFinish(authenticationCoordinator: AuthenticationCoordinator)
+  func authenticationCoordinatorLogin(authenticationCoordinator: AuthenticationCoordinator)
 }
 
 class AuthenticationCoordinator: Coordinator {
@@ -34,6 +34,6 @@ class AuthenticationCoordinator: Coordinator {
 
 extension AuthenticationCoordinator: AuthenticateViewModelCoordinatorDelegate {
   func authenticateViewModelDidLogin(viewModel: AuthenticateViewModel) {
-    delegate?.authenticationCoordinatorDidFinish(authenticationCoordinator: self)
+    delegate?.authenticationCoordinatorLogin(authenticationCoordinator: self)
   }
 }

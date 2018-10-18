@@ -29,7 +29,7 @@ class HomeViewController: UIViewController, UIAdaptivePresentationControllerDele
     self.collectionView.register(BallotStatisticsCollectionViewCell.nib(), forCellWithReuseIdentifier: ReusableCellIdentifiers.statistics)
     self.collectionView.register(BallotSearchCollectionViewCell.nib(), forCellWithReuseIdentifier: ReusableCellIdentifiers.search)
 
-    if self.viewModel.permission.value == nil {
+    if self.viewModel.permission == nil {
       JTSplashView.splashView(withBackgroundColor: .white, circleColor: UIColor.color(withHexString: "#6CBBFF"), circleSize: nil)
 
       DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
@@ -37,24 +37,22 @@ class HomeViewController: UIViewController, UIAdaptivePresentationControllerDele
       }
     }
 
-    observeViewModelChanges()
+    setup()
   }
 }
 
 private extension HomeViewController {
-  func observeViewModelChanges() {
+  func setup() {
 
-    self.viewModel.permission.observe { permission in
-      if let permission = permission {
-        self.navigationItem.leftBarButtonItem?.isEnabled = permission.ballots.count > 0
-        let title = permission.ballots.first?.name ?? ""
-        self.navigationItem.leftBarButtonItem?.title = "קלפי מס: \(title)"
+    let ballots = self.viewModel.allowedBallots
+    self.navigationItem.leftBarButtonItem?.isEnabled = !ballots.isEmpty
+    let title = ballots.first?.name ?? ""
+    self.navigationItem.leftBarButtonItem?.title = "קלפי מס: \(title)"
 
-        JTSplashView.finishWithCompletion() {
-          self.collectionView.reloadData()
-        }
-      }
+    JTSplashView.finishWithCompletion() {
+      self.collectionView.reloadData()
     }
+
     //
     self.viewModel.status.observe { data in
       self.collectionView.reloadData()
@@ -62,10 +60,11 @@ private extension HomeViewController {
   }
 
   @IBAction func showDropDown(_ sender: UIBarButtonItem) {
-    guard let permission = self.viewModel.permission.value,
-      let ballots = permission?.ballots else {
+    let allowedBallots = self.viewModel.allowedBallots
+    guard !allowedBallots.isEmpty else {
         return
     }
+    let ballots = allowedBallots
     let titles = ballots.map({ "\($0.name) - \($0.number)" })
     let ballotsNumbers = ballots.map({ $0.number })
     let index = ballotsNumbers.firstIndex(where: { $0 == self.viewModel.currentBallot }) ?? 0

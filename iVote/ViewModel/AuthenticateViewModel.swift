@@ -24,21 +24,7 @@ class AuthenticateViewModel {
 
   // Name and Password and Phone
   var user: User {
-    get {
-      return ElectionsService.shared.user
-    }
-    set {
-      ElectionsService.shared.user = user
-    }
-  }
-
-  var currentBallot: String {
-    get {
-      return ElectionsService.shared.currentBallot
-    }
-    set {
-      ElectionsService.shared.currentBallot = newValue
-    }
+      return UserAuth.shared.user
   }
 
   // Errors
@@ -50,8 +36,8 @@ class AuthenticateViewModel {
       self.errorMessage.value = "invalid form"
       return
     }
-    ElectionsService.shared.authenticate() { (permission, error)  in
-      if error == nil, permission != nil {
+    UserAuth.shared.authenticatedUser { isAuthenticated in
+      if isAuthenticated {
         self.saveUser()
         DispatchQueue.main.async {
           self.coordinatorDelegate?.authenticateViewModelDidLogin(viewModel:self)

@@ -34,10 +34,11 @@ private extension NetworkConnectionReachablilityHandler {
     if !voters.isEmpty {
       self.updateVoters(voters)
     }
-    let ballotId = ElectionsService.shared.currentBallot
-    let nominees = DataController.shared.fetchNominees(withBallotId: ballotId)
-    if !nominees.isEmpty {
-      self.updateNominees(nominees)
+    UserAuth.shared.allowedBallots.forEach { (ballot) in
+      let nominees = DataController.shared.fetchNominees(withBallotId: ballot.id)
+      if !nominees.isEmpty {
+        self.updateNominees(nominees)
+      }
     }
   }
 
